@@ -320,6 +320,29 @@ class internacao extends BaseController {
         $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
         $this->loadView('internacao/repetirprescricaonormalenteral', $data);
     }
+    function fichadeavaliacao($internacao_id) {
+        $data['internacao_id'] = $internacao_id;
+//        $data['prescricao'] = $this->internacao_m->listaultimaprescricaoenteral($internacao_id);
+//        $data['prescricaoatual'] = $this->internacao_m->listaprescricoesenteral($internacao_id);
+        $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
+        $paciente_id = $data['paciente_id'][0]->paciente_id;
+        $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
+        $this->loadView('internacao/fichadeavaliacao', $data);
+    }
+    
+    function imprimirfichadeavaliacao($internacao_id) {
+//      echo  var_dump($_POST);
+//      die;
+        $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
+        $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
+//        $this->internacao_m->gravarfichadeavaliacao($internacao_id);
+        $data['empresa'] = $this->internacao_m->empresa();
+//        echo var_dump($data['empresa']);
+//        die;
+        $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_id);
+        
+        $this->load->View('internacao/imprimirfichadeavaliacao', $data);
+    }
 
     function relatorioentrega($internacao_id) {
         $data['internacao_id'] = $internacao_id;

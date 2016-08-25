@@ -1,7 +1,7 @@
 <div class="content ficha_ceatox"> <!-- Inicio da DIV content -->
     <table>
         <tbody>
-            <? $i = 2; ?>
+            <? $i = 0; ?>
             <tr>
                 <td  width="300px;"><div class="bt_link_newgrande">
                         <a href="<?= base_url() ?>internacao/internacao/prescricaoemergencialenteral/<?= $internacao_id; ?>">SOBRE AVISO</a>
@@ -14,6 +14,13 @@
 
                         </a></div>
                 </td>
+                <td  width="300px;"><div class="bt_link_newgrande">
+                        <a id="normal" href="<?= base_url() ?>internacao/internacao/fichadeavaliacao/<?= $internacao_id; ?>">FICHA DE AVALIAÇÃO
+
+                        </a></div>
+                </td>
+            </tr>
+            <tr>
                 <?
                 foreach ($saida as $item) :
                     $i++;
@@ -54,12 +61,12 @@
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript">
 
-    $(document).ready(function() {
-        $("body").keypress(function(event) {
+    $(document).ready(function () {
+        $("body").keypress(function (event) {
 
             if (event.keyCode == 119)   // se a tecla apertada for 13 (enter)
             {
-                document.getElementById('normal').click(); 
+                document.getElementById('normal').click();
 //                                
             }
 
