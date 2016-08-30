@@ -1321,6 +1321,19 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+    function listafichadeavaliacao($internacao_id) {
+//       echo var_dump($internacao_id);
+//       die;
+        $this->db->select(' internacao_fichadeavaliacao_id,
+                            data_atualizacao,
+                            ');
+        $this->db->from('tb_internacao_fichadeavaliacao');
+        $this->db->where('internacao_id', $internacao_id);
+       
+        $return = $this->db->get();
+        return $return->result();
+        
+    }
     function empresa() {
        $empresa= $this->session->userdata('empresa_id'); 
         $this->db->select('empresa_id,
@@ -1337,39 +1350,134 @@ class internacao_model extends BaseModel {
             return $return->result();
     }
 
-    function imprimirfichadeavaliacao($internacao_id) {
-        $this->db->select('imc,
-                cen,
-                get,
-                peso_ideal,
-                altura_estimada,
-                dncd,
-                ');
-        $this->db->from('tb_internacao_fichadeavaliacao');
-        $this->db->where('internacao_id', $internacao_id);
+    function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
+        $this->db->select(' pc.nome as convenio,
+                            i.leito,
+                            u.nome as hospital,
+                            p.nascimento,
+                            p.nome,
+                            p.sexo,
+                            i.data_saida,
+                            i.data_internacao,
+                            i.leito,
+                            i.data_solicitacao,
+                            i.diagnostico,
+                            i.solicitante,
+                            p.paciente_id,
+                            p.convenionumero,
+                            if.imc,
+                            if.cen,
+                            if.get,
+                            if.peso_ideal,
+                            if.peso_atual,
+                            if.peso_habitual,
+                            if.panturrilha,
+                            if.altura_estimada,
+                            if.altura_perna,
+                            if.cb,
+                            if.tne,
+                            if.patologias_associadas,
+                            if.diagnostico_nutricional,
+                            if.dncd,
+                            if.etnia,
+                            i.aih');
+        $this->db->from('tb_internacao_fichadeavaliacao if');
+        $this->db->join('tb_internacao i', 'i.internacao_id = if.internacao_id');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
+        $this->db->join('tb_convenio pc', 'pc.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
+        $this->db->where('if.internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
+
         $return = $this->db->get();
         return $return->result();
     }
+    function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
+        $this->db->select('internacao_fichadeavaliacao_id,
+                 dncd,
+                 tipoget,
+                 get,
+                 cen,
+                 internacao_id,
+                 diagnostico_nutricional,
+                ');
+        $this->db->from('tb_internacao_fichadeavaliacao');
+        $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
+        try {
+        $this->db->set('diagnostico_nutricional', $_POST['txtDiag']);
+        $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
+        $this->db->update('tb_internacao_fichadeavaliacao');
+        } catch (Exception $exc) {
+            $return=0;
+            return $return;
+        }
+    }
 
     function gravarfichadeavaliacao($internacao_id) {
+//        echo var_dump($_POST);
+//        die;
+        try {
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
         $ano = (int) date("Y");
-
+        $patologias_associadas= $_POST['txtPatologiasAssociadas'];
+        $etnia= $_POST['txtEtnia'];
+        $txtget2 = (int) $_POST['txtget2'];
+        if ($txtget2==25){
+            $tipoget= 'GET C/Presença de SIRS';
+        }
+        elseif ($txtget2==30){
+            $tipoget= 'GET C/Ausência de SIRS';
+        }
+        elseif ($txtget2==40){
+            $tipoget= 'GET C/Repleção';
+        }
+        
+        $tne= $_POST['txtTne'];
         //Se for homem
         if ($_POST['txtSexo'] == 'M') {
             // Calculos 
-            $altura_perna = (int) $_POST['txtAlturaPerna'];
-            $cb = (int) $_POST['txtCB'];
-            $p50 = (float) $_POST['txtP50'];
-            $txtget2 = (int) $_POST['txtget2'];
-            $peso_atual = (int) $_POST['txtPeso'];
             $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
             $idade = $ano - $nascimento;
+            $altura_perna = (int) $_POST['txtAlturaPerna'];
+            $cb = (int) $_POST['txtCB'];
+            if($idade>=19 && $idade<25 ){
+                $p50=30.8;
+            }
+            elseif($idade>=25 && $idade<35 ){
+                $p50=31.9;
+            }
+            elseif($idade>=35 && $idade<45 ){
+                $p50=32.6;
+            }
+            elseif($idade>=45 && $idade<55 ){
+                $p50=32.2;
+            }
+            elseif($idade>=55 && $idade<65 ){
+                $p50=31.7;
+            }
+            elseif($idade>=55  ){
+                $p50=30.7;
+            }
+            $panturrilha=$_POST['txtPanturrilha'];
+            $peso_habitual= $_POST['txtPesoHabitual'];
+            
+            
+            
             $altura_estimada = 64.19 - (0.04 * $idade) + (2.02 * $altura_perna);
             $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 22.1, 0, 5);
             $get = $txtget2 * $peso_ideal;
-            $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+            if ($_POST['txtPeso']!=''){
+                 $peso_atual = (int) $_POST['txtPeso'];
+                 $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+            }
+            else {
+            $imc = 'NI';
+            $peso_atual = 'NI';
+            }
             $cen = (float) substr(($cb * 100) / $p50, 0, 5);
             if ($_POST['txtEtnia'] == 1) {
                 $dncd = ($altura_perna * 1.19) + ($cb * 3.21) - 86.82;
@@ -1379,17 +1487,43 @@ class internacao_model extends BaseModel {
         }
         //Se for Mulher
         else {
-            $altura_perna = (int) $_POST['txtAlturaPerna'];
-            $cb = (int) $_POST['txtCB'];
-            $p50 = (float) $_POST['txtP50'];
-            $txtget2 = (int) $_POST['txtget2'];
-            $peso_atual = (int) $_POST['txtPeso'];
             $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
             $idade = $ano - $nascimento;
+            $altura_perna = (int) $_POST['txtAlturaPerna'];
+            $cb = (int) $_POST['txtCB'];
+            if($idade>=19 && $idade<25 ){
+                $p50=26.5;
+            }
+            elseif($idade>=25 && $idade<35 ){
+                $p50=27.7;
+            }
+            elseif($idade>=35 && $idade<45 ){
+                $p50=29;
+            }
+            elseif($idade>=45 && $idade<55 ){
+                $p50=29.9;
+            }
+            elseif($idade>=55 && $idade<65 ){
+                $p50=30.3;
+            }
+            elseif($idade>=55  ){
+                $p50=29.9;
+            }
+            $panturrilha=$_POST['txtPanturrilha'];
+            $peso_habitual= $_POST['txtPesoHabitual'];
+           
+            
             $altura_estimada = 84.88 - (0.24 * $idade) + (1.83 * $altura_perna);
             $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 20.6, 0, 5);
             $get = $txtget2 * $peso_ideal;
-            $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+            if ($_POST['txtPeso']!=''){
+                 $peso_atual = (int) $_POST['txtPeso'];
+                 $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+            }
+            else {
+            $imc = 'NI';
+            $peso_atual = 'NI';
+            }
             $cen = (float) substr(($cb * 100) / $p50, 0, 5);
             if ($_POST['txtEtnia'] == 1) {
                 $dncd = ($altura_perna * 1.01) + ($cb * 2.81) - 66.04;
@@ -1397,24 +1531,38 @@ class internacao_model extends BaseModel {
                 $dncd = ($altura_perna * 1.24) + ($cb * 2.81) - 82.48;
             }
         }
+        
 
 
 
-//        echo var_dump($_POST['txtSexo']);
+//        echo var_dump($cen);
 //        die;
 
 
-
+// Inserindo dados na tabela
         $this->db->set('internacao_id', $internacao_id);
+        $this->db->set('peso_atual', $peso_atual);
         $this->db->set('cen', $cen);
-        $this->db->set('get', $get);
+        $this->db->set('peso_habitual', $peso_habitual);
         $this->db->set('peso_ideal', $peso_ideal);
+        $this->db->set('cb', $cb);
+        $this->db->set('get', $get);
+        $this->db->set('tipoget', $tipoget);
+        $this->db->set('tne', $tne);
+        $this->db->set('altura_perna', $altura_perna);
+        $this->db->set('panturrilha', $panturrilha);
+        $this->db->set('patologias_associadas', $patologias_associadas);
         $this->db->set('altura_estimada', $altura_estimada);
         $this->db->set('dncd', $dncd);
         $this->db->set('imc', $imc);
+        $this->db->set('etnia', $etnia);
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->insert('tb_internacao_fichadeavaliacao');
+        } catch (Exception $exc) {
+            $return=0;
+            return $return;
+        }
     }
 
 }
