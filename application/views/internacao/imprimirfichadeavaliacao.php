@@ -126,22 +126,22 @@ else {
                 </tr>
                 <?if ($impressao[0]->tne== 'SNG'){?>
                 <tr>
-                    <td height="27" colspan="8" class="tc"><strong>(X ) SNG ( ) SNE ( ) Gastrostomia ( ) Jejunostomia ( ) </strong></td>
+                    <td height="27" colspan="8" class="tc"><strong> SNG (x ) SNE ( ) Gastrostomia ( ) Jejunostomia ( ) </strong></td>
                 </tr>
                     <?}
                 elseif ($impressao[0]->tne== 'SNE'){?>
                 <tr>
-                    <td height="27" colspan="8" class="tc"><strong>( ) SNG (X ) SNE ( ) Gastrostomia ( ) Jejunostomia ( ) </strong></td>
+                    <td height="27" colspan="8" class="tc"><strong> SNG ( ) SNE (x ) Gastrostomia ( ) Jejunostomia ( ) </strong></td>
                 </tr>
                     <?}
                 elseif ($impressao[0]->tne=='Gastrostomia'){?>
                 <tr>
-                    <td height="27" colspan="8" class="tc"><strong>( ) SNG ( ) SNE ( ) Gastrostomia ( X) Jejunostomia ( ) </strong></td>
+                    <td height="27" colspan="8" class="tc"><strong> SNG ( ) SNE ( ) Gastrostomia ( X) Jejunostomia ( ) </strong></td>
                 </tr>
                     <?}
                 elseif ($impressao[0]->tne=='Jejunostomia'){?>
                 <tr>
-                    <td height="27" colspan="8" class="tc"><strong>( ) SNG ( ) SNE ( ) Gastrostomia ( ) Jejunostomia (X ) </strong></td>
+                    <td height="27" colspan="8" class="tc"><strong> SNG ( ) SNE ( ) Gastrostomia ( ) Jejunostomia (X ) </strong></td>
                 </tr>
                     <?}?>
                 
@@ -156,7 +156,7 @@ else {
                 <tr>
                     <td height="16" colspan="4" class="tc"><strong><? echo (int) ($impressao[0]->peso_atual) / 1; ?>Kg</strong></td>
                     <td colspan="2" class="tc"><strong><? echo (int) ($impressao[0]->peso_ideal) / 1; ?>Kg</strong></td>
-                    <td colspan="2" class="tc"><strong><? echo (int) ($impressao[0]->peso_habitual) / 1; ?> </strong></td>
+                    <td colspan="2" class="tc"><strong><? echo (int) ($impressao[0]->peso_habitual) / 1; ?>Kg </strong></td>
                 </tr>
                 <tr>
                     <td height="13" colspan="4" class="ti">CIRCUNFERÊNCIA DO BRAÇO (EM Cm)</td>
@@ -180,6 +180,156 @@ else {
                     <td colspan="2" class="tc"><strong><? echo $panturrilha ?></strong></td>
                 </tr>
                 <tr>
+      <td height="14" colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> Circunferência Braquial(CB cm): Valores de normalidade(De frisancho,1981)</strong></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2" rowspan="2" align="center" class="tm" ><em>Idade (Anos)</em><em></em></td>
+      <td height="22" colspan="3" class="tm"><em>Homens</em></td>
+      <td colspan="3" class="tm">Mulheres</td>
+      
+    </tr>
+    
+    <tr>
+      <td width="93" height="20" class="ticb"><span style="font-size: 10px" >5</span></td>
+      <td width="225" class="tm"><em>50</em></td>
+      <td class="ticb">95</td>
+      <td class="ticb">5</td>
+      <td class="tm">50</td>
+      <td class="ticb">95</td>
+      
+    </tr>
+    
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>19 - 24,9</em></td>
+      <td width="93" class="ticb">26,2</td>
+      <td width="225" class="tm"><em>30,8</em></td>
+      <td class="ticb">37,2</td>
+      <td class="ticb"><em>22,1</em></td>
+      <td class="tm">26,5</td>
+      <td class="ticb">34,5</td>
+    </tr>
+    
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>25 - 34,9</em></td>
+      <td width="93" class="ticb">27,1</td>
+      <td width="225" class="tm">31,9</td>
+      <td class="ticb">37,5</td>
+      <td class="ticb"><em>23,3</em></td>
+      <td class="tm">27,7</td>
+      <td class="ticb">36,8</td>
+    </tr>
+    
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>35 - 44,9</em></td>
+      <td width="93" class="ticb">27,8</td>
+      <td width="225" class="tm">32,6</td>
+      <td class="ticb">37,4</td>
+      <td class="ticb"><em>24,1</em></td>
+      <td class="tm">29</td>
+      <td class="ticb">37,8</td>
+    </tr>
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>45 - 54,9</em></td>
+      <td width="93" class="ticb">26,7</td>
+      <td width="225" class="tm">32,2</td>
+      <td class="ticb">37,6</td>
+      <td class="ticb"><em>24,2</em></td>
+      <td class="tm">29,9</td>
+      <td class="ticb">38,4</td>
+    </tr>
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>55 - 64,9</em></td>
+      <td width="93" class="ticb">25,8</td>
+      <td width="225" class="tm">31,7</td>
+      <td class="ticb">36,9</td>
+      <td class="ticb"><em>24,3</em></td>
+      <td class="tm">30,3</td>
+      <td class="ticb">38,5</td>
+    </tr>
+    <tr>
+      <td height="20" colspan="2" class="tm"><em>65 - ...</em></td>
+      <td width="93" class="ticb">24,8</td>
+      <td width="225" class="tm">30,7</td>
+      <td class="ticb">35,5</td>
+      <td class="ticb"><em>24</em></td>
+      <td class="tm">29,9</td>
+      <td class="ticb">37,3</td>
+    </tr>
+    <tr>
+                    <td colspan="8" class="ti">P50 BASEADO NO SEXO E NA IDADE</td>
+                    
+                </tr>
+                <tr>
+                    <td height="16" colspan="8" class="tc"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<? echo $impressao[0]->p50; ?></strong></td>
+                    
+                </tr>
+    <tr>
+      <td height="14" colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> Classificação do Estado Nutricional, segundo CB:</strong></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm">Obesidade &gt; 120%</td>
+      <td colspan="2" class="tm">Eutrofia 110 - 90%</td>
+      <td colspan="3" class="tm"><em></em>DPC moderada 80 - 70%</td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Sobrepeso  120 - 110%</em></td>
+      <td colspan="2" class="tm">DPC leve 90 - 80%</td>
+      <td colspan="3" class="tm"><em>DPC grave &lt;/= 70%</em></td>
+    </tr>
+     <tr>
+      <td height="14" colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> Estimativa de altura pela altura do joelho (Chumlea e col., 1985)</strong></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm">Sexo</td>
+      <td colspan="5" class="tm">Fórmula<em></em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Feminino:</em></td>
+      <td colspan="2" class="tm">84,88 - 0,24 x (idade) + 1,83 x (altura do joelho)</td>
+      <td colspan="3" rowspan="2" class="tm"><em>Altura Estimada: <? echo $impressao[0]->altura_estimada; ?>cm </em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Masculino:</em></td>
+      <td colspan="2" class="tm">64,19 - 0,04 x (idade) + 2,02 x (altura do joelho)</td>
+    </tr>
+    <tr>
+      <td height="14" colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> Determinação do peso ideal pela altura (West)</strong></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm">Sexo</td>
+      <td colspan="5" class="tm">Fórmula<em></em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Feminino:</em></td>
+      <td colspan="2" class="tm">Peso ideal: altura 2 x 20,6</td>
+      <td colspan="3" rowspan="2" class="tm"><em>Peso Ideal: <? echo $impressao[0]->peso_ideal; ?>Kg </em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Masculino:</em></td>
+      <td colspan="2" class="tm">Peso ideal: altura 2 x 22,1</td>
+    </tr>
+    <tr>
+      <td height="14" colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> Determinação do gasto energético total</strong></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm">&nbsp;</td>
+      <td colspan="5" class="tm">Fórmula<em></em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Presença SIRS</em></td>
+      <td colspan="2" class="tm">25 Kcal/Kg (Griffiths, 2001)</td>
+      <td colspan="3" rowspan="3" class="tm"><em><? echo $impressao[0]->tipoget; ?>:&nbsp;<? echo $impressao[0]->get; ?>Kcal </em></td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Ausência SIRS</em></td>
+      <td colspan="2" class="tm">30 a 35 Kcal/Kg</td>
+    </tr>
+    <tr>
+      <td height="20" colspan="3" class="tm"><em>Repleção</em></td>
+      <td colspan="2" class="tm">40 Kcal/Kg</td>
+    </tr>
+                <tr>
                     <td colspan="8" align="center" style="text-align:center;font-size: 9px;"><strong> DIAGNÓSTICO NUTRICIONAL E CONDUTA DIETOTERÁPICA</strong></td>
                 </tr>
                 <tr>
@@ -188,8 +338,17 @@ else {
                 <tr>
                     <td height="50" colspan="8" class="tc"><? echo substr($impressao[0]->diagnostico_nutricional, 0, 61); ?>
                         <br>
-                        <? echo substr($impressao[0]->diagnostico_nutricional, 61, 200); ?>
+                        <? echo substr($impressao[0]->diagnostico_nutricional, 61, 131); ?>
                         <br>
+                        <? echo substr($impressao[0]->diagnostico_nutricional, 131, 200); ?>
+                        <br>
+                        <? echo substr($impressao[0]->diagnostico_nutricional, 200, 300); ?>
+                        <br>
+                        <? echo substr($impressao[0]->diagnostico_nutricional, 300, 400); ?>
+                        <br>
+                        <? echo substr($impressao[0]->diagnostico_nutricional, 400, 500); ?>
+                        <br>
+                        
                         <strong>    CD: Evoluir até atingir necessidade de acordo com tolerância do paciente.
                         </strong>
                     </td>

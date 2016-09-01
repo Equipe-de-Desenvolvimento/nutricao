@@ -1367,6 +1367,7 @@ class internacao_model extends BaseModel {
                             p.convenionumero,
                             if.imc,
                             if.cen,
+                            if.tipoget,
                             if.get,
                             if.peso_ideal,
                             if.peso_atual,
@@ -1376,6 +1377,7 @@ class internacao_model extends BaseModel {
                             if.altura_perna,
                             if.cb,
                             if.tne,
+                            if.p50,
                             if.patologias_associadas,
                             if.diagnostico_nutricional,
                             if.dncd,
@@ -1555,6 +1557,7 @@ class internacao_model extends BaseModel {
         $this->db->set('altura_estimada', $altura_estimada);
         $this->db->set('dncd', $dncd);
         $this->db->set('imc', $imc);
+        $this->db->set('p50', $p50);
         $this->db->set('etnia', $etnia);
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);

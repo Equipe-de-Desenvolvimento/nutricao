@@ -324,7 +324,8 @@ class internacao extends BaseController {
     function listafichadeavaliacao($internacao_id) {
         
         $data['lista'] = $this->internacao_m->listafichadeavaliacao($internacao_id);
-        $data['ficha'] = $data['lista'][0]->internacao_fichadeavaliacao_id;
+        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id)?$data['lista'][0]->internacao_fichadeavaliacao_id:'';
+
         $data['internacao_id'] = $internacao_id;
 //        echo var_dump($data['ficha']);
 //        die;

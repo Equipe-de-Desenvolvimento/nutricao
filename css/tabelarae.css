@@ -29,6 +29,13 @@ table#tabelaspec .ti {
 	text-align: left;
 	font-size: 9px;
 }
+table#tabelaspec .ticb {
+	border-bottom: 0px;
+	padding: 0pt;
+	font-size: 10px;
+	font-weight: normal;
+	text-align: center;
+}
 
 
 table#tabelaspec .tc {
