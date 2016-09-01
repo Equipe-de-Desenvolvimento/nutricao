@@ -8,9 +8,9 @@
                 <input type="text" name="txtNome" class="texto10" value="<?php echo $nome[0]->nome; ?>" readonly />
             </div>
         </fieldset>
-<fieldset>
+
     <?
-    if ($contador > 0) {
+    if ($contador > 1) {
         ?>
         <table id="table_agente_toxico" border="0">
             <thead>
@@ -44,8 +44,8 @@
         ?>
 
     </table> 
-</fieldset>
-<fieldset>
+
+
     <?
     if ($contadorsaida > 0) {
         ?>
@@ -58,9 +58,9 @@
                 </tr>
             </thead>
             <?
-            $estilo_linha = "tabela_content01";
+          //  $estilo_linha = "tabela_content01";
             foreach ($produtossaida as $item) {
-                ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
+                ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : "tabela_content01";
                 ?>
                 <tbody>
                     <tr>
@@ -76,11 +76,11 @@
         ?>
 
     </table> 
-    <br>
+    
     <div class="bt_link">                                  
     <a onclick="javascript: return confirm('Deseja realmente Finalizar a solicitacao?');" href="<?= base_url() ?>estoque/solicitacao/fecharsolicitacao/<?= $estoque_solicitacao_id ?>">Fechar</a>
 </div>
-</fieldset>
+
 </div> <!-- Final da DIV content -->
 
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
@@ -118,33 +118,33 @@
     });
 
 
-    $(document).ready(function() {
-        jQuery('#form_exametemp').validate({
-            rules: {
-                txtNome: {
-                    required: true,
-                    minlength: 3
-                },
-                nascimento: {
-                    required: true
-                },
-                idade: {
-                    required: true
-                }
-            },
-            messages: {
-                txtNome: {
-                    required: "*",
-                    minlength: "!"
-                },
-                nascimento: {
-                    required: "*"
-                },
-                idade: {
-                    required: "*"
-                }
-            }
-        });
-    });
+//    $(document).ready(function() {
+//        jQuery('#form_exametemp').validate({
+//            rules: {
+//                txtNome: {
+//                    required: true,
+//                    minlength: 3
+//                },
+//                nascimento: {
+//                    required: true
+//                },
+//                idade: {
+//                    required: true
+//                }
+//            },
+//            messages: {
+//                txtNome: {
+//                    required: "*",
+//                    minlength: "!"
+//                },
+//                nascimento: {
+//                    required: "*"
+//                },
+//                idade: {
+//                    required: "*"
+//                }
+//            }
+//        });
+//    });
 
 </script>

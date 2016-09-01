@@ -164,7 +164,6 @@ class solicitacao_model extends Model {
     function listar($args = array()) {
         $operador_id = $this->session->userdata('operador_id');
         $this->db->select('es.estoque_solicitacao_setor_id,
-                            es.cliente_id,
                             ec.nome as cliente,
                             es.data_cadastro,
                             es.situacao');
@@ -173,6 +172,9 @@ class solicitacao_model extends Model {
         $this->db->join('tb_estoque_operador_cliente oc', 'oc.cliente_id = ec.estoque_cliente_id');
         $this->db->where('es.ativo', 'true');
         $this->db->where('oc.operador_id', $operador_id);
+        // Erro em que duplicava as solicitações. Solução abaixo. Motivo: estava pegando também os operadores ID que estavam false
+        // na tabela tb_estoque_operador_cliente
+        $this->db->where('oc.ativo', 'true');
         if (isset($args['nome']) && strlen($args['nome']) > 0) {
             $this->db->where('ec.nome ilike', "%" . $args['nome'] . "%");
         }
