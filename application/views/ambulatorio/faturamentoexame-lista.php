@@ -62,12 +62,25 @@
 
             <thead>
                 <tr>
-                    <th width="60px;">Guia</th>
-                    <th width="90px;">Procedimento</th>
-                    <th width="90px;">Medico</th>
-                    <th width="300px;">Nome</th>
-                    <th width="60px;">Data</th>
-                    <th width="60px;">Valor Fatur.</th>
+                    <th class="tabela_header">
+                        Prescricao
+                    </th>
+                    <th class="tabela_header">
+                        Etapas
+                    </th>
+                    <th class="tabela_header">
+                        Produto
+                    </th>
+                    <th class="tabela_header">
+                        Codigo
+                    </th>
+                    <th class="tabela_header">
+                        Volume
+                    </th>
+
+                    <th class="tabela_header">
+                        Vazão
+                    </th>
                     <th colspan="3"><center>A&ccedil;&otilde;es</center></th>
             </tr>
             <tr>
@@ -90,40 +103,21 @@
                 <tbody>
                     <?php
                     foreach ($listar as $item) {
-                        $valortotal = $valortotal + $item->valortotal;
-                        $guia = $item->ambulatorio_guia_id;
-                        if ($item->financeiro == 't') {
-                            $financeiro = 't';
-                        }
+
                         ?>
                         <tr>
-                            <td ><?= $item->ambulatorio_guia_id; ?></td>
-                            <td ><?= substr($item->procedimento, 0, 10); ?></td>
-                            <td ><?= substr($item->medico, 0, 10); ?></td>
-                            <? if ($item->faturado == "t") { ?>
-                                <td><font color="green"><?= $item->paciente; ?></td>
-                                <?
-                            } else {
-                                ?>
-                                <td><font color="c60000"><?= $item->paciente; ?></td>
-                            <? } ?>
-
-                            <td ><?= substr($item->data_criacao, 8, 2) . "/" . substr($item->data_criacao, 5, 2) . "/" . substr($item->data_criacao, 0, 4); ?></td>
-                            <td ><?= number_format($item->valortotal, 2, ",", "."); ?></td>
-                            <?
-                            if ($item->faturado != "t") {
-                                $faturado = 1;
-                                ?>
+                            <td ><?= $item->data; ?></td>
+                            <td ><?= $item->etapas; ?></td>
+                            <td ><?= $item->nome; ?></td>
+                            <td class="<?php echo $estilo_linha; ?>"><?= $item->volume; ?></td>
+                            <td class="<?php echo $estilo_linha; ?>"><?= $item->vasao; ?></td>
+                            <td><font color="green"><?= $item->paciente; ?></td>
                                 <td width="40px;"><div class="bt_link">
-                                        <a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/faturarconvenio/" . $item->agenda_exames_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=250');">Faturar
+                                        <a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/faturarconvenio/" . $item->internacao_precricao_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=250');">Faturar
                                         </a></div>
                                 </td>
-                            <? } else { ?>
-                                <td>Faturado&nbsp;</td>
-                            <? }
-                            ?>
                             <td width="40px;"><div class="bt_link_new">
-                                    <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/faturarguia/<?= $item->ambulatorio_guia_id ?>/<?= $item->paciente_id ?>');" >
+                                    <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/faturarguia/<?= $item->internacao_precricao_id;?>');" >
                                         Faturar guia</a></div>
                             </td>
                         </tr>
@@ -134,32 +128,32 @@
             }
             ?>
 
-                <tfoot>
-                    <tr>
-                        <th colspan="2" >
-                            Registros: <?php echo $total; ?>
-                        </th>
-                        <th colspan="3" >
-                            Valor Total: <?php echo number_format($valortotal, 2, ',', '.'); ?>
-                        </th>
-                        <? if ($faturado == 0 && $financeiro == 'f' && $convenios != 0) { ?>
-                                    <form name="form_caixa" id="form_caixa" action="<?= base_url() ?>ambulatorio/exame/fecharfinanceiro" method="post">
-                <input type="hidden" class="texto3" name="dinheiro" value="<?= number_format($valortotal, 2, ',', '.'); ?>" readonly/>
-                <input type="hidden" class="texto3" name="relacao" value="<?= $convenios[0]->credor_devedor_id; ?>"/>
-                <input type="hidden" class="texto3" name="conta" value="<?= $convenios[0]->conta_id; ?>"/>
-                <input type="hidden" class="texto3" name="data1" value="<?= $txtdata_inicio; ?>"/>
-                <input type="hidden" class="texto3" name="data2" value="<?= $txtdata_fim; ?>"/>
-                <input type="hidden" class="texto3" name="convenio" value="<?= $convenio; ?>"/>
-                            <th colspan="3" align="center"><center>
-                        <button type="submit" name="btnEnviar">Financeiro</button></center></th>
-                         </form>
-                <? } else { ?>
-                    <th colspan="3" >PENDENTE DE FATURAMENTO
+            <tfoot>
+                <tr>
+                    <th colspan="2" >
+                        Registros: <?php echo $total; ?>
                     </th>
-                <? } ?>
-                </tr>
-                </tfoot>
-           
+                    <th colspan="3" >
+                        Valor Total: <?php echo number_format($valortotal, 2, ',', '.'); ?>
+                    </th>
+                    <? if ($faturado == 0 && $financeiro == 'f' && $convenios != 0) { ?>
+                <form name="form_caixa" id="form_caixa" action="<?= base_url() ?>ambulatorio/exame/fecharfinanceiro" method="post">
+                    <input type="hidden" class="texto3" name="dinheiro" value="<?= number_format($valortotal, 2, ',', '.'); ?>" readonly/>
+                    <input type="hidden" class="texto3" name="relacao" value="<?= $convenios[0]->credor_devedor_id; ?>"/>
+                    <input type="hidden" class="texto3" name="conta" value="<?= $convenios[0]->conta_id; ?>"/>
+                    <input type="hidden" class="texto3" name="data1" value="<?= $txtdata_inicio; ?>"/>
+                    <input type="hidden" class="texto3" name="data2" value="<?= $txtdata_fim; ?>"/>
+                    <input type="hidden" class="texto3" name="convenio" value="<?= $convenio; ?>"/>
+                    <th colspan="3" align="center"><center>
+                        <button type="submit" name="btnEnviar">Financeiro</button></center></th>
+                </form>
+            <? } else { ?>
+                <th colspan="3" >PENDENTE DE FATURAMENTO
+                </th>
+            <? } ?>
+            </tr>
+            </tfoot>
+
         </table>
         <br>
         <table border="1">
