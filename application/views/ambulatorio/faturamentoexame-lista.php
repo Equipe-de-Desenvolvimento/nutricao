@@ -121,7 +121,7 @@
                                         Faturar guia</a></div>
                             </td>
                             <td width="50px;"><div class="bt_link">
-                                    <a href="<?= base_url() ?>ambulatorio/exame/impressaospsadt/<?= $internacao_id ?>" >
+                                    <a href="<?= base_url() ?>ambulatorio/exame/impressaospsadt/<?= $item->internacao_id;?>" >
                                         Imprimir</a></div>
                             </td>
                         </tr>

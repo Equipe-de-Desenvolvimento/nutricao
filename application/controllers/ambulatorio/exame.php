@@ -127,16 +127,16 @@ class Exame extends BaseController {
         } else {
             $data['convenios'] = 0;
         }
-        $data['listar'] = $this->exame->testelistarguiafaturamento();
+        $data['listar'] = $this->exame->listarguiafaturamento();
         $this->loadView('ambulatorio/faturamentoexame-lista', $data);
     }
     function impressaospsadt($internacao_id) {
-//        echo var_dump($ambulatorio_guia_id);
+//        echo var_dump($internacao_id);
 //        die;
         $data['listar'] = $this->exame->imprimirsadt($internacao_id);
-        echo var_dump($data['listar']);
-        die;
-        $this->load->View('ambulatorio/impressaoexamespsadt');
+//        echo var_dump($data['listar']);
+//        die;
+        $this->load->View('ambulatorio/impressaoexamespsadt', $data);
     }
 
     function faturamentoexamexml($args = array()) {
