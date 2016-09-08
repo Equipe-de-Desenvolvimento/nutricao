@@ -127,7 +127,7 @@ class Exame extends BaseController {
         } else {
             $data['convenios'] = 0;
         }
-        $data['listar'] = $this->exame->listarguiafaturamento();
+        $data['listar'] = $this->exame->testelistarguiafaturamento();
         $this->loadView('ambulatorio/faturamentoexame-lista', $data);
     }
 

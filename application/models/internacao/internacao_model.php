@@ -860,6 +860,7 @@ class internacao_model extends BaseModel {
         $this->db->where('ipp.internacao_id', $internacao_id);
         $this->db->where('pt.grupo !=', 'EQUIPO');
         $this->db->where('ipp.ativo', 't');
+        $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('pt.grupo');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
         $return = $this->db->get();

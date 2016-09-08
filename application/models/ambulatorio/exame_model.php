@@ -1555,6 +1555,38 @@ class exame_model extends Model {
         return $return->result();
     }
 
+    function testelistarguiafaturamento() {
+
+        $empresa_id = $this->session->userdata('empresa_id');
+        $this->db->select('ip.internacao_precricao_id,
+                            ip.data,
+                            ip.internacao_precricao_id,
+                            ipp.internacao_precricao_produto_id,
+                            ipe.internacao_precricao_etapa_id,
+                            ipp.etapas,
+                            ipp.volume,
+                            p.nome as paciente,
+                            pt.procedimento_tuss_id,
+                            ipp.vasao,
+                            pt.nome');
+        $this->db->from('tb_internacao_precricao ip');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_id = ip.internacao_precricao_id', 'left');
+        $this->db->join('tb_internacao_precricao_produto ipp', 'ipp.internacao_precricao_id = ip.internacao_precricao_id', 'left');
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id ');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+        $this->db->where('ip.empresa_id', $empresa_id);
+        $this->db->where('ipp.ativo', 'true');
+        if (isset($_POST['convenio']) && $_POST['convenio'] != "") {
+            $this->db->where('pc.convenio_id', $_POST['convenio']);
+        }
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function listargxmlfaturamento($args = array()) {
 
         $empresa_id = $this->session->userdata('empresa_id');
