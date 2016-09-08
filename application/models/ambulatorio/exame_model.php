@@ -1586,6 +1586,26 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
+    function imprimirsadt($internacao_id) {
+
+        $empresa_id = $this->session->userdata('empresa_id');
+        $this->db->select('i.paciente_id,
+                            p.nome,
+                            p.convenionumero,
+                            p.convenio_id,
+                            c.nome as convenio,
+                            i.hospital_id,
+                            iu.nome as hospital,
+                            ');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_internacao_unidade iu', 'i.hospital_id = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->where("i.internacao_id", $internacao_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
 
     function listargxmlfaturamento($args = array()) {
 
