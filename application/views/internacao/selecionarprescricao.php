@@ -15,7 +15,7 @@
                         </a></div>
                 </td>
                 <td  width="300px;"><div class="bt_link_newgrande">
-                        <a id="normal" href="<?= base_url() ?>internacao/internacao/fichadeavaliacao/<?= $internacao_id; ?>">FICHA DE AVALIAÇÃO
+                        <a id="normal" href="<?= base_url() ?>internacao/internacao/listafichadeavaliacao/<?= $internacao_id; ?>">FICHA DE AVALIAÇÃO
 
                         </a></div>
                 </td>

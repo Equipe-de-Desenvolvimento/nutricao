@@ -94,7 +94,7 @@
             <?
             $estilo_linha = "tabela_content01";
             foreach ($produtossaida as $item) {
-                ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
+                ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" :"tabela_content01";
                 ?>
                 <tbody>
                     <tr>
@@ -112,14 +112,9 @@
             }
         }
         ?>
-        <tfoot>
-            <tr>
-                <th class="tabela_footer" colspan="4">
-                </th>
-            </tr>
-        </tfoot>
+    
     </table> 
-    <br>
+   
     <div class="bt_link">                                  
         <a onclick="javascript: return confirm('Deseja realmente Finalizar a solicitacao?');" href="<?= base_url() ?>estoque/solicitacao/fecharsolicitacao/<?= $estoque_solicitacao_id ?>">Fechar</a>
     </div>
@@ -161,33 +156,6 @@
             });
 
 
-            $(document).ready(function() {
-                jQuery('#form_exametemp').validate({
-                    rules: {
-                        txtNome: {
-                            required: true,
-                            minlength: 3
-                        },
-                        nascimento: {
-                            required: true
-                        },
-                        idade: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        txtNome: {
-                            required: "*",
-                            minlength: "!"
-                        },
-                        nascimento: {
-                            required: "*"
-                        },
-                        idade: {
-                            required: "*"
-                        }
-                    }
-                });
-            });
+          
 
 </script>

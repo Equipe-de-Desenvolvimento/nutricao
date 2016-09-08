@@ -1,0 +1,35 @@
+
+Dia 23/08/16
+
+CREATE TABLE ponto.tb_internacao_fichadeavaliacao
+(
+  internacao_fichadeavaliacao_id serial NOT NULL,
+  internacao_id integer,
+  imc character varying(7),
+  cen character varying(7),
+  get character varying(7),
+  tipoget character varying(50),
+  peso_atual character varying(7),
+  peso_ideal character varying(7),
+  peso_habitual character varying(7),
+  altura_estimada character varying(7),
+  dncd character varying(7),
+  etnia integer,
+  panturrilha character varying(20),
+  cb character varying(7),
+  p50 character varying(7),
+  altura_perna character varying(7),
+  tne character varying(30),
+  patologias_associadas character varying(30),
+  diagnostico_nutricional character varying(600),
+  operador_atualizacao integer,
+  data_atualizacao timestamp without time zone,
+  ativo boolean NOT NULL DEFAULT true,
+  
+  
+ CONSTRAINT tb_internacao_fichadeavaliacao_pkey PRIMARY KEY (internacao_fichadeavaliacao_id )
+)
+
+
+
+

@@ -45,6 +45,7 @@ class internacao extends BaseController {
     public function pesquisarleito($args = array()) {
         $this->loadView('internacao/listarleito');
     }
+   
 
     public function pesquisarsolicitacaointernacao($args = array()) {
         $this->loadView('internacao/listarsolicitacaointernacao');
@@ -320,28 +321,88 @@ class internacao extends BaseController {
         $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
         $this->loadView('internacao/repetirprescricaonormalenteral', $data);
     }
-    function fichadeavaliacao($internacao_id) {
+    function listafichadeavaliacao($internacao_id) {
+        
+        $data['lista'] = $this->internacao_m->listafichadeavaliacao($internacao_id);
+        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id)?$data['lista'][0]->internacao_fichadeavaliacao_id:'';
+
+        $data['internacao_id'] = $internacao_id;
+//        echo var_dump($data['ficha']);
+//        die;
+        $this->loadView('internacao/listarfichadeavaliacao', $data);
+    }
+    
+    function novofichadeavaliacao($internacao_id) {
         $data['internacao_id'] = $internacao_id;
 //        $data['prescricao'] = $this->internacao_m->listaultimaprescricaoenteral($internacao_id);
 //        $data['prescricaoatual'] = $this->internacao_m->listaprescricoesenteral($internacao_id);
         $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
         $paciente_id = $data['paciente_id'][0]->paciente_id;
         $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
-        $this->loadView('internacao/fichadeavaliacao', $data);
+        $this->loadView('internacao/novofichadeavaliacao', $data);
     }
     
-    function imprimirfichadeavaliacao($internacao_id) {
+    function gravarfichadeavaliacao($internacao_id) {
 //      echo  var_dump($_POST);
 //      die;
         $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
         $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
-//        $this->internacao_m->gravarfichadeavaliacao($internacao_id);
         $data['empresa'] = $this->internacao_m->empresa();
-//        echo var_dump($data['empresa']);
+        $this->internacao_m->gravarfichadeavaliacao($internacao_id);
+        if ($return==0) {
+            $data['mensagem'] = 'Ficha de avaliação gravada com sucesso';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar Ficha de avaliação';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        
+//        echo var_dump($data['diagnostico']);
 //        die;
-        $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_id);
+//        $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_id);
+        
+//        $this->load->View('internacao/listarfichadeavaliacao/', $data);
+        redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
+    }
+    function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
+        $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_fichadeavaliacao_id);
+        $data['empresa'] = $this->internacao_m->empresa();
+//        echo var_dump($data['impressao'][0]);
+//        die;
+        
         
         $this->load->View('internacao/imprimirfichadeavaliacao', $data);
+
+    }
+    
+    
+    
+    function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
+       $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
+       $data['diagnostico'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+//        $data['diagnostico'] = $this->internacao_m->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        //Criar outra função apenas para mostrar a tela e depois entrar em gravar
+//        echo var_dump($data['diagnostico']);
+//        die;
+        $this->loadView('internacao/diagnosticofichadeavaliacao', $data);
+//        redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id");
+    }
+    function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
+//       echo var_dump($internacao_fichadeavaliacao_id);
+//        die;
+        $data['internacao_id'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        $internacao_id= $data['internacao_id'][0]->internacao_id;
+//               echo var_dump($data['internacao_id'][0]->internacao_id);
+//        die;
+       $this->internacao_m->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+       if ($return==0) {
+            $data['mensagem'] = 'Diagnostico gravado com sucesso';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar Diagnostico';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+
+
+        redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
     }
 
     function relatorioentrega($internacao_id) {
