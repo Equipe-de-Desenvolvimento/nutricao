@@ -109,8 +109,8 @@
                             <td ><?= $item->data; ?></td>
                             <td ><?= $item->etapas; ?></td>
                             <td ><?= $item->nome; ?></td>
-                            <td class="<?php echo $estilo_linha; ?>"><?= $item->volume; ?></td>
-                            <td class="<?php echo $estilo_linha; ?>"><?= $item->vasao; ?></td>
+                            <td ><?= $item->volume; ?></td>
+                            <td ><?= $item->vasao; ?></td>
                             <td><font color="green"><?= $item->paciente; ?></td>
                                 <td width="40px;"><div class="bt_link">
                                         <a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/faturarconvenio/" . $item->internacao_precricao_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=250');">Faturar
