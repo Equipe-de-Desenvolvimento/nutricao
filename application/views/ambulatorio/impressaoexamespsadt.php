@@ -9,7 +9,7 @@
 <table id="tabelaspec" width="92%" border="1" align="center" cellpadding="0" cellspacing="0" class="tipp">
   <tbody>
   <tr bgcolor="#B1B1B1">
-      <td width="133" height="51" style="font-size: 9px;"><p class="ttr"><strong style="font-weight: normal; text-align: center;"><strong style="font-weight: normal; text-align: left;"><img src="UNIMED.jpg"  width="133" height="49" class="ttr"/></strong></strong></p></td>
+      <td width="133" height="51" style="font-size: 9px;"><p class="ttr"><strong style="font-weight: normal; text-align: center;"><strong style="font-weight: normal; text-align: left;"><img src="<?= base_url() ?>/img/convenios/<?echo $listar[0]->convenio_id;?>.jpg"  width="133" height="49" class="ttr"/></strong></strong></p></td>
       <td height="51" colspan="8" class="ttrl" style="font-size: 9px;"><p>GUIA DE SERVIÇO PROFISSIONAL/SERVIÇO AUXILIAR DE
 </p>
       <p> DIAGNÓSTICO E TERAPIA - SP/SADT</p></td>
@@ -33,8 +33,12 @@
       <td colspan="3" class="ti">7- Número da guia atribuida pela operadora</td>
     </tr>
     <tr>
-     <td height="16" colspan="3" class="tc"><strong>dsdas</strong></td>
-      <td colspan="2" class="tc"><strong>sdsf </strong></td>
+     <td height="16" colspan="3" class="tc"><strong><?$ano= substr($listar[0]->data_solicitacao,0,4);?>
+                                                            <?$mes= substr($listar[0]->data_solicitacao,5,2);?>
+                                                            <?$dia= substr($listar[0]->data_solicitacao,8,2);?>
+                                                            <?$datafinal= $dia . '/' . $mes . '/' . $ano; ?>
+                                                            <?php echo$datafinal?></strong></td>
+      <td colspan="2" class="tc"><strong><?echo $listar[0]->aih;?> </strong></td>
        <td colspan="2" class="tc"><strong>sdsf </strong></td>
        <td colspan="3" class="tc"><strong>sdsf </strong></td>
     </tr>
@@ -55,9 +59,9 @@
         <td colspan="1" class="ti">12- Atendimento a RN</td>
     </tr>
     <tr>
-     <td height="16" colspan="3" class="tc"><strong>dsdas</strong></td>
+     <td height="16" colspan="3" class="tc"><strong><?echo $listar[0]->convenionumero;?></strong></td>
       <td colspan="1" class="tc"><strong>sdsf </strong></td>
-       <td colspan="4" class="tc"><strong>sdsf </strong></td>
+       <td colspan="4" class="tc"><strong><?echo $listar[0]->nome;?> </strong></td>
        <td colspan="1" class="tc"><strong>sdsf </strong></td>
        <td colspan="1" class="tc"><strong>sdsf </strong></td>
     </tr>
@@ -71,7 +75,7 @@
     </tr>
     <tr>
      <td height="16" colspan="2" class="tc"><strong>dsdas</strong></td>
-      <td colspan="8" class="tc"><strong>fds </strong></td>
+      <td colspan="8" class="tc"><strong><?echo $listar[0]->hospital;?> </strong></td>
       
     </tr>
   
@@ -115,7 +119,7 @@
       <td class="tc"><strong>dsadas</strong></td>
      <td height="16" colspan="2" class="tc"><strong>dsdas</strong><strong>fds </strong></td>
      
-      <td colspan="3" class="tc"><strong>Enteral </strong><strong> </strong></td>
+      <td colspan="3" class="tc"><strong><?echo $listar[0]->carater_internacao;?> </strong><strong> </strong></td>
     </tr>
     
   </tbody>
@@ -193,7 +197,7 @@
       <td class="tic"><strong>dsadas</strong></td>
      <td height="16" class="tc"><strong>dsdas</strong><strong>fds </strong></td>
      
-      <td colspan="2" class="tc"><strong>Enteral </strong><strong> </strong></td>
+      <td colspan="2" class="tc"><strong>Testesd </strong><strong> </strong></td>
     </tr>
     <tr>
         <td colspan="8" align="center" bgcolor="#B1B1B1" class="tic" style="text-align:left;font-size: 9px;"><strong > DADOS DO ATENDIMENTO</strong></td>

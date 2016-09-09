@@ -1552,6 +1552,8 @@ class exame_model extends Model {
                             p.convenio_id,
                             c.nome as convenio,
                             i.hospital,
+                            i.aih,
+                            i.carater_internacao,
                             i.data_solicitacao,
                             iu.nome as hospital,
                             ');
