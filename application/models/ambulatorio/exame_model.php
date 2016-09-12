@@ -1555,6 +1555,7 @@ class exame_model extends Model {
                             i.aih,
                             i.carater_internacao,
                             i.data_solicitacao,
+                            i.data_internacao,
                             iu.nome as hospital,
                             ');
         $this->db->from('tb_internacao i');
@@ -1565,6 +1566,21 @@ class exame_model extends Model {
 
         $return = $this->db->get();
         return $return->result();
+    }
+    function empresa() {
+       $empresa= $this->session->userdata('empresa_id'); 
+        $this->db->select('empresa_id,
+                            nome,
+                            cnpj,
+                            razao_social,
+                            logradouro,
+                            bairro,
+                            telefone,
+                            numero');
+        $this->db->from('tb_empresa');
+        $this->db->where('empresa_id', $empresa);
+        $return = $this->db->get();
+            return $return->result();
     }
 
     function listargxmlfaturamento($args = array()) {

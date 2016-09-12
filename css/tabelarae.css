@@ -38,6 +38,26 @@ table#tabelaspec .tic {
 	font-size: 9px;
 	font-weight: normal;
 }
+table#tabelaspec .tisublinhado {
+	border-bottom: 0px;
+	border-top: 0px;
+	padding: 0pt;
+	text-align: left;
+	font-size: 12px;
+	font-weight: normal;
+        text-decoration: underline;
+        text-align: center;
+}
+table#tabelaspec .tisemsublinhado {
+	border-bottom: 0px;
+	border-top: 0px;
+	padding: 0pt;
+	text-align: left;
+	font-size: 12px;
+	font-weight: normal;
+        
+        text-align: center;
+}
 table#tabelaspec .semborda {
 	border:0px;
 	padding: 0pt;
@@ -56,6 +76,26 @@ table#tabelaspec .ticb {
 
 table#tabelaspec .tc {
     border-top:0px ;
+    padding: 0px;
+    text-align: left;
+    	}
+table#tabelaspec .sembordaesquerda {
+    border-top:0px ;
+    border-left:0px ;
+    padding: 0px;
+    text-align: left;
+    	}
+        
+table#tabelaspec .sembordadireita {
+    border-top:0px ;
+    border-right:0px ;
+    padding: 0px;
+    text-align: left;
+    	}
+table#tabelaspec .sembordadireitaesquerda {
+   border-top:0px ;
+    border-right:0px ;
+    border-left:0px ;
     padding: 0px;
     text-align: left;
     	}
