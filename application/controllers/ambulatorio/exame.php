@@ -130,7 +130,27 @@ class Exame extends BaseController {
         $data['listar'] = $this->exame->listarguiafaturamento();
         $this->loadView('ambulatorio/faturamentoexame-lista', $data);
     }
+    function selecionarformularionutricao($internacao_id) {
+//        echo var_dump($internacao_id);
+//        die;
+        $data['listar'] = $this->exame->imprimirsadt($internacao_id);
+        $data['internacao_id'] = $internacao_id;
+//        echo var_dump($data['empresa']);
+//        die;
+        //$this->load->View('ambulatorio/impressaoexamespsadt', $data);
+        $this->loadView('ambulatorio/selecionarformularionutricao', $data);
+    }
     function impressaospsadt($internacao_id) {
+//        echo var_dump($internacao_id);
+//        die;
+        $data['listar'] = $this->exame->imprimirsadt($internacao_id);
+        $data['empresa'] = $this->exame->empresa();
+//        echo var_dump($data['empresa']);
+//        die;
+        $this->load->View('ambulatorio/impressaoexamespsadt', $data);
+//        $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
+    }
+    function impressaolaudomedico($internacao_id) {
 //        echo var_dump($internacao_id);
 //        die;
         $data['listar'] = $this->exame->imprimirsadt($internacao_id);
