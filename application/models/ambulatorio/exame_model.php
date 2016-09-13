@@ -1684,6 +1684,21 @@ class exame_model extends Model {
         }
     }
 
+    function gravarlote($b) {
+            $this->db->set('lote', $b);
+            $this->db->update('tb_lote');
+            $erro = $this->db->_error_message();
+
+    }
+
+    function listarlote() {
+
+        $this->db->select('lote');
+        $this->db->from('tb_lote');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function contadorexames() {
 
         $this->db->select('agenda_exames_id');
