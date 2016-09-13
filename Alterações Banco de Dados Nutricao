@@ -29,6 +29,11 @@ CREATE TABLE ponto.tb_internacao_fichadeavaliacao
   
  CONSTRAINT tb_internacao_fichadeavaliacao_pkey PRIMARY KEY (internacao_fichadeavaliacao_id )
 )
+ 
+Dia 13/09/16
+
+ALTER TABLE ponto.tb_internacao ADD COLUMN diagnostico_nutricional character varying(100);
+
 
 
 

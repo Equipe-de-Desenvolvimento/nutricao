@@ -1509,53 +1509,9 @@ class exame_model extends Model {
         return $this->db;
     }
 
+    
+
     function listarguiafaturamento() {
-
-        $empresa_id = $this->session->userdata('empresa_id');
-        $this->db->select('g.ambulatorio_guia_id,
-                            ae.valor_total as valortotal,
-                            ae.valor1 as valorfaturado,
-                            p.nome as paciente,
-                            ae.agenda_exames_id,
-                            ae.faturado,
-                            g.data_criacao,
-                            c.nome,
-                            ae.financeiro,
-                            pt.nome as procedimento,
-                            o.nome as medico,
-                            ae.paciente_id');
-        $this->db->from('tb_ambulatorio_guia g');
-        $this->db->join('tb_agenda_exames ae', 'ae.guia_id = g.ambulatorio_guia_id', 'left');
-        $this->db->join('tb_paciente p', 'p.paciente_id = ae.paciente_id', 'left');
-        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ae.procedimento_tuss_id', 'left');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
-        $this->db->join('tb_exame_sala an', 'an.exame_sala_id = ae.agenda_exames_nome_id', 'left');
-        $this->db->join('tb_exames e', 'e.agenda_exames_id= ae.agenda_exames_id', 'left');
-        $this->db->join('tb_ambulatorio_laudo al', 'al.exame_id = e.exames_id', 'left');
-        $this->db->join('tb_operador o', 'o.operador_id= al.medico_parecer1', 'left');
-        $this->db->join('tb_convenio c', 'c.convenio_id = pc.convenio_id', 'left');
-        $this->db->where('g.data_criacao >=', $_POST['txtdata_inicio']);
-        $this->db->where('g.data_criacao <=', $_POST['txtdata_fim']);
-        $this->db->where("c.dinheiro", 'f');
-        $this->db->where('ae.empresa_id', $empresa_id);
-        $this->db->where('ae.ativo', 'false');
-        $this->db->where('ae.cancelada', 'false');
-        if (isset($_POST['nome']) && strlen($_POST['nome']) > 0) {
-            $this->db->where('p.nome ilike', "%" . $_POST['nome'] . "%");
-        }
-        if (isset($_POST['convenio']) && $_POST['convenio'] != "") {
-            $this->db->where('pc.convenio_id', $_POST['convenio']);
-        }
-        $this->db->orderby('g.ambulatorio_guia_id');
-        $this->db->orderby('g.data_criacao');
-        $this->db->orderby('p.nome');
-        $this->db->orderby('ae.paciente_id');
-        $this->db->orderby('c.nome');
-        $return = $this->db->get();
-        return $return->result();
-    }
-
-    function testelistarguiafaturamento() {
 
         $empresa_id = $this->session->userdata('empresa_id');
         $this->db->select('ip.internacao_precricao_id,
@@ -1567,6 +1523,8 @@ class exame_model extends Model {
                             ipp.volume,
                             p.nome as paciente,
                             pt.procedimento_tuss_id,
+                            i.internacao_id,
+                            i.aih,
                             ipp.vasao,
                             pt.nome');
         $this->db->from('tb_internacao_precricao ip');
@@ -1585,6 +1543,54 @@ class exame_model extends Model {
         }
         $return = $this->db->get();
         return $return->result();
+    }
+    function imprimirsadt($internacao_id) {
+
+        $this->db->select('i.paciente_id,
+                            p.nome,
+                            p.convenionumero,
+                            p.convenio_id,
+                            c.nome as convenio,
+                            c.razao_social,
+                            c.logradouro,
+                            c.numero,
+                            c.bairro,
+                            c.telefone,
+                            i.hospital,
+                            i.aih,
+                            i.diagnostico,
+                            i.atendente,
+                            i.diagnostico_nutricional,
+                            i.reg,
+                            i.carater_internacao,
+                            i.pla,
+                            i.data_solicitacao,
+                            i.data_internacao,
+                            iu.nome as hospital,
+                            ');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_internacao_unidade iu', 'i.hospital = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->where("i.internacao_id", $internacao_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function empresa() {
+       $empresa= $this->session->userdata('empresa_id'); 
+        $this->db->select('empresa_id,
+                            nome,
+                            cnpj,
+                            razao_social,
+                            logradouro,
+                            bairro,
+                            telefone,
+                            numero');
+        $this->db->from('tb_empresa');
+        $this->db->where('empresa_id', $empresa);
+        $return = $this->db->get();
+            return $return->result();
     }
 
     function listargxmlfaturamento($args = array()) {

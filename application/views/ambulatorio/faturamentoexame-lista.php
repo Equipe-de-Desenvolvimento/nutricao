@@ -112,13 +112,10 @@
                             <td ><?= $item->volume; ?></td>
                             <td ><?= $item->vasao; ?></td>
                             <td><font color="green"><?= $item->paciente; ?></td>
-                                <td width="40px;"><div class="bt_link">
-                                        <a onclick="javascript:window.open('<?= base_url() . "ambulatorio/guia/faturarconvenio/" . $item->internacao_precricao_id; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=600,height=250');">Faturar
-                                        </a></div>
-                                </td>
-                            <td width="40px;"><div class="bt_link_new">
-                                    <a onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/faturarguia/<?= $item->internacao_precricao_id;?>');" >
-                                        Faturar guia</a></div>
+                               
+                            <td width="50px;"><div class="bt_link_new">
+                                    <a href="<?= base_url() ?>ambulatorio/exame/selecionarformularionutricao/<?= $item->internacao_id;?>" >
+                                        Formulários</a></div>
                             </td>
                         </tr>
 
