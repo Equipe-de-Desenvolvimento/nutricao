@@ -139,6 +139,9 @@ class Convenio_model extends Model {
             if ($_POST['enteral'] != "") {
                 $this->db->set('enteral', str_replace(",", ".", $_POST['enteral']));
             }
+            if ($_POST['diaria'] != "") {
+                $this->db->set('valor_diaria', str_replace(",", ".", $_POST['diaria']));
+            }
             $this->db->set('logradouro', $_POST['endereco']);
             $this->db->set('numero', $_POST['numero']);
             $this->db->set('bairro', $_POST['bairro']);
@@ -153,6 +156,9 @@ class Convenio_model extends Model {
             $this->db->set('procedimento2', $_POST['procedimento2']);
             if (isset($_POST['txtdinheiro'])) {
                 $this->db->set('dinheiro', $_POST['txtdinheiro']);
+            }
+            if (isset($_POST['txtdiaria'])) {
+                $this->db->set('diaria', $_POST['txtdiaria']);
             }
             $this->db->set('observacao', $_POST['txtObservacao']);
             $horario = date("Y-m-d H:i:s");
@@ -229,6 +235,8 @@ class Convenio_model extends Model {
                                 co.enteral,
                                 co.parenteral,
                                 co.credor_devedor_id,
+                                co.valor_diaria,
+                                co.diaria,
                                 co.razao_social');
             $this->db->from('tb_convenio co');
             $this->db->join('tb_municipio c', 'c.municipio_id = co.municipio_id', 'left');
@@ -258,6 +266,8 @@ class Convenio_model extends Model {
             $this->_conta_id = $return[0]->conta_id;
             $this->_enteral= $return[0]->enteral;
             $this->_parenteral = $return[0]->parenteral;
+            $this->_diaria = $return[0]->diaria;
+            $this->_valor_diaria = $return[0]->valor_diaria;
         } else {
             $this->_convenio_id = null;
         }

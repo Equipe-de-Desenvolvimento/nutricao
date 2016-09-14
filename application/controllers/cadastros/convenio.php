@@ -78,6 +78,47 @@ class Convenio extends BaseController {
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "cadastros/convenio");
     }
+    function anexarimagemconvenio($convenio_id) {
+
+        $this->load->helper('directory');
+        $data['arquivo_pasta'] = directory_map("./upload/convenios/$convenio_id/");
+//        $data['arquivo_pasta'] = directory_map("/home/vivi/projetos/clinica/upload/consulta/$paciente_id/");
+        if ($data['arquivo_pasta'] != false) {
+            sort($data['arquivo_pasta']);
+        }
+        $data['convenio_id'] = $convenio_id;
+        $this->loadView('cadastros/importacao-imagementrada', $data);
+    }
+    function importarimagementrada() {
+        $convenio_id = $_POST['paciente_id'];
+//        $data = $_FILES['userfile'];
+//        var_dump($data);
+//        die;
+        if (!is_dir("./upload/convenios/$convenio_id/")) {
+            mkdir("./upload/convenios/$convenio_id/");
+            $destino = "./upload/convenios/$convenio_id/";
+            chmod($destino, 0777);
+        }
+
+//        $config['upload_path'] = "/home/vivi/projetos/clinica/upload/consulta/" . $paciente_id . "/";
+        $config['upload_path'] = "./upload/convenios/" . $convenio_id . "/";
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = '0';
+        $config['overwrite'] = TRUE;
+        $config['encrypt_name'] = FALSE;
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload()) {
+            $error = array('error' => $this->upload->display_errors());
+        } else {
+            $error = null;
+            $data = array('upload_data' => $this->upload->data());
+        }
+        $data['convenio_id'] = $convenio_id;
+        redirect(base_url() . "cadastros/convenio");
+        
+    }
+    
 
     private function carregarView($data = null, $view = null) {
         if (!isset($data)) {

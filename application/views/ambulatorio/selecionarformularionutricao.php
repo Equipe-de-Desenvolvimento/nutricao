@@ -10,11 +10,27 @@
                 </td>
 
                 <td  width="300px;"><div class="bt_link_newgrande">
+                        <a id="normal" href="<?= base_url() ?>ambulatorio/exame/impressaolaudomedicoipm/<?= $internacao_id; ?>">LAUDO MÉDICO IPM
+
+                        </a></div>
+                </td>
+                <td  width="300px;"><div class="bt_link_newgrande">
                         <a id="normal" href="<?= base_url() ?>ambulatorio/exame/impressaospsadt/<?= $internacao_id; ?>">GUIA SP/SADT
 
                         </a></div>
                 </td>
                
+                </td>
+            </tr>
+            <tr>
+                
+                </td>
+                <td  width="300px;"><div class="bt_link_newgrande">
+                        <a id="normal" href="<?= base_url() ?>ambulatorio/exame/relatoriodecustos/<?= $internacao_id; ?>">RELATÓRIO DE CUSTOS
+
+                        </a></div>
+                </td>
+            </tr>
                
         </tbody>
     </table>

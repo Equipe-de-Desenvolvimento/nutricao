@@ -58,6 +58,16 @@ table#tabelaspec .tisemsublinhado {
         
         text-align: center;
 }
+table#tabelaspec .tisemsublinhadogrande {
+	border-bottom: 0px;
+	border-top: 0px;
+	padding: 0pt;
+	text-align: left;
+	font-size: 17px;
+	font-weight: bold;
+        
+        text-align: center;
+}
 table#tabelaspec .semborda {
 	border:0px;
 	padding: 0pt;
@@ -85,6 +95,13 @@ table#tabelaspec .sembordaesquerda {
     padding: 0px;
     text-align: left;
     	}
+table#tabelaspec .sembordaesquerdabaixo {
+    border-top:0px ;
+    border-left:0px ;
+    border-bottom: 0px ;
+    padding: 0px;
+    text-align: left;
+    	}
         
 table#tabelaspec .sembordadireita {
     border-top:0px ;
@@ -92,6 +109,15 @@ table#tabelaspec .sembordadireita {
     padding: 0px;
     text-align: left;
     	}
+table#tabelaspec .sembordadireitabaixo {
+    border-top:0px ;
+    border-right:0px ;
+    border-bottom:0px ;
+    padding: 0px;
+    text-align: left;
+    	}
+        
+        
 table#tabelaspec .sembordadireitaesquerda {
    border-top:0px ;
     border-right:0px ;

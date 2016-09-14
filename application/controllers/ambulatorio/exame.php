@@ -145,20 +145,31 @@ class Exame extends BaseController {
 //        die;
         $data['listar'] = $this->exame->imprimirsadt($internacao_id);
         $data['empresa'] = $this->exame->empresa();
-//        echo var_dump($data['empresa']);
-//        die;
+
         $this->load->View('ambulatorio/impressaoexamespsadt', $data);
-//        $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
     }
     function impressaolaudomedico($internacao_id) {
-//        echo var_dump($internacao_id);
-//        die;
-        $data['listar'] = $this->exame->imprimirsadt($internacao_id);
-        $data['empresa'] = $this->exame->empresa();
+        $data['listar'] = $this->exame->imprimirlaudomedico($internacao_id);
+
+        $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
+    }
+    function impressaolaudomedicoipm($internacao_id) {
+        $data['listar'] = $this->exame->imprimirlaudomedicoipm($internacao_id);
 //        echo var_dump($data['empresa']);
 //        die;
-        //$this->load->View('ambulatorio/impressaoexamespsadt', $data);
-        $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
+        $this->load->View('ambulatorio/impressaoexamelaudomedicoipm', $data);
+    }
+    function relatoriodecustos($internacao_id) {
+        
+        $data['internacao_id'] = $internacao_id;
+        
+        $this->loadView('ambulatorio/relatoriodecustos', $data);
+    }
+    function impressaorelatoriodecustos($internacao_id) {
+        $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
+//        echo var_dump($data['empresa']);
+//        die;
+        $this->load->View('ambulatorio/impressaoexamelaudomedicoipm', $data);
     }
 
     function faturamentoexamexml($args = array()) {
