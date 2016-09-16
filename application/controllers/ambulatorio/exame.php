@@ -167,9 +167,10 @@ class Exame extends BaseController {
     }
     function impressaorelatoriodecustos($internacao_id) {
         $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
+        $data['empresa'] = $this->exame->empresa();
 //        echo var_dump($data['empresa']);
 //        die;
-        $this->load->View('ambulatorio/impressaoexamelaudomedicoipm', $data);
+        $this->load->View('ambulatorio/impressaoexamerelatoriodecustos', $data);
     }
 
     function faturamentoexamexml($args = array()) {

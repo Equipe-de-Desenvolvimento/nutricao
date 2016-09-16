@@ -5,7 +5,7 @@
 
 /*Tabela*/
 
-table#tabelaspec  {
+table#tabelaspec1  {
 
     border-spacing: 0;
     margin-left: auto;
@@ -13,6 +13,7 @@ table#tabelaspec  {
     width:100%;
 
 }
+
 
 table#tabelaspec td {
 
@@ -29,12 +30,6 @@ table#tabelaspec .ti {
     text-align: left;
     font-size: 9px;
     font-weight: normal;
-}
-table#tabelaspec .tabelapequena {
-      border-spacing: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width:50%;
 }
 table#tabelaspec .tic {
     border-bottom: 0px;
@@ -137,10 +132,10 @@ table#tabelaspec .tm {
     text-align: center;
     font-weight:bold;
 }
-table#tabelaspec .tmtextoesquerdo {
+table#tabelaspec .tmbordasuperior {
     border-top:0px ;
     padding: 0px;
-    text-align: left;
+    text-align: center;
     font-weight:bold;
 }
 

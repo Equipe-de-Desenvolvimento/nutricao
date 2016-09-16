@@ -1,4 +1,5 @@
-﻿<html>
+<? //echo var_dump($listar[0]); die;?>﻿
+<html>
     <head>
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
