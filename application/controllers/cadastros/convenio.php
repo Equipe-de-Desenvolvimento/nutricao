@@ -102,7 +102,7 @@ class Convenio extends BaseController {
 
 //        $config['upload_path'] = "/home/vivi/projetos/clinica/upload/consulta/" . $paciente_id . "/";
         $config['upload_path'] = "./upload/convenios/" . $convenio_id . "/";
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'jpg';
         $config['max_size'] = '0';
         $config['overwrite'] = TRUE;
         $config['encrypt_name'] = FALSE;
