@@ -169,6 +169,23 @@
 ?> 
                     </select>
                 </div>
+                <div>
+                    <?php
+                    if (@$obj->_diaria == "t") {
+                        ?>
+                        <input type="checkbox" name="txtdiaria" checked ="true" />Diária
+                        <?php
+                    } else {
+                        ?>
+                        <input type="checkbox" name="txtdiaria"  />Diária
+    <?php
+}
+?>
+                </div>
+                <div>
+                    <label>Valor diária</label>
+                    <input type="text" id="diaria" class="texto02" name="diaria" alt="decimal" value="<?= @$obj->_valor_diaria; ?>" />
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Observa&ccedil;&atilde;o</legend>

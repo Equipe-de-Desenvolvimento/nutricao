@@ -20,7 +20,8 @@
                 </tr>
                 <tr>
                     <th class="tabela_header">Nome</th>
-                    <th colspan="2" class="tabela_header">Detalhes</th>
+                    <th colspan="3" class="tabela_header">Detalhes</th>
+                    
                 </tr>
                 </thead>
                 <?php
@@ -49,6 +50,12 @@
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
                                     <a href="<?= base_url() ?>cadastros/convenio/copiar/<?= $item->convenio_id ?>">
                                         Copiar
+                                    </a>
+                                    </div>
+                                </td>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link">
+                                    <a href="<?= base_url() ?>cadastros/convenio/anexarimagemconvenio/<?= $item->convenio_id ?>">
+                                        Arquivos
                                     </a>
                                     </div>
                                 </td>

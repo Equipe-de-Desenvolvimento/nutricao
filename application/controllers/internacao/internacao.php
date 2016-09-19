@@ -438,7 +438,9 @@ class internacao extends BaseController {
         $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
         $paciente_id = $data['paciente_id'][0]->paciente_id;
         $data['paciente'] = $this->paciente->listardados($paciente_id);
+//        echo var_dump($data['equipo']); die;
         $this->loadView('internacao/prescricaonormalenteral', $data);
+        
     }
 
     function prescricaoemergencialenteral($internacao_id) {

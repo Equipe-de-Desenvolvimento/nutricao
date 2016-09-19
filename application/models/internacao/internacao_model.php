@@ -683,6 +683,7 @@ class internacao_model extends BaseModel {
         $this->db->where('i.internacao_id', $internacao_id);
         $this->db->where('pt.grupo', 'ENTERAL');
         $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
         $return = $this->db->get();
         return $return->result();
     }
@@ -717,6 +718,7 @@ class internacao_model extends BaseModel {
         $this->db->where('i.internacao_id', $internacao_id);
         $this->db->where('pt.grupo', 'EQUIPO');
         $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
         $return = $this->db->get();
         return $return->result();
     }
