@@ -63,7 +63,7 @@
             <thead>
                 <tr>
                     <th class="tabela_header">
-                        Prescricao
+                        Data
                     </th>
                     <th class="tabela_header">
                         Etapas
@@ -72,14 +72,13 @@
                         Produto
                     </th>
                     <th class="tabela_header">
-                        Codigo
-                    </th>
-                    <th class="tabela_header">
                         Volume
                     </th>
-
                     <th class="tabela_header">
                         Vazão
+                    </th>
+                    <th class="tabela_header">
+                        Paciente
                     </th>
                     <th colspan="3"><center>A&ccedil;&otilde;es</center></th>
             </tr>
@@ -103,18 +102,17 @@
                 <tbody>
                     <?php
                     foreach ($listar as $item) {
-
                         ?>
                         <tr>
-                            <td ><?= $item->data; ?></td>
+                            <td ><?= substr($item->data, 8, 2) . "/" . substr($item->data, 5, 2) . "/" . substr($item->data, 0, 4) ?></td>
                             <td ><?= $item->etapas; ?></td>
                             <td ><?= $item->nome; ?></td>
                             <td ><?= $item->volume; ?></td>
                             <td ><?= $item->vasao; ?></td>
                             <td><font color="green"><?= $item->paciente; ?></td>
-                               
+
                             <td width="50px;"><div class="bt_link_new">
-                                    <a href="<?= base_url() ?>ambulatorio/exame/selecionarformularionutricao/<?= $item->internacao_id;?>" >
+                                    <a href="<?= base_url() ?>ambulatorio/exame/selecionarformularionutricao/<?= $item->internacao_id; ?>" >
                                         Formulários</a></div>
                             </td>
                         </tr>

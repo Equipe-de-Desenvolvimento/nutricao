@@ -908,6 +908,7 @@ class internacao_model extends BaseModel {
                             pt.dencidade_calorica,
                             pt.nome as produto,
                             i.leito,
+                            tc.nome as classificacao,
                             iu.nome as hospital,
                             i.diagnostico,
                             ipp.vasao,
@@ -916,6 +917,8 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
         $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ');
         $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id ');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
