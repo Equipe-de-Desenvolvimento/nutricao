@@ -1,3 +1,4 @@
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <div class="content ficha_ceatox">
 
 
@@ -25,7 +26,7 @@
         $i++;
         $c++;
         if ($item->internacao_precricao_etapa_id == $etapas || $i == 1) {
-            $dieta = $dieta . " / " . $item->produto;
+            $dieta = $item->classificacao;
             if ($c == 1) {
                 $pro = $item->proteinas;
                 $qtdeetapa = $item->etapas;
@@ -55,8 +56,8 @@
                         <td  ><font size = -2><b>Paciente: </b><?= $prescricao['0']->paciente; ?></td>
                     </tr>
                     <tr>
-                        <td ><font size = -2><b>Hospital: <?= utf8_decode($prescricao['0']->hospital); ?></b></td>
-                        <td ><font size = -2><b>Leito/Apto: <?= utf8_decode($prescricao['0']->leito); ?></b></td>
+                        <td ><font size = -2><b>Hospital: <?= $prescricao['0']->hospital; ?></b></td>
+                        <td ><font size = -2><b>Leito/Apto: <?= $prescricao['0']->leito; ?></b></td>
                     </tr>
                     </tbody>
                 </table>
@@ -115,7 +116,7 @@
 
                 <?
             }
-            $dieta = $item->produto;
+            $dieta = $item->classificacao;
             $pro = $item->proteinas;
             $qtdeetapa = $item->etapas;
             $hc = $item->carboidratos;
@@ -138,8 +139,8 @@
                             <td  ><font size = -2><b>Paciente: </b><?= $prescricao['0']->paciente; ?></td>
                         </tr>
                         <tr>
-                            <td ><font size = -2><b>Hospital: <?= utf8_decode($prescricao['0']->hospital); ?></b></td>
-                            <td ><font size = -2><b>Leito/Apto: <?= utf8_decode($prescricao['0']->leito); ?></b></td>
+                            <td ><font size = -2><b>Hospital: <?= $prescricao['0']->hospital; ?></b></td>
+                            <td ><font size = -2><b>Leito/Apto: <?= $prescricao['0']->leito; ?></b></td>
                         </tr>
                         </tbody>
                     </table>
