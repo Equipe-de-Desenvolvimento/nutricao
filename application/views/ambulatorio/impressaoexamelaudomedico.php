@@ -100,9 +100,14 @@
                         INDICAÇÃO P/NE: <strong><? echo $listar[0]->diagnostico_nutricional; ?></strong>
                         <br>
                         <br>
-                        DIETA: P/CONTROLE GLICEMICO, ISENTA DE SACAROSE E LACTOSE
+                        DIETA:
+                        <? foreach ($listar as $item){?>
+                        <?=$item->internacao_precricao_produto_id;?>
                         <br>
                         <br>
+                            <?}?>
+                        
+                        
                         <strong><? echo $listar[0]->pla; ?></strong> REGULAMENTADO EM: <? $ano = substr($listar[0]->reg, 0, 4); ?>
                         <? $mes = substr($listar[0]->reg, 5, 2); ?>
                         <? $dia = substr($listar[0]->reg, 8, 2); ?>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
-        <title>Guia de Serviço Profissional</title>
+        <title>Relatorio médico IPM</title>
     </head>
 
     <body>

@@ -130,6 +130,7 @@ class Exame extends BaseController {
         $data['listar'] = $this->exame->listarguiafaturamento();
         $this->loadView('ambulatorio/faturamentoexame-lista', $data);
     }
+
     function selecionarformularionutricao($internacao_id) {
 //        echo var_dump($internacao_id);
 //        die;
@@ -140,6 +141,7 @@ class Exame extends BaseController {
         //$this->load->View('ambulatorio/impressaoexamespsadt', $data);
         $this->loadView('ambulatorio/selecionarformularionutricao', $data);
     }
+
     function impressaospsadt($internacao_id) {
 //        echo var_dump($internacao_id);
 //        die;
@@ -148,29 +150,55 @@ class Exame extends BaseController {
 
         $this->load->View('ambulatorio/impressaoexamespsadt', $data);
     }
+
+    function laudomedico($internacao_id) {
+        $data['internacao_id'] = $internacao_id;
+
+        $this->loadView('ambulatorio/laudomedico', $data);
+    }
+
     function impressaolaudomedico($internacao_id) {
-        $data['listar'] = $this->exame->imprimirlaudomedico($internacao_id);
+        $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
 
         $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
     }
+
     function impressaolaudomedicoipm($internacao_id) {
         $data['listar'] = $this->exame->imprimirlaudomedicoipm($internacao_id);
 //        echo var_dump($data['empresa']);
 //        die;
         $this->load->View('ambulatorio/impressaoexamelaudomedicoipm', $data);
     }
+
     function relatoriodecustos($internacao_id) {
-        
+
         $data['internacao_id'] = $internacao_id;
-        
+
         $this->loadView('ambulatorio/relatoriodecustos', $data);
     }
+
     function impressaorelatoriodecustos($internacao_id) {
         $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
         $data['empresa'] = $this->exame->empresa();
-//        echo var_dump($data['empresa']);
+//        echo var_dump($data['listar']);
 //        die;
         $this->load->View('ambulatorio/impressaoexamerelatoriodecustos', $data);
+//        $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
+    }
+
+    function relacaodepacientes() {
+
+        $this->loadView('ambulatorio/relacaodepacientes');
+    }
+
+    function impressaorelacaodepacientes() {
+//        echo $_POST['convenio'];
+//        die;
+        $data['listar'] = $this->exame->imprimirrelacaodepacientes();
+//        echo  var_dump($data['listar']);
+//        die;
+        
+        $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
     }
 
     function faturamentoexamexml($args = array()) {
@@ -1147,7 +1175,7 @@ class Exame extends BaseController {
         $origem = "/home/sisprod/projetos/clinica/cr/" . $convenio;
         if (!is_dir("/home/sisprod/projetos/clinica/cr/" . $convenio)) {
             mkdir("/home/sisprod/projetos/clinica/cr/" . $convenio);
-        }else{
+        } else {
             delete_files($origem);
         }
         $i = 0;
@@ -1178,23 +1206,22 @@ class Exame extends BaseController {
       <ans:loteGuias>
          <ans:numeroLote>7555</ans:numeroLote>
             <ans:guiasTISS>";
-$contador = count($listarexame);
+        $contador = count($listarexame);
         foreach ($listarexame as $value) {
             $i++;
-            if($value->convenionumero == ''){
+            if ($value->convenionumero == '') {
                 $numerodacarteira = '0000000';
-            }else{
+            } else {
                 $numerodacarteira = $value->convenionumero;
             }
-            if($value->medico == ''){
+            if ($value->medico == '') {
                 $medico = 'ADMINISTRADOR';
-            }else{
+            } else {
                 $medico = $value->medico;
             }
-            if($value->conselho == ''){
+            if ($value->conselho == '') {
                 $conselho = '0000000';
-                
-            }else{
+            } else {
                 $conselho = $value->conselho;
             }
             $corpo = $corpo . "
