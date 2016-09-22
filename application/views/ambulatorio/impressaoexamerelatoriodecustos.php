@@ -1,18 +1,14 @@
 <?
+//echo var_dump($listar);
+//die;
 //Subtração dos dias
-$contagem = count($listar);
-$ultimakey = $contagem - 1;
+$contagemdias = count($dias);
 
-$datainicio = $listar[0]->data;
-$datafim = $listar[$ultimakey]->data;
-
-$diferenca = strtotime($datafim) - strtotime($datainicio);
-
-$dias = floor($diferenca / (60 * 60 * 24));
-
+//echo $contardias; 
+//die;
 
 $valor_diaria = $listar[0]->valor_diaria;
-$total_diaria = $valor_diaria * $dias;
+$total_diaria = $valor_diaria * $contagemdias;
 
 ?>﻿
 
@@ -86,14 +82,37 @@ $total_diaria = $valor_diaria * $dias;
 
                 </tr>
 
+                
                 <? foreach ($listar as $item) { ?>
+                    <tr>
+                        <?$volume=$item->volume/$item->etapas;
+                        ?>
+                        <td class="semborda"><?= $item->produto; ?>&nbsp;&nbsp;<?echo $volume; ?> ML</td>
+                        <td height="16" class="semborda"><?= $item->etapas; ?></td>
+
+
+                    </tr>
+                    
+                <? } ?>
+                    <? foreach ($listar as $item) { ?>
+                        <tr>
+                            <td class="semborda">FRASCO P/ NUTRIÇÃO ENTERAL 300ML C/ LACRE</td>
+                            <td height="16" class="semborda"><?= $item->etapas; ?></td>
+
+
+                        </tr>
+
+                    <? } ?>
+                    <? foreach ($equipo as $item) { ?>
                     <tr>
                         <td class="semborda"><?= $item->produto; ?></td>
                         <td height="16" class="semborda"><?= $item->etapas; ?></td>
 
 
                     </tr>
+                    
                 <? } ?>
+                    
 
 
             </tbody>
@@ -141,7 +160,7 @@ $total_diaria = $valor_diaria * $dias;
         </tr>
         <tr>
             <td height="20" colspan="3" class="tm">TOTAL DA FATURA</td>
-            <td colspan="2" class="tm"><? echo $dias; ?></td>
+            <td colspan="2" class="tm"><? echo $contagemdias; ?></td>
             <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <? echo $listar[0]->valor_diaria; ?></em></td>
             <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <? echo $total_diaria; ?></em></td>
         </tr>

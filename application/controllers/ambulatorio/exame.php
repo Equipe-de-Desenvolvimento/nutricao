@@ -158,7 +158,7 @@ class Exame extends BaseController {
     }
 
     function impressaolaudomedico($internacao_id) {
-        $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
+        $data['listar'] = $this->exame->imprimirlaudomedico($internacao_id);
 
         $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
     }
@@ -179,11 +179,12 @@ class Exame extends BaseController {
 
     function impressaorelatoriodecustos($internacao_id) {
         $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
+        $data['dias'] = $this->exame->datarelatoriodecustos($internacao_id);
+        $data['equipo'] = $this->exame->equiporelatoriodecustos($internacao_id);
         $data['empresa'] = $this->exame->empresa();
 //        echo var_dump($data['listar']);
 //        die;
         $this->load->View('ambulatorio/impressaoexamerelatoriodecustos', $data);
-//        $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
     }
 
     function relacaodepacientes() {
@@ -194,6 +195,7 @@ class Exame extends BaseController {
     function impressaorelacaodepacientes() {
 //        echo $_POST['convenio'];
 //        die;
+        $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
         $data['listar'] = $this->exame->imprimirrelacaodepacientes();
 //        echo  var_dump($data['listar']);
 //        die;

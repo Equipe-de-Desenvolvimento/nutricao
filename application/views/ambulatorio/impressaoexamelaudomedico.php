@@ -39,19 +39,19 @@
                     <td height="16" colspan="7" class="tisublinhado">LAUDO MÉDICO PARA SOLICITAÇÃO</td>
                 </tr>
                 <tr>
-                    <td height="90" colspan="5" class="sembordadireita">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIÁRIA DE UTI 
+                    <td height="90" colspan="5" class="sembordadireita">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIÁRIA DE UTI 
                         <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MUDANÇA DE PROCEDIMENTO
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MUDANÇA DE PROCEDIMENTO
                         <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRORROGAÇÃO DE INTERNAMENTO
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRORROGAÇÃO DE INTERNAMENTO
                         <br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTROS
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTROS
                     </td>
-                    <td height="90" colspan="2" class="sembordaesquerda">(&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USO DE OXIGENADORES
+                    <td height="90" colspan="2" class="sembordaesquerda">(&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USO DE OXIGENADORES
                         <br>
-                        (&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUTRIÇÃO PARENTAL
+                        (&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUTRIÇÃO PARENTAL
                         <br>
-                        (&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROCEDIMENTO DE ALTO CUSTO
+                        (&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROCEDIMENTO DE ALTO CUSTO
                         <br>
                         (<strong>X</strong>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUTRIÇÃO ENTERAL <? $ano = substr($listar[0]->data_solicitacao, 0, 4); ?>
                         <? $mes = substr($listar[0]->data_solicitacao, 5, 2); ?>
@@ -102,7 +102,7 @@
                         <br>
                         DIETA:
                         <? foreach ($listar as $item){?>
-                        <?=$item->internacao_precricao_produto_id;?>
+                        <?=$item->produto;?>
                         <br>
                         <br>
                             <?}?>
