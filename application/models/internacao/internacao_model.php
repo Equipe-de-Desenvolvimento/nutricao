@@ -193,16 +193,33 @@ class internacao_model extends BaseModel {
             $this->db->set('data', $dataprescricao);
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('empresa_id', $empresa_id);
+            if ($_POST['medico'] != '') {
+                $this->db->set('nutricionista', $_POST['medico']);
+            }
+            if ($_POST['preparo'] != '') {
+                $this->db->set('preparo', $_POST['preparo']);
+            }
+            if ($_POST['validade'] != '') {
+                $this->db->set('validade', $_POST['validade']);
+            }
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao');
             $internacao_precricao_id = $this->db->insert_id();
         } else {
             $internacao_precricao_id = $return[0]->internacao_precricao_id;
+            if ($_POST['medico'] != '') {
+                $this->db->set('nutricionista', $_POST['medico']);
+            }
+            if ($_POST['preparo'] != '') {
+                $this->db->set('preparo', $_POST['preparo']);
+            }
+            if ($_POST['validade'] != '') {
+                $this->db->set('validade', $_POST['validade']);
+            }
+            $this->db->where('internacao_precricao_id', $internacao_precricao_id);
+            $this->db->update('tb_internacao_precricao');
         }
-
-
-
         if ($_POST['produto'] != "Selecione") {
 
             $this->db->set('etapas', $_POST['etapas']);
@@ -275,6 +292,7 @@ class internacao_model extends BaseModel {
                 if ($peso != null) {
                     $this->db->set('peso', $peso);
                     $this->db->set('kcal', $kcal);
+                    $this->db->set('etapas', $_POST['etapas']);
                 }
                 if ($medida != null) {
                     $this->db->set('kcal', $medida);
@@ -431,9 +449,10 @@ class internacao_model extends BaseModel {
         $dataprescricao = date("Y-m-d");
         $operador_id = $this->session->userdata('operador_id');
 
-        $this->db->select('internacao_precricao_id');
+        $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
         $this->db->from('tb_internacao_precricao');
         $this->db->where("internacao_id", $internacao_id);
+        $this->db->where("data !=", $dataprescricao);
         $query = $this->db->get();
         $row = $query->last_row();
 //        var_dump($row);
@@ -444,6 +463,15 @@ class internacao_model extends BaseModel {
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('empresa_id', $empresa_id);
             $this->db->set('data_cadastro', $horario);
+            if ($row->nutricionista != '') {
+                $this->db->set('nutricionista', $row->nutricionista);
+            }
+            if ($row->preparo != '') {
+            $this->db->set('preparo', $row->preparo);
+            }
+            if ($row->validade != '') {
+            $this->db->set('validade', $row->validade);
+            }
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao');
             $internacao_precricao_id = $this->db->insert_id();
@@ -706,8 +734,6 @@ class internacao_model extends BaseModel {
         return $return->result();
     }
 
-  
-
     function listaprodutosequipo($internacao_id) {
         $this->db->select(' pc.procedimento_convenio_id,
                             pt.nome');
@@ -819,8 +845,6 @@ class internacao_model extends BaseModel {
         return $return->result();
     }
 
-    
-
     function listaprescricoesenteralemergencial($internacao_id) {
         $data = date("Y-m-d");
         $this->db->select(' ipp.internacao_precricao_produto_id,
@@ -902,9 +926,11 @@ class internacao_model extends BaseModel {
                             ipp.etapas,
                             ipe.volume,
                             p.nome as paciente,
+                            p.nascimento,
                             pt.proteinas,
                             pt.lipidios,
                             pt.kcal,
+                            pt.sf,
                             ip.data,
                             pt.carboidratos,
                             pt.dencidade_calorica,
@@ -913,6 +939,10 @@ class internacao_model extends BaseModel {
                             tc.nome as classificacao,
                             iu.nome as hospital,
                             i.diagnostico,
+                            o.nome as nutricionista,
+                            o.conselho,
+                            ip.preparo,
+                            ip.validade,
                             ipp.vasao,
                             pt.nome');
         $this->db->from('tb_internacao_precricao_produto ipp');
@@ -925,6 +955,7 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id ');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
         $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital');
+        $this->db->join('tb_operador o', 'o.operador_id = ip.nutricionista', 'left');
         $this->db->where('ip.internacao_precricao_id', $internacao_precricao_id);
         $this->db->where('pt.grupo !=', 'EQUIPO');
         $this->db->where('ipp.ativo', 't');
@@ -980,7 +1011,7 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
-        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ', 'left');
         $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
@@ -994,6 +1025,7 @@ class internacao_model extends BaseModel {
         $this->db->where('pt.grupo !=', 'EQUIPO');
         $this->db->where('ipp.ativo', 't');
 //        $this->db->orderby('pt.grupo');
+        $this->db->orderby('i.leito');
         $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
         $return = $this->db->get();
@@ -1012,6 +1044,7 @@ class internacao_model extends BaseModel {
                             p.nascimento,
                             p.nome as paciente');
         $this->db->from('tb_internacao_precricao ip');
+//        $this->db->join('tb_internacao_precricao_produto ipp', 'ipp.internacao_precricao_id = ip.internacao_precricao_id');
         $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
@@ -1021,8 +1054,8 @@ class internacao_model extends BaseModel {
         if ($_POST['unidade'] != 0) {
             $this->db->where('i.hospital', $_POST['unidade']);
         }
-        $this->db->orderby('iu.nome');
         $this->db->orderby('i.leito');
+        $this->db->orderby('iu.nome');
         $return = $this->db->get();
         return $return->result();
     }
@@ -1303,7 +1336,8 @@ class internacao_model extends BaseModel {
         $return = $this->db->count_all_results();
         return $return;
     }
-      function listainternacaofichadeavaliacao($internacao_id) {
+
+    function listainternacaofichadeavaliacao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
                             i.leito,
                             u.nome as hospital,
@@ -1327,6 +1361,7 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+
     function listafichadeavaliacao($internacao_id) {
 //       echo var_dump($internacao_id);
 //       die;
@@ -1335,13 +1370,13 @@ class internacao_model extends BaseModel {
                             ');
         $this->db->from('tb_internacao_fichadeavaliacao');
         $this->db->where('internacao_id', $internacao_id);
-       
+
         $return = $this->db->get();
         return $return->result();
-        
     }
+
     function empresa() {
-       $empresa= $this->session->userdata('empresa_id'); 
+        $empresa = $this->session->userdata('empresa_id');
         $this->db->select('empresa_id,
                             nome,
                             cnpj,
@@ -1353,7 +1388,7 @@ class internacao_model extends BaseModel {
         $this->db->from('tb_empresa');
         $this->db->where('empresa_id', $empresa);
         $return = $this->db->get();
-            return $return->result();
+        return $return->result();
     }
 
     function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
@@ -1399,6 +1434,7 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+
     function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
         $this->db->select('internacao_fichadeavaliacao_id,
                  dncd,
@@ -1413,13 +1449,14 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+
     function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
         try {
-        $this->db->set('diagnostico_nutricional', $_POST['txtDiag']);
-        $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
-        $this->db->update('tb_internacao_fichadeavaliacao');
+            $this->db->set('diagnostico_nutricional', $_POST['txtDiag']);
+            $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
+            $this->db->update('tb_internacao_fichadeavaliacao');
         } catch (Exception $exc) {
-            $return=0;
+            $return = 0;
             return $return;
         }
     }
@@ -1428,153 +1465,136 @@ class internacao_model extends BaseModel {
 //        echo var_dump($_POST);
 //        die;
         try {
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
-        $ano = (int) date("Y");
-        $patologias_associadas= $_POST['txtPatologiasAssociadas'];
-        $etnia= $_POST['txtEtnia'];
-        $txtget2 = (int) $_POST['txtget2'];
-        if ($txtget2==25){
-            $tipoget= 'GET C/Presença de SIRS';
-        }
-        elseif ($txtget2==30){
-            $tipoget= 'GET C/Ausência de SIRS';
-        }
-        elseif ($txtget2==40){
-            $tipoget= 'GET C/Repleção';
-        }
-        
-        $tne= $_POST['txtTne'];
-        //Se for homem
-        if ($_POST['txtSexo'] == 'M') {
-            // Calculos 
-            $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
-            $idade = $ano - $nascimento;
-            $altura_perna = (int) $_POST['txtAlturaPerna'];
-            $cb = (int) $_POST['txtCB'];
-            if($idade>=19 && $idade<25 ){
-                $p50=30.8;
+            $horario = date("Y-m-d H:i:s");
+            $operador_id = $this->session->userdata('operador_id');
+            $ano = (int) date("Y");
+            $patologias_associadas = $_POST['txtPatologiasAssociadas'];
+            $etnia = $_POST['txtEtnia'];
+            $txtget2 = (int) $_POST['txtget2'];
+            if ($txtget2 == 25) {
+                $tipoget = 'GET C/Presença de SIRS';
+            } elseif ($txtget2 == 30) {
+                $tipoget = 'GET C/Ausência de SIRS';
+            } elseif ($txtget2 == 40) {
+                $tipoget = 'GET C/Repleção';
             }
-            elseif($idade>=25 && $idade<35 ){
-                $p50=31.9;
+
+            $tne = $_POST['txtTne'];
+            //Se for homem
+            if ($_POST['txtSexo'] == 'M') {
+                // Calculos 
+                $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
+                $idade = $ano - $nascimento;
+                $altura_perna = (int) $_POST['txtAlturaPerna'];
+                $cb = (int) $_POST['txtCB'];
+                if ($idade >= 19 && $idade < 25) {
+                    $p50 = 30.8;
+                } elseif ($idade >= 25 && $idade < 35) {
+                    $p50 = 31.9;
+                } elseif ($idade >= 35 && $idade < 45) {
+                    $p50 = 32.6;
+                } elseif ($idade >= 45 && $idade < 55) {
+                    $p50 = 32.2;
+                } elseif ($idade >= 55 && $idade < 65) {
+                    $p50 = 31.7;
+                } elseif ($idade >= 55) {
+                    $p50 = 30.7;
+                }
+                $panturrilha = $_POST['txtPanturrilha'];
+                $peso_habitual = $_POST['txtPesoHabitual'];
+
+
+
+                $altura_estimada = 64.19 - (0.04 * $idade) + (2.02 * $altura_perna);
+                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 22.1, 0, 5);
+                $get = $txtget2 * $peso_ideal;
+                if ($_POST['txtPeso'] != '') {
+                    $peso_atual = (int) $_POST['txtPeso'];
+                    $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+                } else {
+                    $imc = 'NI';
+                    $peso_atual = 'NI';
+                }
+                $cen = (float) substr(($cb * 100) / $p50, 0, 5);
+                if ($_POST['txtEtnia'] == 1) {
+                    $dncd = ($altura_perna * 1.19) + ($cb * 3.21) - 86.82;
+                } else {
+                    $dncd = ($altura_perna * 1.09) + ($cb * 3.14) - 83.72;
+                }
             }
-            elseif($idade>=35 && $idade<45 ){
-                $p50=32.6;
-            }
-            elseif($idade>=45 && $idade<55 ){
-                $p50=32.2;
-            }
-            elseif($idade>=55 && $idade<65 ){
-                $p50=31.7;
-            }
-            elseif($idade>=55  ){
-                $p50=30.7;
-            }
-            $panturrilha=$_POST['txtPanturrilha'];
-            $peso_habitual= $_POST['txtPesoHabitual'];
-            
-            
-            
-            $altura_estimada = 64.19 - (0.04 * $idade) + (2.02 * $altura_perna);
-            $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 22.1, 0, 5);
-            $get = $txtget2 * $peso_ideal;
-            if ($_POST['txtPeso']!=''){
-                 $peso_atual = (int) $_POST['txtPeso'];
-                 $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
-            }
+            //Se for Mulher
             else {
-            $imc = 'NI';
-            $peso_atual = 'NI';
+                $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
+                $idade = $ano - $nascimento;
+                $altura_perna = (int) $_POST['txtAlturaPerna'];
+                $cb = (int) $_POST['txtCB'];
+                if ($idade >= 19 && $idade < 25) {
+                    $p50 = 26.5;
+                } elseif ($idade >= 25 && $idade < 35) {
+                    $p50 = 27.7;
+                } elseif ($idade >= 35 && $idade < 45) {
+                    $p50 = 29;
+                } elseif ($idade >= 45 && $idade < 55) {
+                    $p50 = 29.9;
+                } elseif ($idade >= 55 && $idade < 65) {
+                    $p50 = 30.3;
+                } elseif ($idade >= 55) {
+                    $p50 = 29.9;
+                }
+                $panturrilha = $_POST['txtPanturrilha'];
+                $peso_habitual = $_POST['txtPesoHabitual'];
+
+
+                $altura_estimada = 84.88 - (0.24 * $idade) + (1.83 * $altura_perna);
+                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 20.6, 0, 5);
+                $get = $txtget2 * $peso_ideal;
+                if ($_POST['txtPeso'] != '') {
+                    $peso_atual = (int) $_POST['txtPeso'];
+                    $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
+                } else {
+                    $imc = 'NI';
+                    $peso_atual = 'NI';
+                }
+                $cen = (float) substr(($cb * 100) / $p50, 0, 5);
+                if ($_POST['txtEtnia'] == 1) {
+                    $dncd = ($altura_perna * 1.01) + ($cb * 2.81) - 66.04;
+                } else {
+                    $dncd = ($altura_perna * 1.24) + ($cb * 2.81) - 82.48;
+                }
             }
-            $cen = (float) substr(($cb * 100) / $p50, 0, 5);
-            if ($_POST['txtEtnia'] == 1) {
-                $dncd = ($altura_perna * 1.19) + ($cb * 3.21) - 86.82;
-            } else {
-                $dncd = ($altura_perna * 1.09) + ($cb * 3.14) - 83.72;
-            }
-        }
-        //Se for Mulher
-        else {
-            $nascimento = (int) substr($_POST['txtIdade'], 0, 4);
-            $idade = $ano - $nascimento;
-            $altura_perna = (int) $_POST['txtAlturaPerna'];
-            $cb = (int) $_POST['txtCB'];
-            if($idade>=19 && $idade<25 ){
-                $p50=26.5;
-            }
-            elseif($idade>=25 && $idade<35 ){
-                $p50=27.7;
-            }
-            elseif($idade>=35 && $idade<45 ){
-                $p50=29;
-            }
-            elseif($idade>=45 && $idade<55 ){
-                $p50=29.9;
-            }
-            elseif($idade>=55 && $idade<65 ){
-                $p50=30.3;
-            }
-            elseif($idade>=55  ){
-                $p50=29.9;
-            }
-            $panturrilha=$_POST['txtPanturrilha'];
-            $peso_habitual= $_POST['txtPesoHabitual'];
-           
-            
-            $altura_estimada = 84.88 - (0.24 * $idade) + (1.83 * $altura_perna);
-            $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 20.6, 0, 5);
-            $get = $txtget2 * $peso_ideal;
-            if ($_POST['txtPeso']!=''){
-                 $peso_atual = (int) $_POST['txtPeso'];
-                 $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
-            }
-            else {
-            $imc = 'NI';
-            $peso_atual = 'NI';
-            }
-            $cen = (float) substr(($cb * 100) / $p50, 0, 5);
-            if ($_POST['txtEtnia'] == 1) {
-                $dncd = ($altura_perna * 1.01) + ($cb * 2.81) - 66.04;
-            } else {
-                $dncd = ($altura_perna * 1.24) + ($cb * 2.81) - 82.48;
-            }
-        }
-        
+
 
 
 
 //        echo var_dump($cen);
 //        die;
-
-
 // Inserindo dados na tabela
-        $this->db->set('internacao_id', $internacao_id);
-        $this->db->set('peso_atual', $peso_atual);
-        $this->db->set('cen', $cen);
-        $this->db->set('peso_habitual', $peso_habitual);
-        $this->db->set('peso_ideal', $peso_ideal);
-        $this->db->set('cb', $cb);
-        $this->db->set('get', $get);
-        $this->db->set('tipoget', $tipoget);
-        $this->db->set('tne', $tne);
-        $this->db->set('altura_perna', $altura_perna);
-        $this->db->set('panturrilha', $panturrilha);
-        $this->db->set('patologias_associadas', $patologias_associadas);
-        $this->db->set('altura_estimada', $altura_estimada);
-        $this->db->set('dncd', $dncd);
-        $this->db->set('imc', $imc);
-        $this->db->set('p50', $p50);
-        $this->db->set('etnia', $etnia);
-        $this->db->set('data_atualizacao', $horario);
-        $this->db->set('operador_atualizacao', $operador_id);
-        $this->db->insert('tb_internacao_fichadeavaliacao');
+            $this->db->set('internacao_id', $internacao_id);
+            $this->db->set('peso_atual', $peso_atual);
+            $this->db->set('cen', $cen);
+            $this->db->set('peso_habitual', $peso_habitual);
+            $this->db->set('peso_ideal', $peso_ideal);
+            $this->db->set('cb', $cb);
+            $this->db->set('get', $get);
+            $this->db->set('tipoget', $tipoget);
+            $this->db->set('tne', $tne);
+            $this->db->set('altura_perna', $altura_perna);
+            $this->db->set('panturrilha', $panturrilha);
+            $this->db->set('patologias_associadas', $patologias_associadas);
+            $this->db->set('altura_estimada', $altura_estimada);
+            $this->db->set('dncd', $dncd);
+            $this->db->set('imc', $imc);
+            $this->db->set('p50', $p50);
+            $this->db->set('etnia', $etnia);
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->insert('tb_internacao_fichadeavaliacao');
         } catch (Exception $exc) {
-            $return=0;
+            $return = 0;
             return $return;
         }
     }
 
 }
-
 
 ?>

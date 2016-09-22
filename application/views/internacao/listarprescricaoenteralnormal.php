@@ -30,13 +30,13 @@ IF ($tipo == 'ENTERALNORMAL') {
                 <font size = -3>Nascimento</font>
             </th>
             <th colspan="2">
-               <font size = -3> Paciente/Prescricao</font>
+                <font size = -3> Paciente/Prescricao</font>
             </th>
             <th >
-               <font size = -3> Equipo</font>
+                <font size = -3> Equipo</font>
             </th>
             <th >
-               <font size = -3> Vaz&atildeo</font>
+                <font size = -3> Vaz&atildeo</font>
             </th>
 
         </tr>
@@ -48,15 +48,17 @@ IF ($tipo == 'ENTERALNORMAL') {
             $internacao_id = "";
             $etapas = "";
             $internacao_precricao_id = "";
+            $internacao_precricao_etapa_id = "";
             $estilo_linha = "tabela_content01";
             $teste = 0;
             $i = "";
             $b = 0;
+            $w = 0;
             $equipo = "";
             $verificaprimeiro = 2;
             $produto = "";
             $vazao = "";
-            $kcal="";
+            $kcal = "";
             $volume = "";
             $frasco = "";
             $hospital = "";
@@ -67,7 +69,7 @@ IF ($tipo == 'ENTERALNORMAL') {
             $totalregistros = count($prescricao);
 
             foreach ($prescricoes as $valor) {
-                $totalpacientes++;
+
                 $hospital = $valor->hospital;
                 $leito = $valor->leito;
                 $nascimento = $valor->nascimento;
@@ -77,50 +79,66 @@ IF ($tipo == 'ENTERALNORMAL') {
 
 
                 foreach ($prescricao as $item) {
-                    
+
                     if ($internacao_precricao_id == $item->internacao_precricao_id) {
                         $b++;
-                    $vazao = $item->vasao;
-                    if ($item->volume != "") {
-                        $volume = $item->volume . " ml ";
-                    }else{
-                        $volume ="";
+                        $vazao = $item->vasao;
+                        if ($item->volume != "") {
+                            $volume = $item->volume . " ml ";
+                        } else {
+                            $volume = "";
+                        }
+                        if ($item->frasco != 0) {
+                            $frasco = $item->frasco . "ml";
+                        } else {
+                            $frasco = "";
+                        }
+                        if ($item->etapas != 0) {
+                            $i = $item->etapas;
+                        } else {
+                            $i = "";
+//                        $frasco = "";
+                        }
+                        if ($item->kcal != "") {
+                            $kcal = $item->kcal . " med ";
+                        } else {
+                            $kcal = "";
+                        }
+
+
+
+                        if ($b == 1) {
+                            $produto = $i . "(" . $volume . $kcal . $item->nome;
+                        } else {
+                            if ($internacao_precricao_etapa_id == $item->internacao_precricao_etapa_id) {
+                                $produto = $produto . "+" . $volume . $kcal . $item->nome . ") " . $frasco;
+                                $w++;
+                            } elseif($w >0) {
+                                $produto = $produto . "+" . $i . "(" . $volume . $kcal . $item->nome . ") " . $frasco;
+                            }else{
+                                $produto = $produto  . ") " . $frasco2 . "+" . $i . "(" . $volume . $kcal . $item->nome . ") " . $frasco;
+                            }
+                        }
+                        if ($item->frasco != 0) {
+                            $frasco2 = $item->frasco . "ml";
+                        } else {
+                            $frasco2 = "";
+                        }
+                        $internacao_precricao_etapa_id = $item->internacao_precricao_etapa_id;
                     }
-                    if ($item->frasco != 0) {
-                        $frasco = $item->frasco . "ml";
-                    }else{
-                        $frasco = "";
-                    }
-                    if ($item->etapas != 0) {
-                        $i = $item->etapas;
-                    }else{
-                        $i = "";
-                        $frasco = "";
-                    }
-                    if ($item->kcal != "") {
-                        $kcal = $item->kcal . " med ";
-                    }else{
-                        $kcal = "";
-                    }
-                    
-                    
-                    
-                    if($b == 1){
-                       $produto = $i . "(" . $volume. $kcal . $item->nome. ")" . $frasco; 
-                    }else{
-                    $produto = $produto . "+" . $i . "(" . $volume.  $kcal .  $item->nome. ")" . $frasco;
-                    }
-                    }
-                    
+
 //                    $data = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
                     foreach ($prescricaoequipo as $value) {
                         if ($internacao_precricao_id == $value->internacao_precricao_id) {
                             $equipo = $value->nome;
                         }
                     }
-                    
                 }
-                $b=0;
+                if($b == 1){
+                $produto = $produto  . ") " . $frasco2;
+                }
+                $b = 0;
+                $w = 0;
                 ?>
             <tr>
                 <?
@@ -130,23 +148,27 @@ IF ($tipo == 'ENTERALNORMAL') {
                 if ($leito == "") {
                     $leito = '&nbsp;';
                 }
-                ?>
-                <td ><font size = -3><?= utf8_decode($convenio); ?></font></td>
-                <td ><font size = -3><?= utf8_decode($hospital); ?></font></td>
-                <td ><font size = -3><?= utf8_decode($leito); ?></font></td>
-                <td ><font size = -3><?= substr($nascimento, 8, 2) . "/" . substr($nascimento, 5, 2) . "/" . substr($nascimento, 0, 4); ?></font></td>
-                <td ><font size = -3><?= utf8_decode($paciente); ?></font></td>
-                <td ><font size = -3><?= utf8_decode($produto) ?></font></td>
-                <td ><font size = -3><?= $equipo; ?></font></td>
-                <td ><font size = -3><?= $vazao . " ml/h"; ?></font></td>
-            </tr>
-            <?$produto = "";
+                if ($produto != '') {
+                    $totalpacientes++;
+                    ?>
+                    <td ><font size = -3><?= utf8_decode($convenio); ?></font></td>
+                    <td ><font size = -3><?= utf8_decode($hospital); ?></font></td>
+                    <td ><font size = -3><?= utf8_decode($leito); ?></font></td>
+                    <td ><font size = -3><?= substr($nascimento, 8, 2) . "/" . substr($nascimento, 5, 2) . "/" . substr($nascimento, 0, 4); ?></font></td>
+                    <td ><font size = -3><?= utf8_decode($paciente); ?></font></td>
+                    <td ><font size = -3><?= utf8_decode($produto) ?></font></td>
+                    <td ><font size = -3><?= $equipo; ?></font></td>
+                    <td ><font size = -3><?= $vazao . " ml/h"; ?></font></td>
+                </tr>
+                <?
+            }
+            $produto = "";
             ?>
 
             <?
         }
         ?>
-        <tr><th colspan="2" class="tabela_header">Total de Pacientes: <?= $totalpacientes; ?></th><th colspan="5" class="tabela_header">Total de etapas: <?= $totaletapas; ?></th></tr>
+        <tr><th colspan="2" class="tabela_header">Total de Pacientes: <?= $totalpacientes; ?></th><th colspan="6" class="tabela_header">&nbsp;</th></tr>
     </table>
 <? }
 ?>

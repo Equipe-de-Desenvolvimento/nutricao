@@ -32,6 +32,23 @@
                 <legend>Data</legend>
                 <input type="text" id="data_solicitacao" class="texto02" name="data_solicitacao" />
             </div>
+            <div>
+                <legend>Nutricionista</legend>
+                <select name="medico"  class="size4">
+                    <option value=''>Selecione</option>
+                    <? foreach ($medico as $item) : ?>
+                        <option value="<?= $item->operador_id; ?>"><?= $item->nome; ?></option>
+                    <? endforeach; ?>
+                </select>
+            </div>
+            <div>
+                <legend>Preparo</legend>
+                <input type="text" id="preparo" class="texto02" name="preparo" />
+            </div>
+            <div>
+                <legend>Validade</legend>
+                <input type="text" id="validade" class="texto02" name="validade" />
+            </div>
         </fieldset>
         <fieldset>
             <legend>EQUIPO</legend>
@@ -243,8 +260,8 @@ if (count($prescricao) > 0) {
 
                     document.form_exame.equipo.focus()
 
-                    $(document).ready(function() {
-                        $("body").keypress(function(event) {
+                    $(document).ready(function () {
+                        $("body").keypress(function (event) {
 
                             if (event.keyCode == 118)   // se a tecla apertada for 13 (enter)
                             {
@@ -265,7 +282,7 @@ if (count($prescricao) > 0) {
                         });
                     });
 
-                    $(function() {
+                    $(function () {
                         $("#data_solicitacao").datepicker({
                             autosize: true,
                             changeYear: true,
@@ -280,9 +297,9 @@ if (count($prescricao) > 0) {
                     var idlinha = 2;
                     var classe = 2;
 
-                    $(document).ready(function() {
+                    $(document).ready(function () {
 
-                        $('#plusInfusao').click(function() {
+                        $('#plusInfusao').click(function () {
 
                             var linha = "<tr class='linha" + classe + "'>";
                             linha += "<td>";
@@ -313,7 +330,7 @@ foreach ($enteral as $item) {
                             return false;
                         });
 
-                        $('#plusObs').click(function() {
+                        $('#plusObs').click(function () {
                             var linha2 = '';
                             idlinha2 = 0;
                             classe2 = 1;
@@ -338,7 +355,7 @@ foreach ($enteral as $item) {
                         });
 
                         function addRemove() {
-                            $('.delete').click(function() {
+                            $('.delete').click(function () {
                                 $(this).parent().parent().remove();
                                 return false;
                             });

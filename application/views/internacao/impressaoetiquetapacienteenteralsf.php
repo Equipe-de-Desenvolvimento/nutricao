@@ -104,14 +104,14 @@
                             <td ><font size = -2></td>
                         </tr>
                         <tr>
-                            <td ><font size = -2><b>Data Preparo</b></td>
-                            <td ><font size = -2><?= $dtpreparo; ?></td>
+                            <td ><font size = -2><b>Validade</b></td>
+                            <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
                             <td ><font size = -2><b>Hora Preparo</b></td>
                             <td ><font size = -2><?= $hrpreparo; ?> h</td>
                         </tr>
                         <tr>
-                            <td ><font size = -2><b>Data Validade</b></td>
-                            <td ><font size = -2><?= $dtvalidade; ?></td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                             <td ><font size = -2><b>Hora Validade</b></td>
                             <td ><font size = -2><?= $hrvalidade; ?> h</td>
                         </tr>
@@ -195,19 +195,18 @@
                                 <td ><font size = -2><?= $taxadeinfusao; ?></td>
                                 <td ><font size = -2><b>Via de Acesso</b></td>
                                 <td ><font size = -2></td>
-                            </tr>
-                            <tr>
-                                <td ><font size = -2><b>Data Preparo</b></td>
-                                <td ><font size = -2><?= $dtpreparo; ?></td>
-                                <td ><font size = -2><b>Hora Preparo</b></td>
-                                <td ><font size = -2><?= $hrpreparo; ?> h</td>
-                            </tr>
-                            <tr>
-                                <td ><font size = -2><b>Data Validade</b></td>
-                                <td ><font size = -2><?= $dtvalidade; ?></td>
-                                <td ><font size = -2><b>Hora Validade</b></td>
-                                <td ><font size = -2><?= $hrvalidade; ?> h</td>
-                            </tr>
+                        <tr>
+                            <td ><font size = -2><b>Validade</b></td>
+                            <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
+                            <td ><font size = -2><b>Hora Preparo</b></td>
+                            <td ><font size = -2><?= $hrpreparo; ?> h</td>
+                        </tr>
+                        <tr>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
+                            <td ><font size = -2><b>Hora Validade</b></td>
+                            <td ><font size = -2><?= $hrvalidade; ?> h</td>
+                        </tr>
                             <tr>
                                 <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
                             </tr>
@@ -275,14 +274,14 @@
                             <td ><font size = -2></td>
                         </tr>
                         <tr>
-                            <td ><font size = -2><b>Data Preparo</b></td>
-                            <td ><font size = -2><?= $dtpreparo; ?></td>
+                            <td ><font size = -2><b>Validade</b></td>
+                            <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
                             <td ><font size = -2><b>Hora Preparo</b></td>
                             <td ><font size = -2><?= $hrpreparo; ?> h</td>
                         </tr>
                         <tr>
-                            <td ><font size = -2><b>Data Validade</b></td>
-                            <td ><font size = -2><?= $dtvalidade; ?></td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                             <td ><font size = -2><b>Hora Validade</b></td>
                             <td ><font size = -2><?= $hrvalidade; ?> h</td>
                         </tr>
