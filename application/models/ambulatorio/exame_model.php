@@ -1692,16 +1692,21 @@ class exame_model extends Model {
                             p.paciente_id,
                             p.nome as paciente,
                             i.internacao_id,
+                            i.carater_internacao,
                             p.convenio_id,
                             c.nome as convenio,
                             c.convenio_id,                          
                             c.valor_diaria,                          
-                            
+                            c.razao_social,                          
+                            fes.descricao as banco,
+                            fes.agencia ,
+                            fes.conta as conta,
                             ');
         $this->db->from('tb_convenio c');
         $this->db->join('tb_paciente p', 'c.convenio_id = p.convenio_id', 'left');
         $this->db->join('tb_internacao i', 'p.paciente_id = i.paciente_id', 'left');
         $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
         $this->db->where("c.convenio_id", $_POST['convenio']);
         $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
         $this->db->where('ip.data <=', $_POST['txtdata_fim']);

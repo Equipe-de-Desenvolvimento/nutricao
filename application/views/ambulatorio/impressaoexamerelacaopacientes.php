@@ -31,11 +31,24 @@
                     <td height="16" colspan="7" class="tisemsublinhadogrande">RELAÇÃO DOS PACIENTES-NUTRIÇÃO ENTERAL E PARENTERAL</td>
                 </tr>
                 <tr>
-                    <td height="16" colspan="7" class="tisemsublinhadogrande" >CONVÊNIO: <? echo $listar[0]->convenio; ?></td>
-                </tr>
-                <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" >PERÍODO:&nbsp;&nbsp;<? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
                 </tr>
+                <tr>
+                    <td height="16" colspan="7" class="tisemsublinhadogrande" > <?
+                        if ($listar[0] == '') {
+
+                            echo 'SEM PACIENTES NESSE PERÍODO';
+                        } else {
+                            echo 'CONVÊNIO: ';
+                            echo $listar[0]->convenio;
+                        }
+                        ?>
+
+
+
+                    </td>
+                </tr>
+
 
         </table>
         <table id="tabelaspec" width="100%" border="1" align="left" cellpadding="0" cellspacing="0" class="tipp">
@@ -53,40 +66,53 @@
                 <td width="18%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANT.DIAS</strong></td>
                 <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALOR TOTAL</td>
             </tr> 
-            <?
-            $totalgeral = 0;
-            $diasgerais = 0;
-            ?>
-            <?
-            foreach ($listarpacientes as $valor) {
-                $i = 0;
+            <? if ($listar != "") { ?>
 
 
-                foreach ($listar as $item) {
-                    if ($valor->paciente_id == $item->paciente_id) {
-                        $i++;
-                        $paciente = $item->paciente;
-                        $total = $i * $item->valor_diaria;
+
+
+                <?
+                $totalgeral = 0;
+                $diasgerais = 0;
+                ?>
+                <?
+                foreach ($listarpacientes as $valor) {
+                    $i = 0;
+
+
+                    foreach ($listar as $item) {
+                        if ($valor->paciente_id == $item->paciente_id) {
+                            $i++;
+                            $paciente = $item->paciente;
+                            $total = $i * $item->valor_diaria;
+                        }
                     }
-                }
-                $diasgerais = $diasgerais + $i;
-                $totalgeral = $totalgeral + $total;
+                    $diasgerais = $diasgerais + $i;
+                    $totalgeral = $totalgeral + $total;
+                    ?>
+                    <tr>
+                        <td height="19" colspan="2" align="center" style="text-align: center; font-size: 10px;"><?= $paciente ?></td>
+                        <td height="19" colspan="2" align="center" style="text-align:center;font-size: 9px;"><? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;"><?echo $item->carater_internacao;?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;"><?= $i ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;">R$<?  echo number_format($total,2,",","."); ?></td>
+                    </tr> 
+                <? }
                 ?>
                 <tr>
-                    <td height="19" colspan="2" align="center" style="text-align: center; font-size: 10px;"><?= $paciente ?></td>
-                    <td height="19" colspan="2" align="center" style="text-align:center;font-size: 9px;"><? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
-                    <td height="19" align="center" style="text-align:center;font-size: 9px;">NE</td>
-                    <td height="19" align="center" style="text-align:center;font-size: 9px;"><?= $i ?></td>
-                    <td height="19" align="center" style="text-align:center;font-size: 9px;">R$<?= $total ?></td>
-                </tr> 
-    <? }
-?>
+                    <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
+                    <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong><?= $diasgerais ?></strong></td>
+                    <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>R$<?  echo number_format($totalgeral,2,",","."); ?></strong></td>
+                </tr>
+            <? } else { ?>
 
-            <tr>
-                <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
-                <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong><?= $diasgerais ?></strong></td>
-                <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>R$<?= $totalgeral ?></strong></td>
-            </tr> 
+
+            <? } ?>         
+
+
+
+
+
 
 
         </table>

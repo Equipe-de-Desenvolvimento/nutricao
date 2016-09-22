@@ -128,7 +128,7 @@ $total_diaria = $valor_diaria * $contagemdias;
 
                 <td height="20" colspan="4" class="sembordadireita">
 
-                    <strong>VALOR DA DIÁRIA:</strong> R$&nbsp;&nbsp; <? echo $listar[0]->valor_diaria; ?>
+                    <strong>VALOR DA DIÁRIA:</strong> R$&nbsp;&nbsp; <?  echo number_format($listar[0]->valor_diaria,2,",","."); ?>
 
 
 
@@ -161,8 +161,8 @@ $total_diaria = $valor_diaria * $contagemdias;
         <tr>
             <td height="20" colspan="3" class="tm">TOTAL DA FATURA</td>
             <td colspan="2" class="tm"><? echo $contagemdias; ?></td>
-            <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <? echo $listar[0]->valor_diaria; ?></em></td>
-            <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <? echo $total_diaria; ?></em></td>
+            <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <?  echo number_format($listar[0]->valor_diaria,2,",","."); ?></em></td>
+            <td colspan="2" class="tm"><em>R$&nbsp;&nbsp; <?  echo number_format($total_diaria,2,",","."); ?></em></td>
         </tr>
     </table>
     <table id="tabelaspec" width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
