@@ -13,14 +13,14 @@
 
                 <dl class="dl_desconto_lista">
                     <dt>
-                    <label>Nome</label>
+                        <label>Nome</label>
                     </dt>
                     <dd>
                         <input type="hidden" name="txtprocedimentotussid" value="<?= @$obj->_procedimento_tuss_id; ?>" />
                         <input type="text" name="txtNome" class="texto10" value="<?= @$obj->_nome; ?>" />
                     </dd>
                     <dt>
-                    <label>Procedimento</label>
+                        <label>Procedimento</label>
                     </dt>
                     <dd>
                         <input type="hidden" name="txtprocedimento" id="txtprocedimento" class="size2" value="<?= @$obj->_tuss_id; ?>"  />
@@ -29,7 +29,7 @@
                         <input type="text" name="txtprocedimentolabel" id="txtprocedimentolabel" class="size10" value="<?= @$obj->_descricao; ?>" />
                     </dd>
                     <dt>
-                    <label>Grupo</label>
+                        <label>Grupo</label>
                     </dt>
                     <dd>
                         <select name="grupo" id="grupo" class="size1" >
@@ -105,52 +105,68 @@
                         </select>
                     </dd>
                     <dt>
-                    <label>Fator Convers&atilde;o</label>
+                        <label>Fator Convers&atilde;o</label>
                     </dt>
                     <dd>
                         <input type="text" name="txtperc_medico" class="texto" value="<?= @$obj->_perc_medico; ?>" />
                     </dd>
                     <dt>
-                    <label>Densidade Calor.</label>
+                        <label>Densidade Calor.</label>
                     </dt>
                     <dd>
                         <input type="text" name="dencidade_calorica" class="texto" value="<?= @$obj->_dencidade_calorica; ?>" />
                     </dd>
                     <dt>
-                    <label>Proteinas</label>
+                        <label>Proteinas</label>
                     </dt>
                     <dd>
                         <input type="text" name="proteinas" class="texto" value="<?= @$obj->_proteinas; ?>" />
                     </dd>
                     <dt>
-                    <label>Carboidratos</label>
+                        <label>Carboidratos</label>
                     </dt>
                     <dd>
                         <input type="text" name="carboidratos" class="texto" value="<?= @$obj->_carboidratos; ?>" />
                     </dd>
                     <dt>
-                    <label>Lipidios</label>
+                        <label>Lipidios</label>
                     </dt>
                     <dd>
                         <input type="text" name="lipidios" class="texto" value="<?= @$obj->_lipidios; ?>" />
                     </dd>
                     <dt>
-                    <label>Kcal nao proteica</label>
+                        <label>Kcal nao proteica</label>
                     </dt>
                     <dd>
                         <input type="text" name="kcal" class="texto" value="<?= @$obj->_kcal; ?>" />
                     </dd>
                     <dt>
-                    <label>K</label>
+                        <label>K</label>
                     </dt>
                     <dd>
                         <input type="text" name="k" class="texto" value="<?= @$obj->_k; ?>" />
                     </dd>
                     <dt>
-                    <label>Na</label>
+                        <label>Na</label>
                     </dt>
                     <dd>
                         <input type="text" name="Na" class="texto" value="<?= @$obj->_Na; ?>" />
+                    </dd>
+                    <dt>
+                        <label>SF</label>
+                    </dt>
+                    <dd>
+                        <?php
+                        if (@$obj->_sf == "t") {
+                            ?>
+                            <input type="checkbox" name="sf" checked ="true" />
+                            <?php
+                        } else {
+                            ?>
+                            <input type="checkbox" name="sf"  />
+                            <?php
+                        }
+                        ?>
                     </dd>
                 </dl>    
 
@@ -165,23 +181,23 @@
 
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 <script type="text/javascript">
-    $('#btnVoltar').click(function() {
+    $('#btnVoltar').click(function () {
         $(location).attr('href', '<?= base_url(); ?>ponto/cargo');
     });
 
-    $(function() {
+    $(function () {
         $("#accordion").accordion();
     });
 
-    $(function() {
+    $(function () {
         $("#txtprocedimentolabel").autocomplete({
             source: "<?= base_url() ?>index?c=autocomplete&m=procedimentotuss",
             minLength: 3,
-            focus: function(event, ui) {
+            focus: function (event, ui) {
                 $("#txtprocedimentolabel").val(ui.item.label);
                 return false;
             },
-            select: function(event, ui) {
+            select: function (event, ui) {
                 $("#txtprocedimentolabel").val(ui.item.value);
                 $("#txtprocedimento").val(ui.item.id);
                 $("#txtcodigo").val(ui.item.codigo);
@@ -191,7 +207,7 @@
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         jQuery('#form_procedimento').validate({
             rules: {
                 txtNome: {

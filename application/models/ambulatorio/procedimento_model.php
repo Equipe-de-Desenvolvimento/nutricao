@@ -17,6 +17,7 @@ class procedimento_model extends Model {
     var $_kcal = null;
     var $_Na = null;
     var $_k = null;
+    var $_sf = null;
 
     function Procedimento_model($procedimento_tuss_id = null) {
         parent::Model();
@@ -186,12 +187,15 @@ class procedimento_model extends Model {
             $this->db->set('codigo', $_POST['txtcodigo']);
             $this->db->set('descricao', $_POST['txtdescricao']);
             $this->db->set('dencidade_calorica', $_POST['dencidade_calorica']);
-            
+
             $this->db->set('carboidratos', $_POST['carboidratos']);
             $this->db->set('lipidios', $_POST['lipidios']);
             $this->db->set('kcal', $_POST['kcal']);
             if ($_POST['Na'] != '') {
                 $this->db->set('na', $_POST['Na']);
+            }
+            if (isset($_POST['sf'])) {
+                $this->db->set('sf', $_POST['sf']);
             }
             if ($_POST['k'] != '') {
                 $this->db->set('k', $_POST['k']);
@@ -280,7 +284,7 @@ class procedimento_model extends Model {
     private function instanciar($procedimento_tuss_id) {
 
         if ($procedimento_tuss_id != 0) {
-            $this->db->select('nome, codigo, grupo, tuss_id, descricao, perc_medico, qtde, dencidade_calorica, proteinas, carboidratos, lipidios, kcal, na, k');
+            $this->db->select('nome, codigo, grupo, tuss_id, descricao, sf, perc_medico, qtde, dencidade_calorica, proteinas, carboidratos, lipidios, kcal, na, k');
             $this->db->from('tb_procedimento_tuss');
             $this->db->where("procedimento_tuss_id", $procedimento_tuss_id);
             $query = $this->db->get();
@@ -301,6 +305,7 @@ class procedimento_model extends Model {
             $this->_kcal = $return[0]->kcal;
             $this->_Na = $return[0]->na;
             $this->_k = $return[0]->k;
+            $this->_sf = $return[0]->sf;
         } else {
             $this->_procedimento_tuss_id = null;
         }

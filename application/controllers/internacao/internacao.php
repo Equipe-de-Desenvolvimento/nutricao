@@ -8,6 +8,7 @@ class internacao extends BaseController {
         parent::__construct();
         $this->load->model('emergencia/solicita_acolhimento_model', 'acolhimento');
         $this->load->model('cadastro/paciente_model', 'paciente');
+        $this->load->model('seguranca/operador_model', 'operador_m');
         $this->load->model('cadastro/convenio_model', 'convenio');
         $this->load->model('ambulatorio/procedimentoplano_model', 'procedimentoplano');
         $this->load->model('internacao/internacao_model', 'internacao_m');
@@ -432,6 +433,7 @@ class internacao extends BaseController {
 
     function prescricaonormalenteral($internacao_id, $internacao_precricao_id=null) {
         $data['internacao_id'] = $internacao_id;
+        $data['medico'] = $this->operador_m->listarmedicos();
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $data['equipo'] = $this->internacao_m->listaprodutosequipo($internacao_id);
         $data['prescricao'] = $this->internacao_m->listaprescricoesenteral($internacao_id, $internacao_precricao_id);
@@ -465,7 +467,12 @@ class internacao extends BaseController {
         $data['internacao_precricao_id'] = $internacao_precricao_id;
         $data['prescricao'] = $this->internacao_m->etiquetapaciente($internacao_precricao_id);
         $data['prescricaoequipo'] = $this->internacao_m->etiquetapacienteequipo($internacao_precricao_id);
+
+        if($data['prescricao'][0]->sf == 'f'){
         $this->load->View('internacao/impressaoetiquetapacienteenteral', $data);
+        }else{
+        $this->load->View('internacao/impressaoetiquetapacienteenteralsf', $data);
+        }
     }
 
     function listarprescricao() {

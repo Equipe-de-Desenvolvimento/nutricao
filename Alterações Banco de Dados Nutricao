@@ -42,6 +42,14 @@ ALTER TABLE ponto.tb_convenio ADD COLUMN valor_diaria character varying(20);
 
 ALTER TABLE ponto.tb_convenio ADD COLUMN diaria boolean NOT NULL DEFAULT false;
 
+Dia 20/09/16
+
+ALTER TABLE ponto.tb_internacao_precricao ADD COLUMN nutricionista integer;
+ALTER TABLE ponto.tb_internacao_precricao ADD COLUMN preparo character varying(4);
+ALTER TABLE ponto.tb_internacao_precricao ADD COLUMN validade character varying(4);
 
 
+Dia 20/09/16
+
+ALTER TABLE ponto.tb_procedimento_tuss ADD COLUMN sf boolean DEFAULT false;
 
