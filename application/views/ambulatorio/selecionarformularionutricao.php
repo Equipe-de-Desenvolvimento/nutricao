@@ -4,7 +4,7 @@
             <? $i = 0; ?>
             <tr>
                 <td  width="300px;"><div class="bt_link_newgrande">
-                        <a href="<?= base_url() ?>ambulatorio/exame/impressaolaudomedico/<?= $internacao_id; ?>">LAUDO MEDICO</a>
+                        <a href="<?= base_url() ?>ambulatorio/exame/laudomedico/<?= $internacao_id; ?>">LAUDO MEDICO</a>
 
                     </div>
                 </td>

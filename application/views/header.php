@@ -119,6 +119,7 @@ function debug($object) {
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/faturamentoexamexml">Gerar xml</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriovalorprocedimento">Ajustar valores</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/relacaodepacientes">Relação de Pacientes</a></span></li>
 <? } ?>
                     </ul>
                 </li>
