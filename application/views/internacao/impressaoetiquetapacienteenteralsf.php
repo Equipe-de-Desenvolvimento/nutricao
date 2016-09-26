@@ -106,17 +106,17 @@
                         <tr>
                             <td ><font size = -2><b>Validade</b></td>
                             <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
-                            <td ><font size = -2><b>Hora Preparo</b></td>
-                            <td ><font size = -2><?= $hrpreparo; ?> h</td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                         </tr>
                         <tr>
                             <td ><font size = -2><b></b></td>
                             <td ><font size = -2></td>
-                            <td ><font size = -2><b>Hora Validade</b></td>
-                            <td ><font size = -2><?= $hrvalidade; ?> h</td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                            <td colspan="2" ><font size = -2><b></b></td>
                         </tr>
                         <tr>
                             <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
@@ -198,14 +198,14 @@
                         <tr>
                             <td ><font size = -2><b>Validade</b></td>
                             <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
-                            <td ><font size = -2><b>Hora Preparo</b></td>
-                            <td ><font size = -2><?= $hrpreparo; ?> h</td>
+                            <td ><font size = -2>></td>
+                            <td ><font size = -2></td>
                         </tr>
                         <tr>
                             <td ><font size = -2><b></b></td>
                             <td ><font size = -2></td>
-                            <td ><font size = -2><b>Hora Validade</b></td>
-                            <td ><font size = -2><?= $hrvalidade; ?> h</td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                         </tr>
                             <tr>
                                 <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
@@ -276,14 +276,14 @@
                         <tr>
                             <td ><font size = -2><b>Validade</b></td>
                             <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
-                            <td ><font size = -2><b>Hora Preparo</b></td>
-                            <td ><font size = -2><?= $hrpreparo; ?> h</td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                         </tr>
                         <tr>
                             <td ><font size = -2><b></b></td>
                             <td ><font size = -2></td>
-                            <td ><font size = -2><b>Hora Validade</b></td>
-                            <td ><font size = -2><?= $hrvalidade; ?> h</td>
+                            <td ><font size = -2><b></b></td>
+                            <td ><font size = -2></td>
                         </tr>
                         <tr>
                             <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>

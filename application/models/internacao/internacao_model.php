@@ -235,6 +235,7 @@ class internacao_model extends BaseModel {
                 $z = 0;
                 $c = 0;
                 $b = 0;
+                $w = 0;
                 $p = 0;
                 $i++;
 
@@ -273,6 +274,15 @@ class internacao_model extends BaseModel {
                         break;
                     }
                 }
+                foreach ($_POST['descricao'] as $itemdescricao) {
+                    $w++;
+
+                    if ($i == $w) {
+
+                        $descricao = $itemdescricao;
+                        break;
+                    }
+                }
                 foreach ($_POST['vazao'] as $itemvazao) {
                     $z++;
                     if ($i == $z) {
@@ -296,6 +306,9 @@ class internacao_model extends BaseModel {
                 }
                 if ($medida != null) {
                     $this->db->set('kcal', $medida);
+                }
+                if ($descricao != null) {
+                    $this->db->set('descricao', $descricao);
                 }
                 if ($volume != null) {
                     $this->db->set('volume', $volume);
@@ -494,7 +507,7 @@ class internacao_model extends BaseModel {
                     $this->db->insert('tb_internacao_precricao_etapa');
                     $internacao_precricao_etapa_id = $this->db->insert_id();
 
-                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id, volume, vasao');
+                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id, volume, vasao, peso, kcal, observacao');
                     $this->db->from('tb_internacao_precricao_produto');
                     $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
                     $this->db->where("ativo", 'true');
@@ -516,6 +529,13 @@ class internacao_model extends BaseModel {
                             }
                             if ($value->volume != "") {
                                 $this->db->set('volume', $value->volume);
+                            }
+                            if ($value->vasao != "") {
+                                $this->db->set('vasao', $value->vasao);
+                            }
+
+                            if ($value->peso != "") {
+                                $this->db->set('peso', $value->peso);
                             }
                             if ($value->vasao != "") {
                                 $this->db->set('vasao', $value->vasao);
@@ -789,6 +809,7 @@ class internacao_model extends BaseModel {
                             ipe.internacao_precricao_etapa_id,
                             ipp.etapas,
                             ipp.volume,
+                            ipp.descricao,
                             ipp.kcal,
                             ipp.vasao,
                             ipp.internacao_precricao_id,
@@ -998,6 +1019,7 @@ class internacao_model extends BaseModel {
                             ipp.etapas,
                             ipp.volume,
                             ipp.kcal,
+                            ipp.descricao,
                             ip.internacao_id,
                             ipp.vasao,
                             ipe.volume as frasco,

@@ -100,7 +100,7 @@ IF ($tipo == 'ENTERALNORMAL') {
 //                        $frasco = "";
                         }
                         if ($item->kcal != "") {
-                            $kcal = $item->kcal . " med ";
+                            $kcal = $item->kcal . $item->descricao;
                         } else {
                             $kcal = "";
                         }
