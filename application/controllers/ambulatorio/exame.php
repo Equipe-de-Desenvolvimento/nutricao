@@ -196,12 +196,31 @@ class Exame extends BaseController {
 //        echo $_POST['convenio'];
 //        die;
         $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
-        $data['listar'] = $this->exame->imprimirrelacaodepacientes();
+        $data['teste'] = $this->exame->imprimirrelacaodepacientes();
+        $data['listar'] = isset($data['teste'])?$data['teste']:'';
 //        echo  var_dump($data['listar']);
 //        die;
         
         $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
     }
+    function relatorioresumoconvenio() {
+
+        $this->loadView('ambulatorio/relatorioresumoconvenio');
+    }
+
+    function impressaorelatorioresumoconvenio() {
+//        echo $_POST['convenio'];
+//        die;
+        $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
+        $data['teste'] = $this->exame->imprimirrelacaodepacientes();
+        $data['listar'] = isset($data['teste'])?$data['teste']:'';
+        $data['empresa'] = $this->exame->empresa();
+//        echo  var_dump($data['listar']);
+//        die;
+        
+        $this->load->View('ambulatorio/impressaorelatorioresumoconvenio', $data);
+    }
+    
 
     function faturamentoexamexml($args = array()) {
 
@@ -1400,7 +1419,7 @@ class Exame extends BaseController {
         $data['sexo'] = $exame[0]->sexo;
         $this->exame->gravardicom($data);
     }
-
+    
 }
 
 /* End of file welcome.php */
