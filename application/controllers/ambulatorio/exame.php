@@ -25,6 +25,7 @@ class Exame extends BaseController {
         $this->load->model('ambulatorio/agenda_model', 'agenda');
         $this->load->model('ponto/Competencia_model', 'competencia');
         $this->load->model('cadastro/convenio_model', 'convenio');
+        $this->load->model('ambulatorio/GExtenso', 'GExtenso');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -142,6 +143,29 @@ class Exame extends BaseController {
         $this->loadView('ambulatorio/selecionarformularionutricao', $data);
     }
 
+    function alterarprodutoprescricao($internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->exame->produtoexamefaturamento($internacao_precricao_produto_id);
+        $internacao_id= $data['produto'][0]->internacao_id;
+        $data['enteral'] = $this->exame->listaprodutosenteral($internacao_id);
+        $data['equipo'] = $this->exame->listaprodutosequipo($internacao_id);
+        $data['internacao_precricao_produto_id']= $data['produto'][0]->internacao_precricao_produto_id;
+//        echo var_dump($data['produto']);
+//        die;
+        $this->loadView('ambulatorio/alterarprodutoprescricao', $data);
+    }
+    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+        $data['antigo'] = $this->exame->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
+        $this->exame->gravarprodutoantigoprescricao($data['antigo']);
+//        die;
+//       echo var_dump($data['antigo']);
+        
+        
+        $this->exame->gravaralterarprodutoprescricao($internacao_precricao_produto_id);
+        
+        
+    }
+
     function impressaospsadt($internacao_id) {
 //        echo var_dump($internacao_id);
 //        die;
@@ -197,12 +221,14 @@ class Exame extends BaseController {
 //        die;
         $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
         $data['teste'] = $this->exame->imprimirrelacaodepacientes();
-        $data['listar'] = isset($data['teste'])?$data['teste']:'';
+        $data['listar'] = isset($data['teste']) ? $data['teste'] : '';
+        $data['banco'] = $this->exame->bancoconvenio();
 //        echo  var_dump($data['listar']);
 //        die;
-        
+
         $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
     }
+
     function relatorioresumoconvenio() {
 
         $this->loadView('ambulatorio/relatorioresumoconvenio');
@@ -212,15 +238,49 @@ class Exame extends BaseController {
 //        echo $_POST['convenio'];
 //        die;
         $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
-        $data['teste'] = $this->exame->imprimirrelacaodepacientes();
-        $data['listar'] = isset($data['teste'])?$data['teste']:'';
+        $data['listar'] = $this->exame->imprimirrelacaodepacientes();
+        $data['banco'] = $this->exame->bancoconvenio();
         $data['empresa'] = $this->exame->empresa();
-//        echo  var_dump($data['listar']);
+
+        $teste = count($data['listar']);
+//        echo var_dump ($data['listarpacientes']);
 //        die;
-        
+        if ($teste != 0) {
+            $totalgeral = 0;
+            $diasgerais = 0;
+            foreach ($data['listarpacientes'] as $valor) {
+                $i = 0;
+
+
+                foreach ($data['listar'] as $item) {
+                    if ($valor->paciente_id == $item->paciente_id) {
+                        $i++;
+                        $paciente = $item->paciente;
+                        $total = $i * $item->valor_diaria;
+                    }
+                }
+                $diasgerais = $diasgerais + $i;
+                $totalgeral = $totalgeral + $total;
+            }
+
+            $data['totalgeral'] = $totalgeral;
+
+            $valor = number_format($totalgeral, 2, ',', '.');
+            $valoreditado = str_replace(",", "", str_replace(".", "", $valor));
+            $data['extenso'] = GExtenso::moeda($valoreditado);
+        } else {
+            $data['extenso'] = '';
+            $data['totalgeral'] = 0.00;
+        }
+
+
+//        echo var_dump($data['extenso']);
+//        die;
+
+
+
         $this->load->View('ambulatorio/impressaorelatorioresumoconvenio', $data);
     }
-    
 
     function faturamentoexamexml($args = array()) {
 
@@ -1419,7 +1479,7 @@ class Exame extends BaseController {
         $data['sexo'] = $exame[0]->sexo;
         $this->exame->gravardicom($data);
     }
-    
+
 }
 
 /* End of file welcome.php */

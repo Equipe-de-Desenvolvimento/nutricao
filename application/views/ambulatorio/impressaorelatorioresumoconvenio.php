@@ -1,9 +1,7 @@
-<?
 
-?>
 
 <?
-//echo var_dump($listar[0]); 
+//echo var_dump($listar); 
 //die; 
 $dataatual= date("Y-m-d");
 ?>
@@ -117,12 +115,12 @@ elseif($mes == '11'){
                 </tr>
                 <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" style="text-align: left;"> <?
-                        if ($listar[0] == '') {
+                        if ($listar == '') {
 
                             echo 'SEM PACIENTES NESSE PERÍODO';
                         } else {
 
-                            echo $listar[0]->convenio;
+                            echo $banco[0]->convenio;
                         }
                         ?>
 
@@ -132,7 +130,7 @@ elseif($mes == '11'){
                 </tr>
            
             <tr class="tic">
-                <td height="16" colspan="7" class="tisemsublinhadogrande" style="text-align: left;"><? echo $listar[0]->razao_social; ?></td>
+                <td height="16" colspan="7" class="tisemsublinhadogrande" style="text-align: left;"><? echo $banco[0]->razao_social; ?></td>
                  
             </tr>
            
@@ -151,38 +149,7 @@ elseif($mes == '11'){
 
 
 
-            <? if ($listar != "") { ?>
-
-
-
-
-                <?
-                $totalgeral = 0;
-                $diasgerais = 0;
-                ?>
-                <?
-                foreach ($listarpacientes as $valor) {
-                    $i = 0;
-
-
-                    foreach ($listar as $item) {
-                        if ($valor->paciente_id == $item->paciente_id) {
-                            $i++;
-                            $paciente = $item->paciente;
-                            $total = $i * $item->valor_diaria;
-                        }
-                    }
-                    $diasgerais = $diasgerais + $i;
-                    $totalgeral = $totalgeral + $total;
-                    ?>
-
-                <? }
-                ?>
-
-            <? } else { ?>
-
-
-            <? } ?>         
+           
  <tr class="tic">
      <td height="16" colspan="7" class="tisemsublinhado" style="text-align: left;"><strong style="text-decoration: underline;"><? echo $empresa[0]->nome; ?> - <? echo $empresa[0]->razao_social; ?> ,</strong> EMPRESA CREDENCIADA POR ESTE INSTITUTO</td>
                  
@@ -192,7 +159,7 @@ elseif($mes == '11'){
                 <td height="16" colspan="7" class="tisemsublinhado" style="text-align: left;"><strong>VEM MUI RESPEITOSAMENTE, SOLICITAR O PAGAMENTO REFERENTE AO PROCESSO DO MÊS DE <?echo $mes?><?echo $ano;?></strong> </td>
             </tr>
             <tr>
-                <td height="16" colspan="7" class="tisemsublinhado" style="text-align: left;">NO VALOR DE <strong>R$<?  echo number_format($totalgeral,2,",","."); ?> (DINHEIRO POR EXTENSO QUE EU NÃO SEI FAZER)</strong></td>
+                <td height="16" colspan="7" class="tisemsublinhado" style="text-align: left;">NO VALOR DE <strong>R$<?echo number_format($totalgeral,2,",","."); ?> (<?echo strtoupper($extenso);?>)</strong></td>
             </tr>
 
 
@@ -270,9 +237,9 @@ elseif($mes == '11'){
                         <br>
                         <br>
                        
-                        Conta Bancária: <? echo $listar[0]->banco; ?>&nbsp;<br>
-                        AGÊNCIA: <? echo $listar[0]->agencia; ?>&nbsp;<br>
-                        C/C: <? echo $listar[0]->conta; ?>&nbsp;<br>
+                        Conta Bancária: <? echo $banco[0]->banco; ?>&nbsp;<br>
+                        AGÊNCIA: <? echo $banco[0]->agencia; ?>&nbsp;<br>
+                        C/C: <? echo $banco[0]->conta; ?>&nbsp;<br>
 
                     </strong></p>
 
