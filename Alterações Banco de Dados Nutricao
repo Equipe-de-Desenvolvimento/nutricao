@@ -53,3 +53,8 @@ Dia 20/09/16
 
 ALTER TABLE ponto.tb_procedimento_tuss ADD COLUMN sf boolean DEFAULT false;
 
+Dia 25/09/16
+
+ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN observacao character varying(500);
+ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN descricao character varying(30);
+

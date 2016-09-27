@@ -33,7 +33,7 @@
                 $qtdeetapa = $item->etapas;
                 $hc = $item->carboidratos;
                 $lip = $item->lipidios;
-                $vct = (float)$item->dencidade_calorica * $item->volume;
+                $vct = (float) $item->dencidade_calorica * $item->volume;
 //                $vct = 0;
                 $taxadeinfusao = $item->vasao;
                 $volume = $item->volume;
@@ -119,9 +119,11 @@
                             <td colspan="2" ><font size = -2><b></b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
+                            <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
                         </tr>
-
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -134,7 +136,7 @@
             $lip = $item->lipidios;
             $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
 //            $vct = float($item->dencidade_calorica) * $item->volume;
-            $vct = (float)$item->dencidade_calorica * $item->volume;
+            $vct = (float) $item->dencidade_calorica * $item->volume;
             $taxadeinfusao = $item->vasao;
             $volume = $item->volume;
             $kcal = $item->kcal;
@@ -195,25 +197,27 @@
                                 <td ><font size = -2><?= $taxadeinfusao; ?></td>
                                 <td ><font size = -2><b>Via de Acesso</b></td>
                                 <td ><font size = -2></td>
-                        <tr>
-                            <td ><font size = -2><b>Validade</b></td>
-                            <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
-                            <td ><font size = -2>></td>
-                            <td ><font size = -2></td>
-                        </tr>
-                        <tr>
-                            <td ><font size = -2><b></b></td>
-                            <td ><font size = -2></td>
-                            <td ><font size = -2><b></b></td>
-                            <td ><font size = -2></td>
-                        </tr>
                             <tr>
-                                <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                                <td ><font size = -2><b>Validade</b></td>
+                                <td ><font size = -2>Ap&oacute;s aberto, 24horas</td>
+                                <td ><font size = -2>></td>
+                                <td ><font size = -2></td>
                             </tr>
                             <tr>
-                                <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
+                                <td ><font size = -2><b></b></td>
+                                <td ><font size = -2></td>
+                                <td ><font size = -2><b></b></td>
+                                <td ><font size = -2></td>
                             </tr>
-
+                            <tr>
+                                <td colspan="2" ><font size = -2><b></b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                            </tr>
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -286,12 +290,14 @@
                             <td ><font size = -2></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                            <td colspan="2" ><font size = -2><b></b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
+                            <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
                         </tr>
-
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
 
