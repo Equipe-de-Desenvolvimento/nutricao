@@ -105,6 +105,7 @@
                     <tr>
                         <td>Produto</td>
                         <td>Medida</td>
+                        <td>Descri&c&ccedil;&a&atilde;o</td>
                         <td>Kcal</td>
                         <td>Volume(ml)</td>
                         <td>Vazão</td>
@@ -132,6 +133,7 @@
                             </select>
                         </td>
                         <td><input type="text" name="medida[1]" class="size1" /></td>
+                        <td><input type="text" name="descricao[1]" class="size1" /></td>
                         <td><input type="text" name="peso[1]" class="size1" /></td>
                         <td><input type="text" name="volume[1]" class="size1" /></td>
                         <td><input type="text" name="vazao[1]" class="size1" /></td>
@@ -175,6 +177,9 @@ if (count($prescricao) > 0) {
                 Medida
             </th>
             <th class="tabela_header">
+                Descri&c&ccedil;&a&atilde;o
+            </th>
+            <th class="tabela_header">
                 Produto
             </th>
             <th class="tabela_header">
@@ -203,6 +208,7 @@ if (count($prescricao) > 0) {
             <tr>
                 <td class="<?php echo $estilo_linha; ?>"><?= $i; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->kcal; ?></td>
+                <td class="<?php echo $estilo_linha; ?>"><?= $item->descricao; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->nome; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->volume; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->vasao; ?></td>
@@ -315,6 +321,7 @@ foreach ($enteral as $item) {
                             linha += "</select>";
                             linha += "</td>";
                             linha += "<td><input type='text' name='medida[" + idlinha + "]' class='size1' /></td>";
+                            linha += "<td><input type='text' name='descricao[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='peso[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='volume[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='vazao[" + idlinha + "]' class='size1' /></td>";

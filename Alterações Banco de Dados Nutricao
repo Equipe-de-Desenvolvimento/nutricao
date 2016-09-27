@@ -93,5 +93,5 @@ CREATE TABLE ponto.tb_internacao_precricao_produto_antigo
   
 );
 
-
-
+ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN observacao character varying(500);
+ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN descricao character varying(30);

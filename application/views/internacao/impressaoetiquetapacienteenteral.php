@@ -121,7 +121,9 @@
                         <tr>
                             <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
                         </tr>
-
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -214,7 +216,9 @@
                             <tr>
                                 <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
                             </tr>
-
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                         </tbody>
                     </table>
 
@@ -292,7 +296,9 @@
                         <tr>
                             <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
                         </tr>
-
+                        <tr>
+                            <td >&nbsp;</td>
+                        </tr>
                     </tbody>
                 </table>
 
