@@ -1061,6 +1061,7 @@ class internacao_model extends BaseModel {
                             ip.internacao_id,
                             iu.nome as hospital,
                             i.leito,
+                            i.diagnostico,
                             c.nome as convenio,
                             i.diagnostico,
                             p.nascimento,
