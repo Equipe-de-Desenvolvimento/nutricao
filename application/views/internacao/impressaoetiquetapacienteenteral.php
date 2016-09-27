@@ -116,7 +116,7 @@
                             <td ><font size = -2><?= $hrvalidade; ?> h</td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                         </tr>
                         <tr>
                             <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
@@ -211,7 +211,7 @@
                                 <td ><font size = -2><?= $hrvalidade; ?> h</td>
                             </tr>
                             <tr>
-                                <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                                <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                             </tr>
                             <tr>
                                 <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
@@ -291,7 +291,7 @@
                             <td ><font size = -2><?= $hrvalidade; ?> h</td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&SmallCircle; a 8&SmallCircle;</b></td>
+                            <td colspan="2" ><font size = -2><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                         </tr>
                         <tr>
                             <td colspan="2" ><font size = -2><b>Nutricionista/CRN <?=  $nutricionista . '  ' .  $conselho; ?> </b></td>
