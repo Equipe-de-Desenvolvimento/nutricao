@@ -59,6 +59,7 @@
 
             </table>
         </fieldset>
+        
         <fieldset id="produtoid">
             <legend>PRODUTOS</legend>
 
@@ -153,7 +154,7 @@
 
 <script>
 function deixarOcultoProduto(){
- document.getElementById('equipo').style.display = "inline";
+ document.getElementById('equipoid').style.display = "inline";
 }
 </script>
 
