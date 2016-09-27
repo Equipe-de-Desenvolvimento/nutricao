@@ -1,7 +1,51 @@
 <?
-//echo var_dump($listar[0]); 
-//die;
-?>﻿
+//echo var_dump($listar); 
+//die; 
+$dataatual= date("Y-m-d");
+?>
+  <? $anoatual = substr($dataatual, 0, 4); ?>
+                        <? $mesatual = substr($dataatual, 5, 2); ?>
+                        <? $diaatual = substr($dataatual, 8, 2); ?>
+                        <? $datafinal = $diaatual . '/' . $mesatual . '/' . $anoatual; ?>  
+<?
+if($mesatual == '01'){
+    $mesatual= 'JANEIRO';
+}
+elseif($mesatual == '02'){
+    $mesatual= 'FEVEREIRO';
+}
+elseif($mesatual == '03'){
+    $mesatual= 'MARÇO';
+}
+elseif($mesatual == '04'){
+    $mesatual= 'ABRIL';
+}
+elseif($mesatual == '05'){
+    $mesatual= 'MAIO';
+}
+elseif($mesatual == '06'){
+    $mesatual= 'JUNHO';
+}
+elseif($mesatual == '07'){
+    $mesatual= 'JULHO';
+}
+elseif($mesatual == '08'){
+    $mesatual= 'AGOSTO';
+}
+elseif($mesatual == '09'){
+    $mesatual= 'SETEMBRO';
+}
+elseif($mesatual == '10'){
+    $mesatual= 'OUTUBRO';
+}
+elseif($mesatual == '11'){
+    $mesatual= 'NOVEMBRO';
+}
+elseif($mesatual == '11'){
+    $mesatual= 'DEZEMBRO';
+}
+
+?>
 
 <html>
     <head>
@@ -34,14 +78,10 @@
                     <td height="16" colspan="7" class="tisemsublinhadogrande" >PERÍODO:&nbsp;&nbsp;<? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
                 </tr>
                 <tr>
-                    <td height="16" colspan="7" class="tisemsublinhadogrande" > <?
-                        if ($listar[0] == '') {
-
-                            echo 'SEM PACIENTES NESSE PERÍODO';
-                        } else {
-                            echo 'CONVÊNIO: ';
-                            echo $listar[0]->convenio;
-                        }
+                    <td height="16" colspan="7" class="tisemsublinhadogrande" > CONVENIO:<?
+                       
+                            echo $banco[0]->convenio;
+                      
                         ?>
 
 
@@ -99,6 +139,7 @@
                     </tr> 
                 <? }
                 ?>
+                   
                 <tr>
                     <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
                     <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong><?= $diasgerais ?></strong></td>
@@ -141,7 +182,7 @@
 
                         <br>
                         <br>
-                        <p style="text-align: center;"><strong> Fortaleza &nbsp;-&nbsp; 12 DE SETEMBRO DE 2016
+                        <p style="text-align: center;"><strong> Fortaleza &nbsp;-&nbsp; <?echo $diaatual;?> DE <? echo $mesatual;?> DE <? echo $anoatual;?><br>
 
                             </strong></p>
 

@@ -53,8 +53,45 @@ Dia 20/09/16
 
 ALTER TABLE ponto.tb_procedimento_tuss ADD COLUMN sf boolean DEFAULT false;
 
-Dia 25/09/16
+
+Dia 26/09/16
+
+CREATE TABLE ponto.tb_internacao_precricao_etapa_antigo
+(
+  internacao_precricao_etapa_antigo_id integer,
+  internacao_precricao_id integer,
+  internacao_id integer,
+  etapas numeric(10,2),
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  empresa_id integer,
+  hospital_id integer,
+  volume character varying(80)
+);
+
+CREATE TABLE ponto.tb_internacao_precricao_produto_antigo
+(
+  internacao_precricao_produto_antigo_id integer,
+  internacao_precricao_id integer,
+  internacao_id integer,
+  etapas integer,
+  produto_id integer,
+  volume integer,
+  vasao integer,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  empresa_id integer,
+  hospital_id integer,
+  ativo boolean NOT NULL DEFAULT true,
+  internacao_precricao_etapa_antigo_id integer,
+  tipo character varying(50),
+  peso character varying(80),
+  kcal character varying(80),
+  observacao character varying(500)
+  
+);
 
 ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN observacao character varying(500);
 ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN descricao character varying(30);
-

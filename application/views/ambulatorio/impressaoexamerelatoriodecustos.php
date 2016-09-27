@@ -85,7 +85,12 @@ $total_diaria = $valor_diaria * $contagemdias;
                 
                 <? foreach ($listar as $item) { ?>
                     <tr>
-                        <?$volume=$item->volume/$item->etapas;
+                        <?
+                        if($item->etapas!=0){
+                            $volume=$item->volume/$item->etapas;
+                        }
+                        $volume=$item->volume/1;
+                        
                         ?>
                         <td class="semborda"><?= $item->produto; ?>&nbsp;&nbsp;<?echo $volume; ?> ML</td>
                         <td height="16" class="semborda"><?= $item->etapas; ?></td>

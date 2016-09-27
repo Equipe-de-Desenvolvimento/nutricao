@@ -1509,6 +1509,174 @@ class exame_model extends Model {
         return $this->db;
     }
 
+    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+
+        if ($_POST['equipo'] != "Selecione") {
+
+            $this->db->set('etapas', 1);
+            $this->db->set('produto_id', $_POST['equipo']);
+            $this->db->set('observacao', $_POST['observacao']);
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+            $this->db->update('tb_internacao_precricao_produto');
+        } else {
+            $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
+
+            $this->db->set('etapas', $_POST['etapas']);
+            $this->db->set('produto_id', $_POST['produto']);
+            $this->db->set('volume', $_POST['volume']);
+            if($_POST['vazao']!=''){
+                $this->db->set('vasao', $_POST['vazao']);
+            }
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+            $this->db->update('tb_internacao_precricao_produto');
+
+            $this->db->set('etapas', $_POST['etapas']);
+            $this->db->set('volume', $etapavolume);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
+            $this->db->update('tb_internacao_precricao_etapa');
+        }
+    }
+
+    function produtoexamefaturamento($internacao_precricao_produto_id) {
+
+        $this->db->select('
+                            ipp.internacao_precricao_produto_id,
+                            ipp.internacao_id,
+                            ipp.internacao_precricao_etapa_id,
+                            ipp.internacao_precricao_id,
+                            ipp.produto_id,
+                            ipp.operador_cadastro,
+                            ipp.ativo,
+                            ipp.internacao_precricao_etapa_id,
+                            ipp.tipo,
+                            ipp.peso,
+                            ipp.vasao,
+                            ipp.volume,
+                            ipp.kcal,
+                            ipp.etapas,
+                            pt.nome');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function alterarprodutoexamefaturamento($internacao_precricao_produto_id) {
+
+        $this->db->select('
+                            ipp.internacao_precricao_produto_id,
+                            ipp.internacao_id,
+                            ipp.internacao_precricao_etapa_id,
+                            ipp.internacao_precricao_id,
+                            ipp.produto_id,
+                            ipp.operador_cadastro,
+                            ipp.data_cadastro,
+                            ipp.ativo,
+                            ipp.tipo,
+                            ipp.peso,
+                            ipp.vasao,
+                            ipp.volume,
+                            ipp.kcal,
+                            ipp.etapas,
+                            ipp.observacao,
+                            ipe.etapas as etapas_etapa,
+                            ipe.volume as volume_etapa,
+                            ');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function gravarprodutoantigoprescricao($data) {
+
+//        echo var_dump($data[0]->internacao_precricao_produto_id);
+//        die;
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+//Produto
+
+        $this->db->set('internacao_precricao_produto_antigo_id', $data[0]->internacao_precricao_produto_id);
+        $this->db->set('internacao_precricao_id', $data[0]->internacao_precricao_id);
+        $this->db->set('internacao_id', $data[0]->internacao_id);
+        $this->db->set('etapas', $data[0]->etapas);
+        $this->db->set('produto_id', $data[0]->produto_id);
+        $this->db->set('volume', $data[0]->volume);
+        $this->db->set('vasao', $data[0]->vasao);
+        $this->db->set('data_cadastro', $data[0]->data_cadastro);
+        $this->db->set('operador_cadastro', $data[0]->operador_cadastro);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->set('empresa_id', $empresa_id);
+        $this->db->set('ativo', $data[0]->ativo);
+        $this->db->set('internacao_precricao_etapa_antigo_id', $data[0]->internacao_precricao_etapa_id);
+        $this->db->set('tipo', $data[0]->tipo);
+        $this->db->set('peso', $data[0]->peso);
+        $this->db->set('kcal', $data[0]->kcal);
+        $this->db->set('observacao', $data[0]->observacao);
+        $this->db->insert('tb_internacao_precricao_produto_antigo');
+        
+//Etapa
+        
+        $this->db->set('internacao_precricao_etapa_antigo_id', $data[0]->internacao_precricao_etapa_id);
+        $this->db->set('internacao_precricao_id', $data[0]->internacao_precricao_id);
+        $this->db->set('internacao_id', $data[0]->internacao_id);
+        $this->db->set('etapas', $data[0]->etapas_etapa);
+        $this->db->set('data_cadastro', $data[0]->data_cadastro);
+        $this->db->set('operador_cadastro', $data[0]->operador_cadastro);
+        $this->db->set('empresa_id', $empresa_id);
+        $this->db->set('volume', $data[0]->volume_etapa);
+        $this->db->insert('tb_internacao_precricao_etapa_antigo');
+    }
+
+    function listaprodutosenteral($internacao_id) {
+        $this->db->select(' pc.procedimento_convenio_id,
+                            pt.nome');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
+        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
+        $this->db->where('i.internacao_id', $internacao_id);
+        $this->db->where('pt.grupo', 'ENTERAL');
+        $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function listaprodutosequipo($internacao_id) {
+        $this->db->select(' pc.procedimento_convenio_id,
+                            pt.nome');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
+        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
+        $this->db->where('i.internacao_id', $internacao_id);
+        $this->db->where('pt.grupo', 'EQUIPO');
+        $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function listarguiafaturamento() {
 
         $empresa_id = $this->session->userdata('empresa_id');
@@ -1711,6 +1879,25 @@ class exame_model extends Model {
         $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
         $this->db->where('ip.data <=', $_POST['txtdata_fim']);
         $this->db->orderby('p.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function bancoconvenio() {
+
+        $this->db->select('
+                            
+                            c.nome as convenio,
+                            c.convenio_id,                          
+                            c.valor_diaria,                          
+                            c.razao_social,                          
+                            fes.descricao as banco,
+                            fes.agencia ,
+                            fes.conta as conta,
+                            ');
+        $this->db->from('tb_convenio c');
+        $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
+        $this->db->where("c.convenio_id", $_POST['convenio']);
         $return = $this->db->get();
         return $return->result();
     }

@@ -110,11 +110,16 @@
                             <td ><?= $item->volume; ?></td>
                             <td ><?= $item->vasao; ?></td>
                             <td><font color="green"><?= $item->paciente; ?></td>
+                            <td width="50px;"><div class="bt_link_new">
+                                    <a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() ?>ambulatorio/exame/alterarprodutoprescricao/<?= $item->internacao_precricao_produto_id; ?>', 'toolbar=no,Location=no,menubar=no,width=500,height=200');" >
+                                        Alterar Produto</a></div>
+                            </td>
 
                             <td width="50px;"><div class="bt_link_new">
                                     <a href="<?= base_url() ?>ambulatorio/exame/selecionarformularionutricao/<?= $item->internacao_id; ?>" >
                                         Formulários</a></div>
                             </td>
+                            
                         </tr>
 
                     </tbody>
