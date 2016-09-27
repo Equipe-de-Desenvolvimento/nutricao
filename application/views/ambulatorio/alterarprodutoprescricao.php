@@ -66,9 +66,12 @@
             <!-- Início da tabela de Infusão de Drogas -->
             <table id="table_infusao_drogas" border="0">
                 <thead>
-                    <tr>
+                    
+                       <tr>
                         <td>Produto</td>
-                        
+                        <td>Medida</td>
+                        <td>Descrição</td>
+                        <td>Kcal</td>
                         <td>Volume(ml)</td>
                         <td>Vazão</td>
                         <td>&nbsp;</td>
@@ -89,6 +92,9 @@
                             </select>
                         </td>
                         
+                        <td><input type="text" name="medida" class="size1" value='' /></td>
+                        <td><input type="text" name="descricao" class="size1" value='' /></td>
+                        <td><input type="text" name="peso" class="size1" value='' /></td>
                         <td><input type="text" name="volume" class="size1" value='' /></td>
                         <td><input type="text" name="vazao" class="size1" value='' /></td>
                         <td>

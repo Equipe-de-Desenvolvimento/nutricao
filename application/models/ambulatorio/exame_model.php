@@ -1518,28 +1518,81 @@ class exame_model extends Model {
 
 
         if ($_POST['equipo'] != "Selecione") {
+         
+            
 
             $this->db->set('etapas', 1);
             $this->db->set('produto_id', $_POST['equipo']);
             $this->db->set('observacao', $_POST['observacao']);
+            $this->db->set('descricao', $_POST['descricao']);
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
         } else {
-            $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
+               
+            $peso= $_POST['peso'];
+            $medida= $_POST['medida'];
+//            echo var_dump($peso);
+//            die;
+             
+            if($peso= $_POST['peso'] =! ''){
+            $this->db->select('medida');
+                            $this->db->from('tb_procedimento_tuss_caloria ptc');
+                            $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
+                            $this->db->where('pc.procedimento_convenio_id', $_POST['produto']);
+                            $this->db->where('ptc.kcal', (string) $peso);
+                            $this->db->where('ptc.ativo', 't');
+                            $querys = $this->db->get();
+                            $returns = $querys->result();
+                            if($returns!= null){
+                            $kcal = $returns[0]->medida;
+                            }
+                          $kcal='';
+                            
+            }
+            
+            
+//            echo var_dump($returns);
+//            die;
+            
+            if($peso!= null){
+                $this->db->set('peso', $peso);
+                $this->db->set('kcal', $kcal);
+                $this->db->set('etapas', $_POST['etapas']);
+            }
+            if($medida!=null){
+                $this->db->set('kcal', $medida);
+                
+            }
+            
+            if($_POST['volume']!=''){
+                $this->db->set('volume', $_POST['volume']);
+                $this->db->set('etapas', $_POST['etapas']);
+            }
+            
+            
+            
+           
 
-            $this->db->set('etapas', $_POST['etapas']);
+            
             $this->db->set('produto_id', $_POST['produto']);
-            $this->db->set('volume', $_POST['volume']);
             if($_POST['vazao']!=''){
                 $this->db->set('vasao', $_POST['vazao']);
             }
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->set('descricao', $_POST['descricao']);
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
 
+            
+            //Etapa Tabela
+            if($_POST['etapas']=="0"){
+                $etapavolume = ((int) $_POST['volume']) / 1;
+            }
+            $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
+             
             $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('volume', $etapavolume);
             $this->db->set('operador_cadastro', $operador_id);
@@ -1593,6 +1646,7 @@ class exame_model extends Model {
                             ipp.kcal,
                             ipp.etapas,
                             ipp.observacao,
+                            ipp.descricao,
                             ipe.etapas as etapas_etapa,
                             ipe.volume as volume_etapa,
                             ');
@@ -1632,6 +1686,7 @@ class exame_model extends Model {
         $this->db->set('peso', $data[0]->peso);
         $this->db->set('kcal', $data[0]->kcal);
         $this->db->set('observacao', $data[0]->observacao);
+        $this->db->set('descricao', $data[0]->descricao);
         $this->db->insert('tb_internacao_precricao_produto_antigo');
         
 //Etapa
