@@ -105,7 +105,7 @@
                     <tr>
                         <td>Produto</td>
                         <td>Medida</td>
-                        <td>Descri&c&ccedil;&a&atilde;o</td>
+                        <td>Descrição</td>
                         <td>Kcal</td>
                         <td>Volume(ml)</td>
                         <td>Vazão</td>

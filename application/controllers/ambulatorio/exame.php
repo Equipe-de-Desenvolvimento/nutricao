@@ -155,8 +155,8 @@ class Exame extends BaseController {
         $this->loadView('ambulatorio/alterarprodutoprescricao', $data);
     }
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
-        $data['antigo'] = $this->exame->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
-        $this->exame->gravarprodutoantigoprescricao($data['antigo']);
+//        $data['antigo'] = $this->exame->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
+//        $this->exame->gravarprodutoantigoprescricao($data['antigo']);
 //        die;
 //       echo var_dump($data['antigo']);
         
