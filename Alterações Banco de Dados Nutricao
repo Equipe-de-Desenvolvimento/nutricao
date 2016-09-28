@@ -100,4 +100,9 @@ Dia 27/09/2016
 ALTER TABLE ponto.tb_internacao_precricao_produto_antigo ADD COLUMN descricao character varying(30);
 
 
+Dia 28/09/16
+
+ALTER TABLE ponto.tb_internacao_unidade ADD COLUMN valor_diaria character varying(20);
+
+
 

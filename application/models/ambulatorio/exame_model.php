@@ -1586,15 +1586,19 @@ class exame_model extends Model {
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
 
-            
-            //Etapa Tabela
-            if($_POST['etapas']=="0"){
+            if($_POST['volume']!=''){
+                 if($_POST['etapas']=="0"){
                 $etapavolume = ((int) $_POST['volume']) / 1;
             }
             $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
              
-            $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('volume', $etapavolume);
+                
+            }
+            //Etapa Tabela
+           
+            
+            $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
             $this->db->update('tb_internacao_precricao_etapa');
