@@ -35,7 +35,6 @@ class paciente_model extends BaseModel {
     var $_estado_id = null;
     var $_cidade = null;
     var $_cep = null;
-    var $_observacao = null;
     var $_convenio = null;
     var $_nomeresp = null;
     var $_cidade_nome = null;
@@ -147,7 +146,6 @@ class paciente_model extends BaseModel {
             $this->_bairroresp = $return[0]->bairroresp;
             $this->_cidade = $return[0]->municipio_id;
             $this->_cep = $return[0]->cep;
-            $this->_observacao = $return[0]->observacao;
             $this->_complementoresp = $return[0]->complementoresp;
             $this->_complemento = $return[0]->complemento;
             $this->_cidade_nome = $return[0]->cidade_desc;

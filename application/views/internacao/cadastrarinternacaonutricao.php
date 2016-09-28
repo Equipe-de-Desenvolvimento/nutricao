@@ -102,6 +102,10 @@
                 <label>Atendente</label>
                 <input type="text" id="atendente" class="texto06" name="atendente" value="<?= @$obj->_atendente; ?>" />
             </div>
+            <div>
+                <label>Via de Acesso</label>
+                <input type="text" id="via" class="texto06" name="via" value="<?= @$obj->_via; ?>" />
+            </div>
 
             <div>
                 <label>Justificativa</label>
