@@ -33,6 +33,7 @@
                 $qtdeetapa = $item->etapas;
                 $hc = $item->carboidratos;
                 $lip = $item->lipidios;
+                $via = $item->via;
                 $vct = (float)$item->dencidade_calorica * $item->volume;
 //                $vct = 0;
                 $taxadeinfusao = $item->vasao;
@@ -101,7 +102,7 @@
                             <td ><font size = -2><b>Taxa de Infus&atilde;o</b></td>
                             <td ><font size = -2><?= $taxadeinfusao; ?></td>
                             <td ><font size = -2><b>Via de Acesso</b></td>
-                            <td ><font size = -2></td>
+                            <td ><font size = -2><?= $via; ?></td>
                         </tr>
                         <tr>
                             <td ><font size = -2><b>Data Preparo</b></td>
@@ -134,6 +135,7 @@
             $qtdeetapa = $item->etapas;
             $hc = $item->carboidratos;
             $lip = $item->lipidios;
+            $via = $item->via;
             $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
 //            $vct = float($item->dencidade_calorica) * $item->volume;
             $vct = (float)$item->dencidade_calorica * $item->volume;
@@ -196,7 +198,7 @@
                                 <td ><font size = -2><b>Taxa de Infus&atilde;o</b></td>
                                 <td ><font size = -2><?= $taxadeinfusao; ?></td>
                                 <td ><font size = -2><b>Via de Acesso</b></td>
-                                <td ><font size = -2></td>
+                                <td ><font size = -2><?= $via; ?></td>
                             </tr>
                             <tr>
                                 <td ><font size = -2><b>Data Preparo</b></td>
@@ -276,7 +278,7 @@
                             <td ><font size = -2><b>Taxa de Infus&atilde;o</b></td>
                             <td ><font size = -2><?= $taxadeinfusao; ?></td>
                             <td ><font size = -2><b>Via de Acesso</b></td>
-                            <td ><font size = -2></td>
+                            <td ><font size = -2><?= $via; ?></td>
                         </tr>
                         <tr>
                             <td ><font size = -2><b>Data Preparo</b></td>

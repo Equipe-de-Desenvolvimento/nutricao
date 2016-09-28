@@ -27,6 +27,7 @@ class internacao_model extends BaseModel {
     var $_rx = null;
     var $_acesso = null;
     var $_paciente_id = null;
+    var $_via = null;
 
     function internacao_model($paciente_id = null) {
         parent::Model();
@@ -118,6 +119,7 @@ class internacao_model extends BaseModel {
             $this->db->set('pla', $_POST['pla']);
             $this->db->set('rx', $_POST['rx']);
             $this->db->set('acesso', $_POST['acesso']);
+            $this->db->set('via', $_POST['via']);
             $this->db->set('paciente_id', $paciente_id);
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
@@ -666,6 +668,7 @@ class internacao_model extends BaseModel {
                                i.solicitante,
                                i.reg,
                                i.val,
+                               i.via,
                                i.pla,
                                i.rx,
                                i.acesso,
@@ -698,6 +701,7 @@ class internacao_model extends BaseModel {
             $this->_pla = $return[0]->pla;
             $this->_rx = $return[0]->rx;
             $this->_acesso = $return[0]->acesso;
+            $this->_via = $return[0]->via;
             $this->_paciente_id = $paciente_id;
         }
     }
@@ -960,6 +964,7 @@ class internacao_model extends BaseModel {
                             tc.nome as classificacao,
                             iu.nome as hospital,
                             i.diagnostico,
+                            i.via,
                             o.nome as nutricionista,
                             o.conselho,
                             ip.preparo,
@@ -1018,6 +1023,7 @@ class internacao_model extends BaseModel {
                             ipe.internacao_precricao_etapa_id,
                             ipp.etapas,
                             ipp.volume,
+                            ipp.observacao,
                             ipp.kcal,
                             ipp.descricao,
                             ip.internacao_id,

@@ -79,6 +79,8 @@ IF ($tipo == 'ENTERALNORMAL') {
             $hospital = "";
             $diagnostico = "";
             $convenio = "";
+            $w=0;
+            $observacao ="";
             $leito = "";
             $nascimento = "";
             $diagnostico = "";
@@ -93,6 +95,7 @@ IF ($tipo == 'ENTERALNORMAL') {
                 $convenio = $valor->convenio;
                 $paciente = $valor->paciente;
                 $internacao_precricao_id = $valor->internacao_precricao_id;
+                
 
 
                 foreach ($prescricao as $item) {
@@ -121,7 +124,9 @@ IF ($tipo == 'ENTERALNORMAL') {
                         } else {
                             $kcal = "";
                         }
-
+                        if($item->observacao != ""){
+                        $observacao = $item->observacao;
+                        }
 
 
                         if ($b == 1) {
