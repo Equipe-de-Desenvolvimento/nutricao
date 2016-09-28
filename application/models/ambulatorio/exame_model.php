@@ -1941,6 +1941,51 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
+    
+    function imprimirrelacaodepacienteshospitalnome() {
+
+        $this->db->select('
+                            p.paciente_id,
+                         p.nome as paciente,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->join('tb_internacao i', 'i.hospital = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+//        $this->db->where('i.ativo ', 't');
+        $this->db->groupby('p.paciente_id');
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function imprimirrelacaodepacienteshospital() {
+
+        $this->db->select('
+                            p.paciente_id,
+                            p.nome as paciente,
+                            i.internacao_id,
+                            i.carater_internacao,
+                            c.valor_diaria,                          
+                           
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->join('tb_internacao i', 'i.hospital = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+//        $this->db->where('i.ativo ', 't');
+        $this->db->orderby('p.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
 
     function bancoconvenio() {
 
@@ -1957,6 +2002,28 @@ class exame_model extends Model {
         $this->db->from('tb_convenio c');
         $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
         $this->db->where("c.convenio_id", $_POST['convenio']);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function relacaodepacienteshospitalnome() {
+
+        $this->db->select('
+                            iu.internacao_unidade_id,
+                            iu.nome,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function listarhospital() {
+
+        $this->db->select('
+                            iu.internacao_unidade_id,
+                            iu.nome,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->where("iu.ativo", 't');
         $return = $this->db->get();
         return $return->result();
     }

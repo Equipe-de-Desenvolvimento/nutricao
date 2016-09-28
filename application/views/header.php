@@ -120,6 +120,7 @@ function debug($object) {
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatoriovalorprocedimento">Ajustar valores</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/guia/relatorioexame">Relatorio Conferencia</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/relacaodepacientes">Relação de Pacientes</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/relacaodepacienteshospital">Repasse Hospitalar</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/relatorioresumoconvenio">Relatório Resumo Convenio</a></span></li>
 <? } ?>
                     </ul>

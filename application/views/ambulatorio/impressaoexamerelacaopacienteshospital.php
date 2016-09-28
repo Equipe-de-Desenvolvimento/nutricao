@@ -51,7 +51,7 @@ elseif($mesatual == '11'){
     <head>
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
-        <title>Relação dos Pacientes</title>
+        <title>Repasse Hospitalar</title>
     </head>
 
     <body>
@@ -78,11 +78,7 @@ elseif($mesatual == '11'){
                     <td height="16" colspan="7" class="tisemsublinhadogrande" >PERÍODO:&nbsp;&nbsp;<? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
                 </tr>
                 <tr>
-                    <td height="16" colspan="7" class="tisemsublinhadogrande" > CONVENIO:<?
-                       
-                            echo $banco[0]->convenio;
-                      
-                        ?>
+                    <td height="16" colspan="7" class="tisemsublinhadogrande" > HOSPITAL:<?echo $hospital[0]->nome;?>
 
 
 
@@ -106,7 +102,7 @@ elseif($mesatual == '11'){
                 <td width="18%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANT.DIAS</strong></td>
                 <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALOR TOTAL</td>
             </tr> 
-            <? if ($listar != null) { ?>
+            <? if ($listar!=null) { ?>
 
 
 
@@ -118,7 +114,7 @@ elseif($mesatual == '11'){
                 <?
                 foreach ($listarpacientes as $valor) {
                     $i = 0;
-
+                    $total=0;
 
                     foreach ($listar as $item) {
                         if ($valor->paciente_id == $item->paciente_id) {
@@ -146,7 +142,7 @@ elseif($mesatual == '11'){
                     <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>R$<?  echo number_format($totalgeral,2,",","."); ?></strong></td>
                 </tr>
             <? } else { ?>
-<tr>
+                <tr>
                         <td height="19" colspan="2" align="center" style="text-align: center; font-size: 10px;">SEM PACIENTES NO PERÍODO SOLICITADO</td>
                         <td height="19" colspan="2" align="center" style="text-align:center;font-size: 9px;"><? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
                         <td height="19" align="center" style="text-align:center;font-size: 9px;">NI</td>
@@ -160,6 +156,9 @@ elseif($mesatual == '11'){
                     <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>0</strong></td>
                     <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>R$</strong></td>
                 </tr>
+                
+                
+
 
             <? } ?>         
 

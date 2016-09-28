@@ -228,6 +228,24 @@ class Exame extends BaseController {
 
         $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
     }
+    function relacaodepacienteshospital() {
+
+        $this->loadView('ambulatorio/relacaodepacienteshospital');
+    }
+
+    function impressaorelacaodepacienteshospital() {
+
+        $data['listarpacientes'] = $this->exame->imprimirrelacaodepacienteshospitalnome();
+        $data['teste'] = $this->exame->imprimirrelacaodepacienteshospital();
+        $data['hospital'] = $this->exame->relacaodepacienteshospitalnome();
+        $data['listar'] = isset($data['teste']) ? $data['teste'] : '';
+
+
+//        echo var_dump($data['hospital']);
+//        die;
+        
+        $this->load->View('ambulatorio/impressaoexamerelacaopacienteshospital', $data);
+    }
 
     function relatorioresumoconvenio() {
 
