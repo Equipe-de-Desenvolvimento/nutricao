@@ -1523,6 +1523,7 @@ class exame_model extends Model {
 
             $this->db->set('etapas', 1);
             $this->db->set('produto_id', $_POST['equipo']);
+            $this->db->set('volume', null);
             $this->db->set('observacao', $_POST['observacao']);
             $this->db->set('descricao', $_POST['descricao']);
             $this->db->set('data_atualizacao', $horario);
@@ -1536,7 +1537,7 @@ class exame_model extends Model {
 //            echo var_dump($peso);
 //            die;
              
-            if($peso= $_POST['peso'] =! ''){
+            if($_POST['peso'] =! ''){
             $this->db->select('medida');
                             $this->db->from('tb_procedimento_tuss_caloria ptc');
                             $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
@@ -1548,14 +1549,15 @@ class exame_model extends Model {
                             if($returns!= null){
                             $kcal = $returns[0]->medida;
                             }
-                          $kcal='';
-                            
+                          else {
+                            $kcal='';
+                            }
             }
             
             
 //            echo var_dump($returns);
 //            die;
-            
+//            
             if($peso!= null){
                 $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);

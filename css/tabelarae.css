@@ -171,3 +171,30 @@ table#tabelaspec .ttrl {
     text-align: center;
     font-weight:bold;
 }
+
+.bt_link_new{
+    background: url(images/bg_buttons.png);
+    width: 60px;
+    height: 15px;
+    border: 1px solid;
+    border-top-color: #eee;
+    border-right-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-color: #eee;
+    -moz-border-radius:4px;
+    margin-bottom: 4px;
+}
+
+.bt_link_new a {
+    display:block;
+    width:60px;
+    height:10px;
+    padding:5px 5px 5px 5px;
+    color: #900;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.bt_link_new a:hover {
+    color: #f00;
+}
