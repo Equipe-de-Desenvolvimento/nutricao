@@ -1523,6 +1523,7 @@ class exame_model extends Model {
 
             $this->db->set('etapas', 1);
             $this->db->set('produto_id', $_POST['equipo']);
+            $this->db->set('volume', null);
             $this->db->set('observacao', $_POST['observacao']);
             $this->db->set('descricao', $_POST['descricao']);
             $this->db->set('data_atualizacao', $horario);
@@ -1536,7 +1537,7 @@ class exame_model extends Model {
 //            echo var_dump($peso);
 //            die;
              
-            if($peso= $_POST['peso'] =! ''){
+            if($_POST['peso'] =! ''){
             $this->db->select('medida');
                             $this->db->from('tb_procedimento_tuss_caloria ptc');
                             $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
@@ -1548,14 +1549,15 @@ class exame_model extends Model {
                             if($returns!= null){
                             $kcal = $returns[0]->medida;
                             }
-                          $kcal='';
-                            
+                          else {
+                            $kcal='';
+                            }
             }
             
             
 //            echo var_dump($returns);
 //            die;
-            
+//            
             if($peso!= null){
                 $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);
@@ -1586,15 +1588,19 @@ class exame_model extends Model {
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
 
-            
-            //Etapa Tabela
-            if($_POST['etapas']=="0"){
+            if($_POST['volume']!=''){
+                 if($_POST['etapas']=="0"){
                 $etapavolume = ((int) $_POST['volume']) / 1;
             }
             $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
              
-            $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('volume', $etapavolume);
+                
+            }
+            //Etapa Tabela
+           
+            
+            $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
             $this->db->update('tb_internacao_precricao_etapa');
@@ -1937,6 +1943,51 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
+    
+    function imprimirrelacaodepacienteshospitalnome() {
+
+        $this->db->select('
+                            p.paciente_id,
+                         p.nome as paciente,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->join('tb_internacao i', 'i.hospital = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+//        $this->db->where('i.ativo ', 't');
+        $this->db->groupby('p.paciente_id');
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function imprimirrelacaodepacienteshospital() {
+
+        $this->db->select('
+                            p.paciente_id,
+                            p.nome as paciente,
+                            i.internacao_id,
+                            i.carater_internacao,
+                            c.valor_diaria,                          
+                           
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->join('tb_internacao i', 'i.hospital = iu.internacao_unidade_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+//        $this->db->where('i.ativo ', 't');
+        $this->db->orderby('p.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
 
     function bancoconvenio() {
 
@@ -1953,6 +2004,28 @@ class exame_model extends Model {
         $this->db->from('tb_convenio c');
         $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
         $this->db->where("c.convenio_id", $_POST['convenio']);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function relacaodepacienteshospitalnome() {
+
+        $this->db->select('
+                            iu.internacao_unidade_id,
+                            iu.nome,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    function listarhospital() {
+
+        $this->db->select('
+                            iu.internacao_unidade_id,
+                            iu.nome,
+                            ');
+        $this->db->from('tb_internacao_unidade iu');
+        $this->db->where("iu.ativo", 't');
         $return = $this->db->get();
         return $return->result();
     }

@@ -1,56 +1,45 @@
 <?
 //echo var_dump($listar); 
 //die; 
-$dataatual= date("Y-m-d");
+$dataatual = date("Y-m-d");
 ?>
-  <? $anoatual = substr($dataatual, 0, 4); ?>
-                        <? $mesatual = substr($dataatual, 5, 2); ?>
-                        <? $diaatual = substr($dataatual, 8, 2); ?>
-                        <? $datafinal = $diaatual . '/' . $mesatual . '/' . $anoatual; ?>  
+<? $anoatual = substr($dataatual, 0, 4); ?>
+<? $mesatual = substr($dataatual, 5, 2); ?>
+<? $diaatual = substr($dataatual, 8, 2); ?>
+<? $datafinal = $diaatual . '/' . $mesatual . '/' . $anoatual; ?>  
 <?
-if($mesatual == '01'){
-    $mesatual= 'JANEIRO';
+if ($mesatual == '01') {
+    $mesatual = 'JANEIRO';
+} elseif ($mesatual == '02') {
+    $mesatual = 'FEVEREIRO';
+} elseif ($mesatual == '03') {
+    $mesatual = 'MARÇO';
+} elseif ($mesatual == '04') {
+    $mesatual = 'ABRIL';
+} elseif ($mesatual == '05') {
+    $mesatual = 'MAIO';
+} elseif ($mesatual == '06') {
+    $mesatual = 'JUNHO';
+} elseif ($mesatual == '07') {
+    $mesatual = 'JULHO';
+} elseif ($mesatual == '08') {
+    $mesatual = 'AGOSTO';
+} elseif ($mesatual == '09') {
+    $mesatual = 'SETEMBRO';
+} elseif ($mesatual == '10') {
+    $mesatual = 'OUTUBRO';
+} elseif ($mesatual == '11') {
+    $mesatual = 'NOVEMBRO';
+} elseif ($mesatual == '11') {
+    $mesatual = 'DEZEMBRO';
 }
-elseif($mesatual == '02'){
-    $mesatual= 'FEVEREIRO';
-}
-elseif($mesatual == '03'){
-    $mesatual= 'MARÇO';
-}
-elseif($mesatual == '04'){
-    $mesatual= 'ABRIL';
-}
-elseif($mesatual == '05'){
-    $mesatual= 'MAIO';
-}
-elseif($mesatual == '06'){
-    $mesatual= 'JUNHO';
-}
-elseif($mesatual == '07'){
-    $mesatual= 'JULHO';
-}
-elseif($mesatual == '08'){
-    $mesatual= 'AGOSTO';
-}
-elseif($mesatual == '09'){
-    $mesatual= 'SETEMBRO';
-}
-elseif($mesatual == '10'){
-    $mesatual= 'OUTUBRO';
-}
-elseif($mesatual == '11'){
-    $mesatual= 'NOVEMBRO';
-}
-elseif($mesatual == '11'){
-    $mesatual= 'DEZEMBRO';
-}
-
 ?>
 
 <html>
     <head>
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
         <title>Relação dos Pacientes</title>
     </head>
 
@@ -79,10 +68,8 @@ elseif($mesatual == '11'){
                 </tr>
                 <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" > CONVENIO:<?
-                       
-                            echo $banco[0]->convenio;
-                      
-                        ?>
+echo $banco[0]->convenio;
+?>
 
 
 
@@ -102,53 +89,73 @@ elseif($mesatual == '11'){
             <tr>
                 <td height="35" colspan="2" align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PACIENTE</strong></td>
                 <td height="35" colspan="2" align="center" style="text-align:center;font-size: 9px;"><strong>PERIODO</strong></td>
-                <td width="22%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>PROC</strong></td>
-                <td width="18%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANT.DIAS</strong></td>
-                <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALOR TOTAL</td>
+                <td width="15%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>PROC</strong></td>
+                <td width="7%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANT.DIAS</strong></td>
+                <td width="8%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALOR TOTAL</td>
+                <td width="5%" height="25" align="center" style="text-align:center;font-size: 9px;"><strong>AÇÕES</strong></td>
             </tr> 
-            <? if ($listar != "") { ?>
+<? if ($listar != null) { ?>
 
 
 
 
-                <?
-                $totalgeral = 0;
-                $diasgerais = 0;
-                ?>
-                <?
-                foreach ($listarpacientes as $valor) {
-                    $i = 0;
+    <?
+    $totalgeral = 0;
+    $diasgerais = 0;
+    ?>
+    <?
+    foreach ($listarpacientes as $valor) {
+        $i = 0;
 
 
-                    foreach ($listar as $item) {
-                        if ($valor->paciente_id == $item->paciente_id) {
-                            $i++;
-                            $paciente = $item->paciente;
-                            $total = $i * $item->valor_diaria;
-                        }
-                    }
-                    $diasgerais = $diasgerais + $i;
-                    $totalgeral = $totalgeral + $total;
-                    ?>
+        foreach ($listar as $item) {
+            if ($valor->paciente_id == $item->paciente_id) {
+                $i++;
+                $paciente = $item->paciente;
+                $total = $i * $item->valor_diaria;
+                $internacao_id = $item->internacao_id;
+            }
+        }
+        $diasgerais = $diasgerais + $i;
+        $totalgeral = $totalgeral + $total;
+        ?>
                     <tr>
                         <td height="19" colspan="2" align="center" style="text-align: center; font-size: 10px;"><?= $paciente ?></td>
                         <td height="19" colspan="2" align="center" style="text-align:center;font-size: 9px;"><? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
-                        <td height="19" align="center" style="text-align:center;font-size: 9px;"><?echo $item->carater_internacao;?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;"><? echo $item->carater_internacao; ?></td>
                         <td height="19" align="center" style="text-align:center;font-size: 9px;"><?= $i ?></td>
-                        <td height="19" align="center" style="text-align:center;font-size: 9px;">R$<?  echo number_format($total,2,",","."); ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;">R$<? echo number_format($total, 2, ",", "."); ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 9px;"><div class="bt_link_new">
+                                <a href="<?php echo base_url() ?>ambulatorio/exame/relacaodepacientesrelatorios/<?= $internacao_id ?>">
+                                    Relatórios
+                                </a>
+                            </div></td>
                     </tr> 
                 <? }
                 ?>
-                   
+
                 <tr>
                     <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
                     <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong><?= $diasgerais ?></strong></td>
-                    <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>R$<?  echo number_format($totalgeral,2,",","."); ?></strong></td>
+                    <td height="35" colspan="2" align="center" style="text-align:center;font-size: 9px;"><strong>R$<? echo number_format($totalgeral, 2, ",", "."); ?></strong></td>
                 </tr>
-            <? } else { ?>
+<? } else { ?>
+                <tr>
+                    <td height="19" colspan="2" align="center" style="text-align: center; font-size: 10px;">SEM PACIENTES NO PERÍODO SOLICITADO</td>
+                    <td height="19" colspan="2" align="center" style="text-align:center;font-size: 9px;"><? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
+                    <td height="19" align="center" style="text-align:center;font-size: 9px;">NI</td>
+                    <td height="19" align="center" style="text-align:center;font-size: 9px;">0</td>
+                    <td height="19" align="center" style="text-align:center;font-size: 9px;">R$</td>
+                </tr> 
 
 
-            <? } ?>         
+                <tr>
+                    <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
+                    <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>0</strong></td>
+                    <td height="35" colspan="2" align="center" style="text-align:center;font-size: 9px;"><strong>R$</strong></td>
+                </tr>
+
+<? } ?>         
 
 
 
@@ -182,7 +189,7 @@ elseif($mesatual == '11'){
 
                         <br>
                         <br>
-                        <p style="text-align: center;"><strong> Fortaleza &nbsp;-&nbsp; <?echo $diaatual;?> DE <? echo $mesatual;?> DE <? echo $anoatual;?><br>
+                        <p style="text-align: center;"><strong> Fortaleza &nbsp;-&nbsp; <? echo $diaatual; ?> DE <? echo $mesatual; ?> DE <? echo $anoatual; ?><br>
 
                             </strong></p>
 

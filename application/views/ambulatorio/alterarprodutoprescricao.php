@@ -14,7 +14,7 @@
             </div>
             <div>
                 <label>Nome</label>                      
-                <input type="text" id="txtNome" name="nome"  class="texto06" value="<?= $produto['0']->nome; ?>" readonly/>
+                <input type="text" id="txtNome" name="nome"  class="texto05" value="<?= $produto['0']->nome; ?>" readonly/>
             </div>
             <div>
                 <label>Etapas</label>
@@ -27,6 +27,14 @@
             <div>
                 <label>Vasão</label>
                 <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->vasao; ?>"  readonly/>
+            </div>
+            <div>
+                <label>Kcal</label>
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->kcal; ?>"  readonly/>
+            </div>
+            <div>
+                <label>Medida</label>
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->peso; ?>"  readonly/>
             </div>
              
            

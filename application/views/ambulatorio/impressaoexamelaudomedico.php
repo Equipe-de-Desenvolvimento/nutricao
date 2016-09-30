@@ -108,17 +108,13 @@
                             <?}?>
                         
                         
-                        <strong><? echo $listar[0]->pla; ?></strong> REGULAMENTADO EM: <? $ano = substr($listar[0]->reg, 0, 4); ?>
-                        <? $mes = substr($listar[0]->reg, 5, 2); ?>
-                        <? $dia = substr($listar[0]->reg, 8, 2); ?>
-                        <? $datafinal = $dia . '/' . $mes . '/' . $ano; ?>
-                        <strong><?php echo$datafinal ?></strong>
+                        <strong><? echo $listar[0]->pla; ?></strong> REGULAMENTADO EM: <strong><? echo $listar[0]->reg;?></strong>
                         <br>
                         <br>
                         ATENDENTE: <strong><? echo $listar[0]->atendente; ?></strong>
                         <br>
                         <br>
-                        PERÍODO: 10/07/16 A 13/07/16
+                        PERÍODO: <?echo  $_POST['txtdata_inicio']?> A <?echo  $_POST['txtdata_fim']?>
                         <br>
                         <br>
                         DATA: ____/____/_______

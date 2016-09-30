@@ -146,24 +146,34 @@ class Exame extends BaseController {
     function alterarprodutoprescricao($internacao_precricao_produto_id) {
 
         $data['produto'] = $this->exame->produtoexamefaturamento($internacao_precricao_produto_id);
-        $internacao_id= $data['produto'][0]->internacao_id;
+        $internacao_id = $data['produto'][0]->internacao_id;
         $data['enteral'] = $this->exame->listaprodutosenteral($internacao_id);
         $data['equipo'] = $this->exame->listaprodutosequipo($internacao_id);
-        $data['internacao_precricao_produto_id']= $data['produto'][0]->internacao_precricao_produto_id;
+        $data['internacao_precricao_produto_id'] = $data['produto'][0]->internacao_precricao_produto_id;
 //        echo var_dump($data['produto']);
 //        die;
         $this->loadView('ambulatorio/alterarprodutoprescricao', $data);
     }
+
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
-//        $data['antigo'] = $this->exame->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
-//        $this->exame->gravarprodutoantigoprescricao($data['antigo']);
+        $data['antigo'] = $this->exame->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
+        $this->exame->gravarprodutoantigoprescricao($data['antigo']);
 //        die;
 //       echo var_dump($data['antigo']);
-        
-        
+
+
         $this->exame->gravaralterarprodutoprescricao($internacao_precricao_produto_id);
         
-        
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
     }
 
     function impressaospsadt($internacao_id) {
@@ -184,13 +194,42 @@ class Exame extends BaseController {
     function impressaolaudomedico($internacao_id) {
         $data['listar'] = $this->exame->imprimirlaudomedico($internacao_id);
 
-        $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
+        if ($data['listar'] == null) {
+            echo '
+             <head>
+        <meta charset="utf-8">
+        <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
+        <title>Relação dos Pacientes</title>
+    </head> 
+<table id="tabelaspec"  width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
+            <tbody>
+
+            
+                <tr class="tic">
+                    <a href="javascript:history.back()">Voltar</a>
+                </tr>
+
+                <tr class="tic">
+                    <td height="16" colspan="7" class="tisemsublinhadogrande">Sem Pacientes no Período Solicitado</td>
+                </tr>
+                <tr>
+                    
+                </tr>
+                
+
+
+        </table>';
+        } else {
+            $this->load->View('ambulatorio/impressaoexamelaudomedico', $data);
+        }
     }
 
     function impressaolaudomedicoipm($internacao_id) {
         $data['listar'] = $this->exame->imprimirlaudomedicoipm($internacao_id);
-//        echo var_dump($data['empresa']);
+//        echo var_dump($data['listar']);
 //        die;
+
         $this->load->View('ambulatorio/impressaoexamelaudomedicoipm', $data);
     }
 
@@ -227,6 +266,25 @@ class Exame extends BaseController {
 //        die;
 
         $this->load->View('ambulatorio/impressaoexamerelacaopacientes', $data);
+    }
+
+    function relacaodepacienteshospital() {
+
+        $this->loadView('ambulatorio/relacaodepacienteshospital');
+    }
+
+    function impressaorelacaodepacienteshospital() {
+
+        $data['listarpacientes'] = $this->exame->imprimirrelacaodepacienteshospitalnome();
+        $data['teste'] = $this->exame->imprimirrelacaodepacienteshospital();
+        $data['hospital'] = $this->exame->relacaodepacienteshospitalnome();
+        $data['listar'] = isset($data['teste']) ? $data['teste'] : '';
+
+
+//        echo var_dump($data['hospital']);
+//        die;
+
+        $this->load->View('ambulatorio/impressaoexamerelacaopacienteshospital', $data);
     }
 
     function relatorioresumoconvenio() {
@@ -280,6 +338,17 @@ class Exame extends BaseController {
 
 
         $this->load->View('ambulatorio/impressaorelatorioresumoconvenio', $data);
+    }
+
+    function relacaodepacientesrelatorios($internacao_id) {
+//        echo var_dump($internacao_id);
+//        die;
+        $data['listar'] = $this->exame->imprimirsadt($internacao_id);
+        $data['internacao_id'] = $internacao_id;
+//        echo var_dump($data['empresa']);
+//        die;
+        //$this->load->View('ambulatorio/impressaoexamespsadt', $data);
+        $this->loadView('ambulatorio/relacaodepacientesrelatorio', $data);
     }
 
     function faturamentoexamexml($args = array()) {
