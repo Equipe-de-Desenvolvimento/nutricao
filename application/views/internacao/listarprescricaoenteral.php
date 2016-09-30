@@ -64,7 +64,7 @@
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->volume; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->vasao; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $equipo; ?></td>
-                <? if ($equipo != '&nbsp;') { ?>
+                <? if ($data != '&nbsp;') { ?>
                     <td class="<?php echo $estilo_linha; ?>"><div class="bt_link_new">
                             <a onclick="javascript:window.open('<?= base_url() ?>internacao/internacao/etiquetapaciente/<?= $item->internacao_precricao_id ?>');">ETIQUETA</a></div></td>
                 <? } else { ?>

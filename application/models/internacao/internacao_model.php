@@ -482,10 +482,10 @@ class internacao_model extends BaseModel {
                 $this->db->set('nutricionista', $row->nutricionista);
             }
             if ($row->preparo != '') {
-            $this->db->set('preparo', $row->preparo);
+                $this->db->set('preparo', $row->preparo);
             }
             if ($row->validade != '') {
-            $this->db->set('validade', $row->validade);
+                $this->db->set('validade', $row->validade);
             }
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao');
@@ -509,7 +509,7 @@ class internacao_model extends BaseModel {
                     $this->db->insert('tb_internacao_precricao_etapa');
                     $internacao_precricao_etapa_id = $this->db->insert_id();
 
-                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id, volume, vasao, peso, kcal, observacao');
+                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
                     $this->db->from('tb_internacao_precricao_produto');
                     $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
                     $this->db->where("ativo", 'true');
@@ -539,9 +539,13 @@ class internacao_model extends BaseModel {
                             if ($value->peso != "") {
                                 $this->db->set('peso', $value->peso);
                             }
-                            if ($value->vasao != "") {
-                                $this->db->set('vasao', $value->vasao);
+                            if ($value->descricao != "") {
+                                $this->db->set('descricao', $value->descricao);
                             }
+                            if ($value->kcal != "") {
+                                $this->db->set('kcal', $value->kcal);
+                            }
+
                             $this->db->set('empresa_id', $empresa_id);
                             $this->db->set('data_cadastro', $horario);
                             $this->db->set('operador_cadastro', $operador_id);
@@ -843,6 +847,7 @@ class internacao_model extends BaseModel {
                             ipe.internacao_precricao_etapa_id,
                             ipp.etapas,
                             ipp.volume,
+                            ipp.descricao,
                             ipp.vasao,
                             ipp.kcal,
                             ipp.internacao_precricao_id,
@@ -987,6 +992,22 @@ class internacao_model extends BaseModel {
         $this->db->where('ipp.ativo', 't');
         $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function etiquetapacienteclassificacao($internacao_precricao_etapa_id) {
+        $data = date("Y-m-d");
+        $this->db->select('tc.nome as classificacao');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
+        $this->db->where('ipe.internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+        $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('ipp.ativo', 't');
         $return = $this->db->get();
         return $return->result();
     }

@@ -467,6 +467,9 @@ class internacao extends BaseController {
     function etiquetapaciente($internacao_precricao_id) {
         $data['internacao_precricao_id'] = $internacao_precricao_id;
         $data['prescricao'] = $this->internacao_m->etiquetapaciente($internacao_precricao_id);
+//        echo '<pre>';
+//        var_dump($data['prescricao']);
+//        die;
         $data['prescricaoequipo'] = $this->internacao_m->etiquetapacienteequipo($internacao_precricao_id);
 
         if($data['prescricao'][0]->sf == 'f'){
