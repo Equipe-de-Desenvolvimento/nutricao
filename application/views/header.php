@@ -205,6 +205,7 @@ function debug($object) {
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimento/pesquisartuss">Manter Procedimentos TUSS</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimento/gerarelatorioprocedimentotuss">Relatorio Procedimentos TUSS</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>cadastros/convenio">Manter convenio</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>ambulatorio/exame/produtoipm">Manter Produto IPM</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/procedimentoplano">Manter Procedimentos Convenio</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>ambulatorio/classificacao">Manter Classificacao</a></span></li>
                         <? } ?>

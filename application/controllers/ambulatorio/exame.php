@@ -163,7 +163,7 @@ class Exame extends BaseController {
 
 
         $this->exame->gravaralterarprodutoprescricao($internacao_precricao_produto_id);
-        
+
         echo '<html>
     <script type="text/javascript">
         alert("Produto Alterado Com Sucesso");
@@ -243,7 +243,7 @@ class Exame extends BaseController {
     function impressaorelatoriodecustos($internacao_id) {
         $data['listar'] = $this->exame->imprimirrelatoriodecustos($internacao_id);
         $data['dias'] = $this->exame->datarelatoriodecustos($internacao_id);
-        $data['equipo'] = $this->exame->equiporelatoriodecustos($internacao_id);
+        $data['produto'] = $this->exame->listarprodutoipm();
         $data['empresa'] = $this->exame->empresa();
 //        echo var_dump($data['listar']);
 //        die;
@@ -290,6 +290,49 @@ class Exame extends BaseController {
     function relatorioresumoconvenio() {
 
         $this->loadView('ambulatorio/relatorioresumoconvenio');
+    }
+
+    function produtoipm() {
+        
+        $data['listar'] = $this->exame->listarprodutoipm();
+        $this->loadView('ambulatorio/produtoipm', $data);
+    }
+
+    function novoprodutoipm() {
+
+        $this->loadView('ambulatorio/novoprodutoipm');
+    }
+    function carregarprodutoipm($internacao_precricao_produto_ipm_id) {
+
+        $data['listar'] = $this->exame->carregarprodutoipm($internacao_precricao_produto_ipm_id);
+        $data['internacao_precricao_produto_ipm_id'] = $data['listar'][0]->internacao_precricao_produto_ipm_id ;
+        $this->loadView('ambulatorio/carregarprodutoipm', $data);
+    }
+
+    function gravarprodutoipm($internacao_precricao_produto_ipm_id) {
+
+        $this->exame->gravarprodutoipm($internacao_precricao_produto_ipm_id);
+         if ($return == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar produto.';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar produto.';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        
+        redirect(base_url() . "ambulatorio/exame/produtoipm", $data);
+    }
+    
+    function excluirprodutoipm($internacao_precricao_produto_ipm_id) {
+
+        $this->exame->excluirprodutoipm($internacao_precricao_produto_ipm_id);
+         if ($return == 0) {
+            $data['mensagem'] = 'Sucesso ao excluir produto.';
+        } else {
+            $data['mensagem'] = 'Erro ao excluir produto.';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        
+        redirect(base_url() . "ambulatorio/exame/produtoipm", $data);
     }
 
     function impressaorelatorioresumoconvenio() {

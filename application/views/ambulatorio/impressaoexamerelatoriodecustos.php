@@ -29,6 +29,7 @@ $total_diaria = $valor_diaria * $contagemdias;
 
 
         <table id="tabelaspec"  width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
+             
             <tbody>
 
 
@@ -42,6 +43,7 @@ $total_diaria = $valor_diaria * $contagemdias;
                 <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" style="text-decoration: underline;">NUTRIÇÃO ENTERAL - <? echo $listar[0]->convenio; ?></td>
                 </tr>
+              
                 <tr>
 
                     <td height="150" colspan="4" class="sembordadireita">
@@ -69,6 +71,7 @@ $total_diaria = $valor_diaria * $contagemdias;
 
                     </td>
                 </tr>
+                
         </table>
 
         <table id="tabelaspec" width="80%" border="1" align="center" cellpadding="0" cellspacing="0" class="tipp">
@@ -83,40 +86,17 @@ $total_diaria = $valor_diaria * $contagemdias;
                 </tr>
 
                 
-                <? foreach ($listar as $item) { ?>
+                <? foreach ($produto as $item) { ?>
                     <tr>
-                        <?
-                        if($item->etapas!=0){
-                            $volume=$item->volume/$item->etapas;
-                        }
-                        $volume=$item->volume/1;
                         
-                        ?>
-                        <td class="semborda"><?= $item->produto; ?>&nbsp;&nbsp;<?echo $volume; ?> ML</td>
-                        <td height="16" class="semborda"><?= $item->etapas; ?></td>
+                        <td class="semborda"><?= $item->descricao; ?></td>
+                        <td height="16" class="semborda"><?= $item->quantidade; ?></td>
 
 
                     </tr>
                     
                 <? } ?>
-                    <? foreach ($listar as $item) { ?>
-                        <tr>
-                            <td class="semborda">FRASCO P/ NUTRIÇÃO ENTERAL 300ML C/ LACRE</td>
-                            <td height="16" class="semborda"><?= $item->etapas; ?></td>
-
-
-                        </tr>
-
-                    <? } ?>
-                    <? foreach ($equipo as $item) { ?>
-                    <tr>
-                        <td class="semborda"><?= $item->produto; ?></td>
-                        <td height="16" class="semborda"><?= $item->etapas; ?></td>
-
-
-                    </tr>
                     
-                <? } ?>
                     
 
 
