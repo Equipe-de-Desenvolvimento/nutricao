@@ -112,6 +112,10 @@
                     <label>Orçamento Parenteral</label>
                     <input type="text" id="parenteral" class="texto02" name="parenteral" alt="decimal" value="<?= @$obj->_parenteral; ?>" />
                 </div>
+                <div>
+                    <label>Deflator</label>
+                    <input type="text" id="deflator" class="texto02" name="deflator" alt="decimal" value="<?= @$obj->_deflator; ?>" />%
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Condi&ccedil;&atilde;o de recebimento</legend>

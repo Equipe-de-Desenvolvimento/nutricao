@@ -99,3 +99,11 @@ ALTER TABLE ponto.tb_internacao_precricao_produto ADD COLUMN descricao character
 Dia 27/09/16
 
 ALTER TABLE ponto.tb_internacao ADD COLUMN via character varying(100);
+
+
+Dia 03/10/16
+
+ALTER TABLE ponto.tb_convenio ADD COLUMN deflator numeric(10,2);
+
+
+
