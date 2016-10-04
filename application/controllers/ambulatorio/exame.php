@@ -302,6 +302,7 @@ class Exame extends BaseController {
 
         $this->loadView('ambulatorio/novoprodutoipm');
     }
+    
     function carregarprodutoipm($internacao_precricao_produto_ipm_id) {
 
         $data['listar'] = $this->exame->carregarprodutoipm($internacao_precricao_produto_ipm_id);

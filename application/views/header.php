@@ -177,6 +177,17 @@ function debug($object) {
                         }?>
                     </ul>
                 </li>
+                <li><span class="folder">Nutricionista</span>
+                    <ul>
+<? if ($perfil_id == 1) { ?>
+                            <li><span class="file"><a href="<?= base_url() ?>nutricionista/nutricionista">Evolução Nutricional</a></span></li>
+                            
+                            <?
+                        }
+                            ?>
+                      
+                    </ul>
+                </li>
                 <li><span class="folder">Internacao</span>
                     <ul>
                         <!--<li><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsolicitacaointernacao">Listar Solicitacoes</a></span></li>-->
