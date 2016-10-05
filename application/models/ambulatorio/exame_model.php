@@ -1518,8 +1518,8 @@ class exame_model extends Model {
 
 
         if ($_POST['equipo'] != "Selecione") {
-         
-            
+
+
 
             $this->db->set('etapas', 1);
             $this->db->set('produto_id', $_POST['equipo']);
@@ -1531,55 +1531,53 @@ class exame_model extends Model {
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
         } else {
-               
-            $peso= $_POST['peso'];
-            $medida= $_POST['medida'];
+
+            $peso = $_POST['peso'];
+            $medida = $_POST['medida'];
 //            echo var_dump($peso);
 //            die;
-             
-            if($_POST['peso'] =! ''){
-            $this->db->select('medida');
-                            $this->db->from('tb_procedimento_tuss_caloria ptc');
-                            $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
-                            $this->db->where('pc.procedimento_convenio_id', $_POST['produto']);
-                            $this->db->where('ptc.kcal', (string) $peso);
-                            $this->db->where('ptc.ativo', 't');
-                            $querys = $this->db->get();
-                            $returns = $querys->result();
-                            if($returns!= null){
-                            $kcal = $returns[0]->medida;
-                            }
-                          else {
-                            $kcal='';
-                            }
+
+            if ($_POST['peso'] = !'') {
+                $this->db->select('medida');
+                $this->db->from('tb_procedimento_tuss_caloria ptc');
+                $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
+                $this->db->where('pc.procedimento_convenio_id', $_POST['produto']);
+                $this->db->where('ptc.kcal', (string) $peso);
+                $this->db->where('ptc.ativo', 't');
+                $querys = $this->db->get();
+                $returns = $querys->result();
+                if ($returns != null) {
+                    $kcal = $returns[0]->medida;
+                } else {
+                    $kcal = '';
+                }
             }
-            
-            
+
+
 //            echo var_dump($returns);
 //            die;
 //            
-            if($peso!= null){
+            if ($peso != null) {
                 $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);
                 $this->db->set('etapas', $_POST['etapas']);
             }
-            if($medida!=null){
+            if ($medida != null) {
                 $this->db->set('kcal', $medida);
-                
             }
-            
-            if($_POST['volume']!=''){
+
+            if ($_POST['volume'] != '') {
                 $this->db->set('volume', $_POST['volume']);
                 $this->db->set('etapas', $_POST['etapas']);
             }
-            
-            
-            
-           
 
-            
+
+
+
+
+
             $this->db->set('produto_id', $_POST['produto']);
-            if($_POST['vazao']!=''){
+            if ($_POST['vazao'] != '') {
                 $this->db->set('vasao', $_POST['vazao']);
             }
             $this->db->set('data_atualizacao', $horario);
@@ -1588,18 +1586,17 @@ class exame_model extends Model {
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
             $this->db->update('tb_internacao_precricao_produto');
 
-            if($_POST['volume']!=''){
-                 if($_POST['etapas']=="0"){
-                $etapavolume = ((int) $_POST['volume']) / 1;
-            }
-            $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
-             
-            $this->db->set('volume', $etapavolume);
-                
+            if ($_POST['volume'] != '') {
+                if ($_POST['etapas'] == "0") {
+                    $etapavolume = ((int) $_POST['volume']) / 1;
+                }
+                $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
+
+                $this->db->set('volume', $etapavolume);
             }
             //Etapa Tabela
-           
-            
+
+
             $this->db->set('etapas', $_POST['etapas']);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
@@ -1694,9 +1691,9 @@ class exame_model extends Model {
         $this->db->set('observacao', $data[0]->observacao);
         $this->db->set('descricao', $data[0]->descricao);
         $this->db->insert('tb_internacao_precricao_produto_antigo');
-        
+
 //Etapa
-        
+
         $this->db->set('internacao_precricao_etapa_antigo_id', $data[0]->internacao_precricao_etapa_id);
         $this->db->set('internacao_precricao_id', $data[0]->internacao_precricao_id);
         $this->db->set('internacao_id', $data[0]->internacao_id);
@@ -1943,7 +1940,7 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function imprimirrelacaodepacienteshospitalnome() {
 
         $this->db->select('
@@ -1953,14 +1950,14 @@ class exame_model extends Model {
         $this->db->from('tb_internacao_unidade iu');
         $this->db->join('tb_internacao i', 'i.hospital = iu.internacao_unidade_id', 'left');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
-        
+
         $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
         $this->db->where("iu.internacao_unidade_id", $_POST['hospital']);
         $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
         $this->db->where('ip.data <=', $_POST['txtdata_fim']);
 //        $this->db->where('i.ativo ', 't');
         $this->db->groupby('p.paciente_id');
-        
+
         $return = $this->db->get();
         return $return->result();
     }
@@ -2007,6 +2004,7 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
+
     function relacaodepacienteshospitalnome() {
 
         $this->db->select('
@@ -2018,6 +2016,7 @@ class exame_model extends Model {
         $return = $this->db->get();
         return $return->result();
     }
+
     function listarhospital() {
 
         $this->db->select('
@@ -2130,10 +2129,7 @@ class exame_model extends Model {
                             i.data_solicitacao,
                             i.data_internacao,
                             iu.nome as hospital,
-                            ipp.produto_id ,
-                            ipp.internacao_precricao_produto_id ,
-                            ipp.etapas ,
-                            ipp.volume ,
+                            
                             ip.data ,
                             pt.nome as produto ,
                             fes.descricao as banco,
@@ -2177,6 +2173,63 @@ class exame_model extends Model {
         $this->db->where('empresa_id', $empresa);
         $return = $this->db->get();
         return $return->result();
+    }
+
+    function listarprodutoipm() {
+        $this->db->select('internacao_precricao_produto_ipm_id,
+                            descricao,
+                            quantidade,
+                            ');
+        $this->db->from('tb_internacao_precricao_produto_ipm');
+        $this->db->where('ativo', 'true');
+        $this->db->orderby('internacao_precricao_produto_ipm_id');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function carregarprodutoipm($internacao_precricao_produto_ipm_id) {
+        $this->db->select(' internacao_precricao_produto_ipm_id,
+            
+                            descricao,
+                            quantidade,
+                            ');
+        $this->db->from('tb_internacao_precricao_produto_ipm');
+        $this->db->where('internacao_precricao_produto_ipm_id', $internacao_precricao_produto_ipm_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function gravarprodutoipm($internacao_precricao_produto_ipm_id) {
+
+        try {
+            $this->db->set('descricao', $_POST['descricao']);
+            $this->db->set('quantidade', $_POST['quantidade']);
+
+            if ($internacao_precricao_produto_ipm_id == '') {
+
+                $this->db->insert('tb_internacao_precricao_produto_ipm');
+            } else {
+
+                $this->db->where('internacao_precricao_produto_ipm_id', $internacao_precricao_produto_ipm_id);
+                $this->db->update('tb_internacao_precricao_produto_ipm');
+            }
+        } catch (Exception $exc) {
+            $return = 0;
+            return $return;
+        }
+    }
+
+    function excluirprodutoipm($internacao_precricao_produto_ipm_id) {
+
+        try {
+
+            $this->db->set('ativo', 'f');
+            $this->db->where('internacao_precricao_produto_ipm_id', $internacao_precricao_produto_ipm_id);
+            $this->db->update('tb_internacao_precricao_produto_ipm');
+        } catch (Exception $exc) {
+            $return = 0;
+            return $return;
+        }
     }
 
     function listargxmlfaturamento($args = array()) {

@@ -136,6 +136,9 @@ class Convenio_model extends Model {
             if ($_POST['parenteral'] != "") {
                 $this->db->set('parenteral', str_replace(",", ".", $_POST['parenteral']));
             }
+            if ($_POST['deflator'] != "") {
+                $this->db->set('deflator', str_replace(",", ".", $_POST['deflator']));
+            }
             if ($_POST['enteral'] != "") {
                 $this->db->set('enteral', str_replace(",", ".", $_POST['enteral']));
             }
@@ -234,6 +237,7 @@ class Convenio_model extends Model {
                                 co.conta_id,
                                 co.enteral,
                                 co.parenteral,
+                                co.deflator,
                                 co.credor_devedor_id,
                                 co.valor_diaria,
                                 co.diaria,
@@ -266,8 +270,10 @@ class Convenio_model extends Model {
             $this->_conta_id = $return[0]->conta_id;
             $this->_enteral= $return[0]->enteral;
             $this->_parenteral = $return[0]->parenteral;
+            $this->_deflator = $return[0]->deflator;
             $this->_diaria = $return[0]->diaria;
             $this->_valor_diaria = $return[0]->valor_diaria;
+            
         } else {
             $this->_convenio_id = null;
         }
