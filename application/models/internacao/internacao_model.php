@@ -306,17 +306,22 @@ class internacao_model extends BaseModel {
                     $this->db->set('kcal', $kcal);
                     $this->db->set('etapas', $_POST['etapas']);
                 }
-                if ($medida != null) {
-                    $this->db->set('kcal', $medida);
-                }
-                if ($descricao != null) {
-                    $this->db->set('descricao', $descricao);
-                }
+
+
                 if ($volume != null) {
                     $this->db->set('volume', $volume);
                     $this->db->set('etapas', $_POST['etapas']);
                 } else {
                     $this->db->set('etapas', 0);
+                }
+                if ($medida != null) {
+                    $this->db->set('kcal', $medida);
+                }
+                if ($descricao != null) {
+                    $this->db->set('descricao', $descricao);
+                    if ($_POST['etapas'] != '' && count($_POST['produto']) == 1) {
+                        $this->db->set('etapas', $_POST['etapas']);
+                    }
                 }
                 if ($vazao != null) {
                     $this->db->set('vasao', $vazao);
@@ -739,6 +744,7 @@ class internacao_model extends BaseModel {
         $this->db->where('i.internacao_id', $internacao_id);
         $this->db->where('pt.grupo', 'ENTERAL');
         $this->db->where('pc.ativo', 't');
+        $this->db->where('pt.ativo', 't');
         $this->db->orderby('pt.nome');
         $return = $this->db->get();
         return $return->result();
@@ -772,6 +778,7 @@ class internacao_model extends BaseModel {
         $this->db->where('i.internacao_id', $internacao_id);
         $this->db->where('pt.grupo', 'EQUIPO');
         $this->db->where('pc.ativo', 't');
+        $this->db->where('pt.ativo', 't');
         $this->db->orderby('pt.nome');
         $return = $this->db->get();
         return $return->result();
@@ -990,8 +997,9 @@ class internacao_model extends BaseModel {
         $this->db->where('ip.internacao_precricao_id', $internacao_precricao_id);
         $this->db->where('pt.grupo !=', 'EQUIPO');
         $this->db->where('ipp.ativo', 't');
-        $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
+        $this->db->orderby('ipp.internacao_precricao_produto_id');
+        
         $return = $this->db->get();
         return $return->result();
     }

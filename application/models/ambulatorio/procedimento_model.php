@@ -163,6 +163,12 @@ class procedimento_model extends Model {
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('procedimento_tuss_id', $procedimento_tuss_id);
+        $this->db->update('tb_procedimento_convenio');
+
+        $this->db->set('ativo', 'f');
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('procedimento_tuss_id', $procedimento_tuss_id);
         $this->db->update('tb_procedimento_tuss');
         $erro = $this->db->_error_message();
         if (trim($erro) != "") // erro de banco

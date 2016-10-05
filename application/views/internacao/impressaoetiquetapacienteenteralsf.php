@@ -37,29 +37,30 @@
             }
         endforeach;
         if ($item->internacao_precricao_etapa_id == $etapas || $i == 1) {
-            
+
             if ($c == 1) {
-                if($item->dencidade_calorica != 0.00){
-                $pro = $item->proteinas;
-                $qtdeetapa = $item->etapas;
-                $hc = $item->carboidratos;
-                $lip = $item->lipidios;
-                $via = $item->via;
-                $vct = (float) $item->dencidade_calorica * $item->volume;
-//                $vct = 0;
-                $taxadeinfusao = $item->vasao;
-                $volume = $item->volume;
-                $kcal = $item->kcal;
-                $hrpreparo = $item->preparo;
-                $hrvalidade = $item->validade;
-                $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
+                if ($item->etapas != 0) {
+                    $qtdeetapa = $item->etapas;
+                }
                 $nutricionista = $item->nutricionista;
                 $conselho = $item->conselho;
-                $dtpreparo = substr($item->data, 8, 2) . "-" . substr($item->data, 5, 2) . "-" . substr($item->data, 0, 4);
-                $dtvalidade = date('d-m-Y', strtotime("+1 days", strtotime($item->data)));
+                if ($item->dencidade_calorica != 0.00) {
+                    $pro = $item->proteinas;
+                    $hc = $item->carboidratos;
+                    $lip = $item->lipidios;
+                    $via = $item->via;
+                    $vct = (float) $item->dencidade_calorica * $item->volume;
+//                $vct = 0;
+                    $taxadeinfusao = $item->vasao;
+                    $volume = $item->volume;
+                    $kcal = $item->kcal;
+                    $hrpreparo = $item->preparo;
+                    $hrvalidade = $item->validade;
+                    $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
+                    $dtpreparo = substr($item->data, 8, 2) . "-" . substr($item->data, 5, 2) . "-" . substr($item->data, 0, 4);
+                    $dtvalidade = date('d-m-Y', strtotime("+1 days", strtotime($item->data)));
                 }
             }
-
             $etapas = $item->internacao_precricao_etapa_id;
         } else {
             $etapas = $item->internacao_precricao_etapa_id;
@@ -140,20 +141,29 @@
 
                 <?
             }
-              $dieta = "";
-            $verificador=0;
-                    $teste = $this->internacao_m->etiquetapacienteclassificacao($item->internacao_precricao_etapa_id);
-        $classificacaototal = count($teste);
-        foreach ($teste as $key =>$value) :
-            $verificador++;
-            if($classificacaototal >= $verificador)
-                $dieta = $dieta . " + ". $value->classificacao;
-//                }
-//            }
-        endforeach;
-                if($item->dencidade_calorica != 0.00){
-                $pro = $item->proteinas;
+            $dieta = "";
+            $verificador = 0;
+            $teste = $this->internacao_m->etiquetapacienteclassificacao($item->internacao_precricao_etapa_id);
+            $classificacaototal = count($teste);
+            if ($classificacaototal == 1) {
+                $dieta = $teste[0]->classificacao;
+            } else {
+                foreach ($teste as $key => $value) :
+                    $verificador++;
+                    if ($item->internacao_precricao_etapa_id == $etapas) {
+                        if ($classificacaototal >= $verificador) {
+                            $dieta = $dieta . " + " . $value->classificacao;
+                        }
+                    }
+                endforeach;
+            }
+            if ($item->etapas != 0) {
                 $qtdeetapa = $item->etapas;
+            }
+            $nutricionista = $item->nutricionista;
+            $conselho = $item->conselho;
+            if ($item->dencidade_calorica != 0.00) {
+                $pro = $item->proteinas;
                 $hc = $item->carboidratos;
                 $lip = $item->lipidios;
                 $via = $item->via;
@@ -165,11 +175,24 @@
                 $hrpreparo = $item->preparo;
                 $hrvalidade = $item->validade;
                 $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
-                $nutricionista = $item->nutricionista;
-                $conselho = $item->conselho;
                 $dtpreparo = substr($item->data, 8, 2) . "-" . substr($item->data, 5, 2) . "-" . substr($item->data, 0, 4);
                 $dtvalidade = date('d-m-Y', strtotime("+1 days", strtotime($item->data)));
-                }
+            } else {
+                $pro = '';
+                $hc = '';
+                $lip = '';
+                $via = '';
+                $vct = '';
+//                $vct = 0;
+                $taxadeinfusao = '';
+                $volume = '';
+                $kcal = '';
+                $hrpreparo = '';
+                $hrvalidade = '';
+                $nascimento = substr($item->nascimento, 8, 2) . "-" . substr($item->nascimento, 5, 2) . "-" . substr($item->nascimento, 0, 4);
+                $dtpreparo = substr($item->data, 8, 2) . "-" . substr($item->data, 5, 2) . "-" . substr($item->data, 0, 4);
+                $dtvalidade = date('d-m-Y', strtotime("+1 days", strtotime($item->data)));
+            }
             if ($total == $i) {
                 for ($repetidor = 1; $repetidor <= $qtdeetapa; $repetidor++) {
                     ?>

@@ -112,17 +112,17 @@ IF ($tipo == 'ENTERALNORMAL') {
                             $produto = $i . " (" . $volume . $kcal . $item->nome;
                         } else {
                             if ($internacao_precricao_etapa_id == $item->internacao_precricao_etapa_id) {
-                                $produto = $produto . "$ + " . $volume . $kcal . $item->nome . ") " . $frasco;
+                                $produto = $produto . " + " . $volume . $kcal . $item->nome . ") " . $frasco;
                                 $w++;
                             } elseif($w >0) {
-                                $produto = $produto . " &+ " . $i . " (" . $volume . $kcal . $item->nome . ") " . $frasco;
+                                $produto = $produto . " + " . $i . " (" . $volume . $kcal . $item->nome . ") " . $frasco;
                                 $z++;
                             }
 //                            elseif($z ==0){
 //                                $produto = $produto  . " + " . $i . " (" . $volume . $kcal . $item->nome . ") " . $frasco;
 //                            }
                             else{
-                                $produto = $produto  . "#) " . $frasco2 . " + " . $i . " (" . $volume . $kcal . $item->nome . "@) " . $frasco;
+                                $produto = $produto  . ") " . $frasco2 . " + " . $i . " (" . $volume . $kcal . $item->nome . ") " . $frasco;
                             }
                         }
                         if ($item->frasco != 0) {

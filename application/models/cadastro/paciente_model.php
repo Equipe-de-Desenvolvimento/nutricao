@@ -223,6 +223,7 @@ class paciente_model extends BaseModel {
             $this->db->set('cep', $_POST['cep']);
 
             $horario = date("Y-m-d H:i:s");
+            $data = date("Y-m-d");
             $operador_id = $this->session->userdata('operador_id');
 
             $dia = substr($horario, 8, 2);
@@ -233,7 +234,7 @@ class paciente_model extends BaseModel {
             // $this->db->set('paciente_id',$_POST['txtPacienteId'] );
 
             if ($_POST['paciente_id'] == "") {// insert
-                $this->db->set('data_cadastro', $dataatual);
+                $this->db->set('data_cadastro', $data);
                 $this->db->set('operador_cadastro', $operador_id);
                 $this->db->insert('tb_paciente');
                 $erro = $this->db->_error_message();
@@ -245,7 +246,7 @@ class paciente_model extends BaseModel {
             }
             else { // update
                 $paciente_id = $_POST['paciente_id'];
-                $this->db->set('data_atualizacao', $dataatual);
+                $this->db->set('data_atualizacao', $data);
                 $this->db->set('operador_atualizacao', $operador_id);
                 $this->db->where('paciente_id', $paciente_id);
                 $this->db->update('tb_paciente');
