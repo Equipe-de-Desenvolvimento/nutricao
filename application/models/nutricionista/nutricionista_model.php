@@ -36,7 +36,6 @@ class nutricionista_model extends BaseModel {
         }
     }
 
-    
     function gravaretapa() {
 
         $this->db->set('volume', $_POST['volume']);
@@ -773,7 +772,7 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function formularioevolucaonutricional($internacao_id) {
 
         $this->db->select(' ip.data,
@@ -787,19 +786,37 @@ class nutricionista_model extends BaseModel {
                             o.nome as nutricionista,
                             pt.nome,
                             pt.kcal,
+                            pt.dencidade_calorica,
+                            p.nome as paciente,
+                            iu.nome as hospital,
+                            i.diagnostico_nutricional,
+                            c.nome as convenio,
+                            p.nascimento,
+                            i.data_internacao,
+                            i.data_saida,
+                            i.via,
+                            tc.nome as classificacao,
                             
                             ');
         $this->db->from('tb_internacao i');
         $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
         $this->db->join('tb_operador o', 'o.operador_id = ip.nutricionista', 'left');
         $this->db->join('tb_internacao_precricao_produto ipp', 'ip.internacao_precricao_id = ipp.internacao_precricao_id', 'left');
         $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id', 'left');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
         $this->db->where("i.internacao_id", $internacao_id);
         $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('ipp.ativo ', 't');
         $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
         $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+
+
         $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('pt.grupo');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
@@ -807,7 +824,148 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+
+    function gravarevolucaoprescricao($internacao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        $c = 0;
+
+        try {
+            foreach ($_POST['formula'] as $item) {
+                $this->db->set('internacao_id', $internacao_id);
+                $this->db->set('texto_evolucao', $item);
+                $this->db->set('data_cadastro', $horario);
+                $this->db->set('data_inicio', $_POST['txtdata_inicio']);
+                $this->db->set('data_fim', $_POST['txtdata_fim']);
+                $this->db->set('operador_cadastro', $operador_id);
+                $this->db->insert('tb_internacao_precricao_evolucao');
+                if ($c == 0) {
+                    $insert_id = $this->db->insert_id();
+                }
+
+
+                $c++;
+            }
+
+            
+            $this->db->set('internacao_evolucao_id', $insert_id);
+            $this->db->where('data_cadastro', $horario);
+            $this->db->update('tb_internacao_precricao_evolucao');
+        } catch (Exception $exc) {
+            $return = 0;
+            return $return;
+        }
+    }
+
+    function excluirevolucaoprescricao($internacao_evolucao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+
+        try {
+
+            $this->db->set('ativo', 'f');
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('internacao_evolucao_id', $internacao_evolucao_id);
+            $this->db->update('tb_internacao_precricao_evolucao');
+        } catch (Exception $exc) {
+            $return = 0;
+            return $return;
+        }
+    }
+
+    function idinternacaoevolucaoprescricao($internacao_evolucao_id) {
+
+        $this->db->select('
+                            internacao_id,
+                                                     
+                            ');
+        $this->db->from('tb_internacao_precricao_evolucao');
+        $this->db->where('internacao_evolucao_id', $internacao_evolucao_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
     
+    function listarevolucaoprescricao($internacao_id) {
+        $data = date("Y-m-d");
+        $this->db->select(' internacao_precricao_evolucao_id,
+                            internacao_evolucao_id,
+                            data_cadastro,
+                            data_inicio,
+                            data_fim,
+                            
+                            ');
+        $this->db->from('tb_internacao_precricao_evolucao');
+
+        $this->db->where('ativo', 't');
+        $this->db->where('internacao_id', $internacao_id);
+        $this->db->orderby('internacao_evolucao_id');
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function imprimirevolucaoprescricao($internacao_evolucao_id) {
+        $data = date("Y-m-d");
+        $this->db->select(' ipeo.internacao_precricao_evolucao_id,
+                            ipeo.texto_evolucao,
+                            p.nome as paciente,
+                            iu.nome as hospital,
+                            c.nome as convenio,
+                            i.via,
+                            i.data_internacao,
+                            i.data_saida,
+                            p.nascimento,
+                            o.nome as nutricionista,
+                            i.diagnostico_nutricional,
+                            
+                            ');
+        $this->db->from('tb_internacao_precricao_evolucao ipeo');
+        $this->db->join('tb_internacao i', 'ipeo.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_operador o', 'o.operador_id = ip.nutricionista', 'left');
+        
+        $this->db->where('ipeo.ativo', 't');
+        $this->db->where('internacao_evolucao_id', $internacao_evolucao_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function imprimirprodutoevolucaoprescricao($internacao_evolucao_id) {
+        $data = date("Y-m-d");
+        $this->db->select(' ipeo.internacao_precricao_evolucao_id,
+                            ipeo.texto_evolucao,
+                                                        
+                            ');
+        $this->db->from('tb_internacao_precricao_evolucao ipeo');
+        
+        
+        $this->db->where('ipeo.ativo', 't');
+        $this->db->where('ipeo.internacao_evolucao_id', $internacao_evolucao_id);
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function listarevolucaoprescricaoteste($internacao_id) {
+
+        $this->db->select(' internacao_evolucao_id,
+            
+
+                            ');
+        $this->db->from('tb_internacao_precricao_evolucao');
+
+        $this->db->where('ativo', 't');
+        $this->db->where('internacao_id', $internacao_id);
+        $this->db->groupby('internacao_evolucao_id');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function formularioevolucaonutricionalequipo($internacao_id) {
         $data = date("Y-m-d");
         $this->db->select(' ipp.internacao_precricao_id,
@@ -833,7 +991,7 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function produtoexamefaturamento($internacao_precricao_produto_id) {
 
         $this->db->select('
@@ -952,7 +1110,7 @@ class nutricionista_model extends BaseModel {
             $this->db->set('produto_id', $_POST['equipo']);
             $this->db->set('volume', null);
             $this->db->set('observacao', $_POST['observacao']);
-            
+
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
@@ -1030,7 +1188,6 @@ class nutricionista_model extends BaseModel {
             $this->db->update('tb_internacao_precricao_etapa');
         }
     }
-    
 
     function listaprescricoespaciente($internacao_id) {
         $data = date("Y-m-d");
@@ -1057,7 +1214,6 @@ class nutricionista_model extends BaseModel {
         return $return->result();
     }
 
-    
     function listaprescricoespacienteequipo($internacao_id) {
         $data = date("Y-m-d");
         $this->db->select(' ipp.internacao_precricao_id,
@@ -1565,6 +1721,7 @@ class nutricionista_model extends BaseModel {
         $this->db->select('empresa_id,
                             nome,
                             cnpj,
+                            cep,
                             razao_social,
                             logradouro,
                             bairro,

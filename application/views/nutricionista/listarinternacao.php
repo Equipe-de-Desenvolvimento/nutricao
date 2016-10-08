@@ -54,7 +54,7 @@
                 </thead>
                 <?php
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
-                $consulta = $this->nutricionista->listar($_GET);
+                $consulta = $this->nutricionista->listarpacientesprescricao($_GET);
                 $total = $consulta->count_all_results();
                 $limit = 10;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
@@ -77,7 +77,7 @@
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo substr($item->data_solicitacao, 8, 2) . '-' . substr($item->data_solicitacao, 5, 2) . '-' . substr($item->data_solicitacao, 0, 4); ?></td>
 
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new">
-                                        <a href="<?= base_url() ?>nutricionista/nutricionista/evolucaonutricional/<?= $item->internacao_id ?>">Evolução Nutricional</a></div>
+                                        <a href="<?= base_url() ?>nutricionista/nutricionista/listarevolucaonutricional/<?= $item->internacao_id ?>">Evolução Nutricional</a></div>
                                 </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="60px;">
                                 </td>
@@ -95,7 +95,7 @@
                 ?>
                 <tfoot>
                     <tr>
-                        <th class="tabela_footer" colspan="7">
+                        <th class="tabela_footer" colspan="9">
                             <?php $this->utilitario->paginacao($url, $total, $pagina, $limit); ?>
                             Total de registros: <?php echo $total; ?>
                         </th>

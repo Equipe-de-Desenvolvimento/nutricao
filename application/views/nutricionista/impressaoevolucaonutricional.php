@@ -33,6 +33,14 @@ if ($mesatual == '01') {
 } elseif ($mesatual == '11') {
     $mesatual = 'DEZEMBRO';
 }
+$data_entrada = substr($listar[0]->data_internacao, 8, 2) . '/' . substr($listar[0]->data_internacao, 5, 2) . '/' . substr($listar[0]->data_internacao, 0, 4);
+if($listar[0]->data_saida != null ){}
+$data_saida = substr($listar[0]->data_saida, 8, 2) . '/' . substr($listar[0]->data_saida, 5, 2) . '/' . substr($listar[0]->data_saida, 0, 4);
+$nascimento = (int) substr($listar[0]->nascimento, 0, 4);
+$idade = (int) $anoatual - $nascimento;
+$dieta= "";
+$via= $listar[0]->via;
+
 ?>
 
 <html>
@@ -40,7 +48,7 @@ if ($mesatual == '01') {
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
-        <title>Relação dos Pacientes</title>
+        <title>Evolução Nutricional</title>
     </head>
 
     <body>
@@ -63,7 +71,7 @@ if ($mesatual == '01') {
                 <tr class="tic">
                     <td height="16" colspan="7" class="tisemsublinhadogrande">NUTRIÇÃO PARENTERAL E ENTERAL LTDA.</td>
                 </tr>
-                
+
                 <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" > EVOLUÇÃO NUTRICIONAL
 
@@ -74,128 +82,152 @@ if ($mesatual == '01') {
 
 
         </table>
+
         <table id="tabelaspec" width="100%" border="1" align="left" cellpadding="0" cellspacing="0" class="tipp">
             <br>
             <br>
             <br>
             <br>
-            
-            
-
-            
-<?
-            $etapas = "";
-            $internacao_precricao_id = "";
-            $estilo_linha = "tabela_content01";
-            $contador = 0;
-
-            foreach ($prescricao as $item) {
-                $i = $item->etapas;
-
-                if ($item->internacao_precricao_id != $internacao_precricao_id) {
-                    $data = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
-                    $internacao_precricao_id = $item->internacao_precricao_id;
-                    foreach ($prescricaoequipo as $value) {
-                        if ($value->internacao_precricao_id == $item->internacao_precricao_id) {
-                            $equipo = $value->nome;
-                            $equipo_id = $value->internacao_precricao_produto_id;
-                        }
-                    }
-                } else {
-                    $data = '&nbsp;';
-                    $equipo = '&nbsp;';
-                }
-                if ($item->internacao_precricao_etapa_id == $etapas) {
-                    $i = '&nbsp;';
-                    ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content01" : $estilo_linha = "tabela_content02";
-                } else {
-                    ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
-                }
-                ?>
-            <tr>
-               <td height="19" colspan="6" align="center" style="text-align: center; font-size: 10px;"><strong> Paciente em TNE com formula polimérica e hiperproteica</strong>  </td>
-               <td height="19" rowspan="3" colspan="2" align="center" style="text-align:center;font-size: 9px;"> <?= $item->nutricionista?></td>
-                    
-                </tr>
-                <tr>
-               <td height="19" colspan="6" align="center" style="text-align: center; font-size: 10px;"> em BIC 45ml/h e VCT <strong><?= (int) $item->kcal?>Kcal</strong></td>
-                    
-                </tr>
-            
-           <tr>
-               <td height="19" colspan="6" align="center" style="text-align: center; font-size: 10px;"><strong>DATA: <?= $data?></strong> <?=$i?> Etapas de <?= $item->nome?> + <?= $equipo?>  </td>
-                    
-                </tr>
-            <?
-            $i++;
-            $etapas = $item->internacao_precricao_etapa_id;
-        }
-        ?>
-
-
-            
+            <tbody>
                
-
-
+                
                 <tr>
-                    <td height="35" colspan="5" align="center" style="text-align:center;font-size: 9px;"><strong> TOTAL GERAL</strong></td>
-                    <td height="35" align="center" style="text-align:center;font-size: 9px;"><strong>0</strong></td>
-                    <td height="35" colspan="2" align="center" style="text-align:center;font-size: 9px;"><strong>R$</strong></td>
+                    <td height="19"  colspan="6" align="center" style="text-align: left; font-size: 11px;"><strong> NOME: </strong> <? echo $listar[0]->paciente; ?>  </td>
+                    <td height="19"  colspan="2" align="center" style="text-align:left;font-size: 11px;"> <strong>IDADE:</strong> <?echo $idade;?> Anos</td>
+
                 </tr>
 
-       
+                <tr>
+                    <td height="19" colspan="8" align="center" style="text-align: left; font-size: 11px;"><strong> HOSPITAL:</strong> <? echo $listar[0]->hospital; ?></td>
+                </tr>
+
+                <tr>
+                    <td height="19" colspan="6" align="center" style="text-align: left; font-size: 11px;"><strong> DATA DE ENTRADA:</strong> <? echo $data_entrada; ?> </td>
+                    <td height="19" colspan="2" align="center" style="text-align:left;font-size: 11px;"><strong>DATA DE SAÍDA: </strong> <? echo $data_saida; ?>  </td>     
+                </tr>
+
+                <tr>
+                    <td height="19" colspan="6" align="center" style="text-align: left; font-size: 11px;"><strong> CONVENIO:</strong> <? echo $listar[0]->convenio; ?></td>
+                    <td height="19" colspan="2" align="center" style="text-align:left;font-size: 11px;"><strong> VIA DE ADMINISTRAÇÃO: </strong> <?=$via?> </td>     
+                </tr>
+
+                <tr>
+                    <td height="19" colspan="8" align="center" style="text-align: left; font-size: 11px;"><strong> DIAGNÓSTICO:</strong> <? echo $listar[0]->diagnostico_nutricional; ?></td>
+                </tr>
+
+            </tbody>
+
+
+        </table>
+        <br>
+        <br>
+        <br>
+
+        <table id="tabelaspec"  width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
+            <tbody>
+
+
+                <tr class="tic">
+
+                </tr>
+
+                <tr class="tic">
+
+                </tr>
+
+                <tr>
 
 
 
-
-
+                </tr>
 
 
         </table>
 
-       
-<table id="tabelaspec" width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
+        <table id="tabelaspec" width="100%" border="1" align="left" cellpadding="0" cellspacing="0" class="tipp">
+            <br>
+            <br>
+ <tr>
+                    <td height="19" colspan="8" align="center" style="text-align: center; font-size: 14px;"><strong> EVOLUÇÃO</strong></td>
+                </tr>
 
 
-    <tbody>
+            <?foreach ($prescricao as $item){?>
+                <tr>
+                    <td height="19" colspan="9" align="center" style="text-align: center; font-size: 13px;">
+                      <?
+                      $suafrase= $item->texto_evolucao;
+                      $palavras = explode(" ", $suafrase);
+                     
+                      ?>  
+                        <strong>DATA:
+                <? foreach ($palavras as $valor){
+                    echo $valor. " ";
+                
+                }
+                ?> </strong><? ?></td>
 
-        <tr>
-            <td height="70" colspan="7" class="sembordadireita"><br>
+                </tr>
+                <tr>
+                    <td height="19" colspan="9" align="center" class="semborda" style="text-align:center;font-size: 13px;"> </td>
+                </tr>
+                <tr>
+                    <td height="19" colspan="9" align="center" class="semborda" style="text-align:center;font-size: 13px;"> </td>
+                </tr>
+
+                
+                <?
+            }?>
+                
+                
+              
 
 
-            </td>
-
-        </tr>
-
-    </tbody>
-
-    <tbody>
+        </table>
 
 
-        <tr>
-
-            <td height="100" colspan="7" class="sembordadireita">
+        <table id="tabelaspec" width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="tipp">
 
 
+            <tbody>
 
-                <p style="text-align: center;"><strong><? echo $empresa[0]->razao_social; ?> <br>
-                        <? echo $empresa[0]->logradouro; ?>,N° <? echo $empresa[0]->numero; ?>&nbsp;Fone:&nbsp; <? echo $empresa[0]->telefone; ?><br>
-                        CNPJ:&nbsp;<? echo $empresa[0]->cnpj; ?>&nbsp;-CEP&nbsp; <? echo $empresa[0]->cep; ?>&nbsp;-&nbsp; Fortaleza &nbsp;-&nbsp; CE
-
-                    </strong></p>
+                <tr>
+                    <td height="70" colspan="7" class="sembordadireita"><br>
 
 
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+            <tbody>
+
+
+                <tr>
+
+                    <td height="100" colspan="7" class="sembordadireita">
+
+
+
+                        <p style="text-align: center;"><strong><? echo $empresa[0]->razao_social; ?> <br>
+                                <? echo $empresa[0]->logradouro; ?>,N° <? echo $empresa[0]->numero; ?>&nbsp;Fone:&nbsp; <? echo $empresa[0]->telefone; ?><br>
+                                CEP&nbsp; <? echo $empresa[0]->cep; ?>&nbsp;-&nbsp; Fortaleza &nbsp;-&nbsp; CE
+
+                            </strong></p>
 
 
 
 
-            </td>
 
-        </tr>
 
-    </tbody>
+                    </td>
 
-</table>
+                </tr>
+
+            </tbody>
+
+        </table>
 
 
 

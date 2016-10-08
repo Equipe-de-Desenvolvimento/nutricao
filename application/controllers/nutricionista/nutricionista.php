@@ -52,7 +52,24 @@ class nutricionista extends BaseController {
         $this->loadView('nutricionista/listarsolicitacaointernacao');
     }
 
-    function evolucaonutricional($internacao_id) {
+    function listarevolucaonutricional($internacao_id) {
+        $data['internacao_id'] = $internacao_id;
+        $data['lista'] = $this->nutricionista->listarevolucaoprescricao($internacao_id);
+        $data['teste'] = $this->nutricionista->listarevolucaoprescricaoteste($internacao_id);
+        
+        
+        $this->loadView('nutricionista/listarevolucaonutricional', $data);
+    }
+    
+    function imprimirrevolucaonutricional($internacao_evolucao_id) {
+        $data['listar'] = $this->nutricionista->imprimirevolucaoprescricao($internacao_evolucao_id);
+        $data['prescricao'] = $this->nutricionista->imprimirprodutoevolucaoprescricao($internacao_evolucao_id);
+        $data['empresa'] = $this->nutricionista->empresa();
+        
+        $this->load->View('nutricionista/impressaoevolucaonutricional', $data);
+    }
+    
+    function novoevolucaonutricional($internacao_id) {
         $data['internacao_id'] = $internacao_id;
         
         $this->loadView('nutricionista/evolucaonutricional', $data);
@@ -60,6 +77,7 @@ class nutricionista extends BaseController {
     
     
     function formularioevolucaonutricional($internacao_id) {
+        
         $data['internacao_id'] = $internacao_id;
         $data['prescricao'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
         $data['prescricaoequipo'] = $this->nutricionista->formularioevolucaonutricionalequipo($internacao_id);
@@ -70,16 +88,40 @@ class nutricionista extends BaseController {
         $this->loadView('nutricionista/formularioevolucaonutricional', $data);
     }
     
-    function impressaoevolucaonutricional($internacao_id) {
-        $data['internacao_id'] = $internacao_id;
-        $data['prescricao'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
-        $data['prescricaoequipo'] = $this->nutricionista->formularioevolucaonutricionalequipo($internacao_id);
-        $data['empresa'] = $this->exame->empresa();
+    function gravarevolucaonutricional($internacao_id) {
         
-//      echo  var_dump($data['listar']);
-//      die;
         
-        $this->load->View('nutricionista/impressaoevolucaonutricional', $data);
+       $this->nutricionista->gravarevolucaoprescricao($internacao_id);
+       if ($return == 0) {
+            $data['mensagem'] = 'Evolução gravada com sucesso';
+            $this->session->set_flashdata('message', $data['mensagem']);
+        } else {
+            $data['mensagem'] = 'Erro ao gravar evolução';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            
+        }
+       redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
+       
+    }
+    
+    function excluirevolucaonutricional($internacao_evolucao_id) {
+        
+        
+       $data['internacao_id']= $this->nutricionista->idinternacaoevolucaoprescricao($internacao_evolucao_id);
+       $internacao_id= $data['internacao_id'][0]->internacao_id;
+//       echo var_dump ($data['internacao_id'][0]);
+//       die;
+       $this->nutricionista->excluirevolucaoprescricao($internacao_evolucao_id);
+       if ($return == 0) {
+            $data['mensagem'] = 'Evolução excluida com sucesso';
+            $this->session->set_flashdata('message', $data['mensagem']);
+        } else {
+            $data['mensagem'] = 'Erro ao excluir evolução';
+            $this->session->set_flashdata('message', $data['mensagem']);
+            
+        }
+       redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
+       
     }
     
     function alterarprodutoprescricao($internacao_precricao_produto_id) {

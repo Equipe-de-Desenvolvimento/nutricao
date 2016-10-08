@@ -118,5 +118,31 @@ CONSTRAINT tb_internacao_precricao_produto_ipm_pkey PRIMARY KEY (internacao_prec
  
 );
 
+Dia 06/10/16
+
+CREATE TABLE ponto.tb_internacao_precricao_evolucao
+(
+  internacao_precricao_evolucao_id serial NOT NULL,
+  internacao_evolucao_id integer,
+  internacao_id integer,
+  texto_evolucao character varying(700),
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  ativo boolean NOT NULL DEFAULT true,
+
+
+CONSTRAINT tb_internacao_precricao_evolucao_pkey PRIMARY KEY (internacao_precricao_evolucao_id )
+ 
+);
+
+ALTER TABLE ponto.tb_internacao_precricao_evolucao ADD COLUMN data_inicio timestamp without time zone;
+ALTER TABLE ponto.tb_internacao_precricao_evolucao ADD COLUMN data_fim timestamp without time zone;
+
+
+
+
+
 
 
