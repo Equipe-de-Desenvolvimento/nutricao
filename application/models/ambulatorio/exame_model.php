@@ -1561,19 +1561,17 @@ class exame_model extends Model {
                 $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);
                 $this->db->set('etapas', $_POST['etapas']);
+                $this->db->set('volume', null);
             }
             if ($medida != null) {
                 $this->db->set('kcal', $medida);
+                $this->db->set('volume', null);
             }
 
             if ($_POST['volume'] != '') {
                 $this->db->set('volume', $_POST['volume']);
                 $this->db->set('etapas', $_POST['etapas']);
             }
-
-
-
-
 
 
             $this->db->set('produto_id', $_POST['produto']);
@@ -1621,6 +1619,7 @@ class exame_model extends Model {
                             ipp.volume,
                             ipp.kcal,
                             ipp.etapas,
+                            pt.grupo,
                             pt.nome');
         $this->db->from('tb_internacao_precricao_produto ipp');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');

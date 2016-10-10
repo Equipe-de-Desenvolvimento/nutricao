@@ -68,6 +68,8 @@
             </table>
         </fieldset>
         
+        
+        
         <fieldset id="produtoid">
             <legend>PRODUTOS</legend>
 
@@ -92,10 +94,11 @@
                 <tbody>
                     <tr class="linha1">
                         <td>
+                            
                             <select  name="produto" id="produto" class="size4" >
-                                <option onclick="document.getElementById('equipoid').style.display='inline';" value="-1">Selecione</option>
+                                <option  value="-1">Selecione</option>
                                 <? foreach ($enteral as $item) : ?>
-                                    <option onclick="document.getElementById('equipoid').style.display='none';" value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
+                                    <option  value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </td>
@@ -113,6 +116,9 @@
             </table>
             <!-- Fim da tabela de Infusão de Drogas -->
         </fieldset>
+       
+                                
+                            
  <fieldset id="equipoid">
             <legend>EQUIPO</legend>
             <table>
@@ -123,9 +129,9 @@
                 <tr>
                     <td>
                         <select name="equipo" id="equipo" class="size4">
-                            <option onclick="document.getElementById('produtoid').style.display='inline';"> Selecione</option>
+                            <option> Selecione</option>
                             <? foreach ($equipo as $item) : ?>
-                                <option onclick="document.getElementById('produtoid').style.display='none';" value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
+                                <option  value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
                             <? endforeach; ?>
                         </select>
                     </td>
@@ -149,7 +155,7 @@
 
 
 </table>
-<body onload="deixarOcultoProduto(), deixarOcultoEquipo();">
+
          
 
 <!--<div class="bt_link_new">
@@ -166,17 +172,36 @@
 <script type="text/javascript" src="<?= base_url() ?>js/jquery-ui-1.10.4.js" ></script>
 <script type="text/javascript" src="<?= base_url() ?>js/jquery.validate.js"></script>
 
-<script>
-function deixarOcultoProduto(){
- document.getElementById('equipoid').style.display = "inline";
-}
-</script>
 
+<? 
+if ($produto[0]->grupo!='EQUIPO'){?>
+    
+ <body onload="deixarOcultoEquipo()">
+    
+    <?
+ 
+}
+else {?>
+    
+<body onload="deixarOcultoProduto()">
+    <?
+    
+}
+?>
 <script>
 function deixarOcultoEquipo(){
  document.getElementById('produtoid').style.display = "inline";
+ document.getElementById('equipoid').style.display = "none";
 }
+
+function deixarOcultoProduto(){
+ document.getElementById('produtoid').style.display = "none";
+ document.getElementById('equipoid').style.display = "inline";
+}
+
 </script>
+
+
 <script type="text/javascript">
     
 
@@ -286,4 +311,5 @@ foreach ($enteral as $item) {
                     });
 
 </script>
+
 
