@@ -1837,6 +1837,7 @@ class exame_model extends Model {
                             fes.descricao as banco,
                             fes.agencia ,
                             fes.conta as conta,
+                            tc.nome as classificacao,
                             
                             ');
         $this->db->from('tb_internacao i');
@@ -1846,6 +1847,8 @@ class exame_model extends Model {
         $this->db->join('tb_internacao_precricao_produto ipp', 'ip.internacao_precricao_id = ipp.internacao_precricao_id', 'left');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id', 'left');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
         $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
@@ -1856,6 +1859,36 @@ class exame_model extends Model {
         $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
         $this->db->where('ip.data <=', $_POST['txtdata_fim']);
 //        $this->db->orderby('ipp.internacao_precricao_produto_id');
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function imprimirlaudomedicoteste($internacao_id) {
+
+        $this->db->select('
+                            tc.nome as classificacao,
+                            
+                            ');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_internacao_unidade iu', 'i.hospital = iu.internacao_unidade_id', 'left');
+//        $this->db->join('tb_internacao_precricao_produto ipp', 'ipp.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_internacao_precricao_produto ipp', 'ip.internacao_precricao_id = ipp.internacao_precricao_id', 'left');
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id', 'left');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_forma_entradas_saida fes', 'fes.forma_entradas_saida_id = c.conta_id', 'left');
+        $this->db->where("i.internacao_id", $internacao_id);
+
+        $this->db->where('pt.grupo', 'ENTERAL');
+
+        $this->db->where('ip.data >=', $_POST['txtdata_inicio']);
+        $this->db->where('ip.data <=', $_POST['txtdata_fim']);
+        $this->db->groupby('tc.nome');
 
         $return = $this->db->get();
         return $return->result();

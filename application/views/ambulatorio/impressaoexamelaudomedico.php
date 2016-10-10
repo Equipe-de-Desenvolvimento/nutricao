@@ -100,9 +100,29 @@
                         INDICAÇÃO P/NE: <strong><? echo $listar[0]->diagnostico_nutricional; ?></strong>
                         <br>
                         <br>
-                        DIETA:
-                        <? foreach ($listar as $item){?>
-                        <?=$item->produto;?>
+                        DIETA: 
+                        
+                        <?
+    foreach ($teste as $valor) {
+        
+
+
+        foreach ($listar as $item) {
+            if ($valor->classificacao == $item->classificacao) {
+                
+                $classificaco = $item->classificacao;
+                
+            }
+        }
+
+        
+   
+        ?>
+                  
+                     
+               
+                   
+                        <strong> -<?=$classificaco;?> </strong>
                         <br>
                         <br>
                             <?}?>

@@ -193,6 +193,7 @@ class Exame extends BaseController {
 
     function impressaolaudomedico($internacao_id) {
         $data['listar'] = $this->exame->imprimirlaudomedico($internacao_id);
+        $data['teste'] = $this->exame->imprimirlaudomedicoteste($internacao_id);
 
         if ($data['listar'] == null) {
             echo '
