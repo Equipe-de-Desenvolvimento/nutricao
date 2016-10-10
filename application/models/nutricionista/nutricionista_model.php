@@ -920,10 +920,12 @@ class nutricionista_model extends BaseModel {
                             p.nascimento,
                             o.nome as nutricionista,
                             i.diagnostico_nutricional,
+                            isa.tipo as saida,
                             
                             ');
         $this->db->from('tb_internacao_precricao_evolucao ipeo');
         $this->db->join('tb_internacao i', 'ipeo.internacao_id = i.internacao_id', 'left');
+        $this->db->join('tb_internacao_saida isa', 'isa.internacao_saida_id = i.motivo_saida', 'left');
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id', 'left');
         $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');

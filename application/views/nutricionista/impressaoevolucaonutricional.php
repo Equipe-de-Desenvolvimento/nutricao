@@ -179,7 +179,20 @@ $via= $listar[0]->via;
                 <?
             }?>
                 
-                
+             <? if ($listar[0]->data_saida!= null){?>
+                 
+                 
+                 <tr>
+                     <td height="19" colspan="9" align="center"  style="text-align:center;font-size: 13px;"><strong>DATA: <?=$data_saida?> </strong><strong> <?=$listar[0]->saida;?></strong>  </td>
+                </tr>
+                <tr>
+                    <td height="19" colspan="9" align="center" class="semborda" style="text-align:center;font-size: 13px;"> </td>
+                </tr>
+                 
+                 
+                 <?
+                 
+             }?>   
               
 
 

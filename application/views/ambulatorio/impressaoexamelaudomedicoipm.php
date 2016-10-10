@@ -91,7 +91,7 @@
                         NOME DO PACIENTE: <strong style="text-decoration: underline;"><? echo $listar[0]->nome; ?></strong>
                         <br>
                         <br>
-                        DIAGNÓSTICO:<strong><? echo $listar[0]->diagnostico; ?></strong>
+                        DIAGNÓSTICO:<strong><? echo $listar[0]->diagnostico_nutricional; ?></strong>
                         <br>
                         <br>
                         CARTEIRA:<strong><? echo $listar[0]->convenionumero; ?></strong>
@@ -124,10 +124,10 @@
                         <br>
                         <br>
                         <p style="text-align: center;"><strong>SOLICITO NUTRIÇÃO NUTRIÇÃO ENTERAL PARA PACIENTE COM <br>
-                                <u>PNEUMONIA</u>, IMPOSSIBILITADA DE SE ALIMENTAR POR VIA ORAL</strong></p>
+                                <u><? echo $listar[0]->diagnostico; ?></u> </strong></p>
                         
                         
-                        <p style="text-align: center;"><strong >Período: 27/07/16</strong></p>
+<!--                        <p style="text-align: center;"><strong >Período: 27/07/16</strong></p>-->
                         
                        
                         <br>

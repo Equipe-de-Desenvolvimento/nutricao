@@ -96,9 +96,6 @@ echo $banco[0]->convenio;
             </tr> 
 <? if ($listar != null) { ?>
 
-
-
-
     <?
     $totalgeral = 0;
     $diasgerais = 0;
