@@ -154,18 +154,13 @@ $via= $listar[0]->via;
 
             <?foreach ($prescricao as $item){?>
                 <tr>
-                    <td height="19" colspan="9" align="center" style="text-align: center; font-size: 13px;">
-                      <?
-                      $suafrase= $item->texto_evolucao;
-                      $palavras = explode(" ", $suafrase);
-                     
-                      ?>  
-                        <strong>DATA:
-                <? foreach ($palavras as $valor){
-                    echo $valor. " ";
-                
-                }
-                ?> </strong><? ?></td>
+                    <td height="19" colspan="9" style="text-align: center; font-size: 13px;">
+                        <p>
+                <strong>DATA: <?=$item->texto_evolucao?>
+                </strong>
+                        
+                  </p>  
+                    </td>
 
                 </tr>
                 <tr>

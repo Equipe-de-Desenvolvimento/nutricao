@@ -80,6 +80,7 @@ class nutricionista extends BaseController {
         
         $data['internacao_id'] = $internacao_id;
         $data['prescricao'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
+        $data['prescricoes'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
         $data['prescricaoequipo'] = $this->nutricionista->formularioevolucaonutricionalequipo($internacao_id);
         
 //      echo  var_dump($data['listar']);
@@ -128,8 +129,8 @@ class nutricionista extends BaseController {
 
         $data['produto'] = $this->nutricionista->produtoexamefaturamento($internacao_precricao_produto_id);
         $internacao_id = $data['produto'][0]->internacao_id;
-        $data['enteral'] = $this->exame->listaprodutosenteral($internacao_id);
-        $data['equipo'] = $this->exame->listaprodutosequipo($internacao_id);
+        $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
+        $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);
         $data['internacao_precricao_produto_id'] = $data['produto'][0]->internacao_precricao_produto_id;
 //        echo var_dump($data['produto']);
 //        die;
@@ -484,12 +485,9 @@ class nutricionista extends BaseController {
     function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
        $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
        $data['diagnostico'] = $this->nutricionista->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-//        $data['diagnostico'] = $this->nutricionista->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-        //Criar outra função apenas para mostrar a tela e depois entrar em gravar
-//        echo var_dump($data['diagnostico']);
-//        die;
+
         $this->loadView('nutricionista/diagnosticofichadeavaliacao', $data);
-//        redirect(base_url() . "nutricionista/nutricionista/listafichadeavaliacao/$internacao_id");
+
     }
     function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
 //       echo var_dump($internacao_fichadeavaliacao_id);

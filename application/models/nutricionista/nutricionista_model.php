@@ -604,20 +604,7 @@ class nutricionista_model extends BaseModel {
         return $return->result();
     }
 
-    function listaprodutosenteral($internacao_id) {
-        $this->db->select(' pc.procedimento_convenio_id,
-                            pt.nome');
-        $this->db->from('tb_procedimento_convenio pc');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
-        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
-        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
-        $this->db->where('i.internacao_id', $internacao_id);
-        $this->db->where('pt.grupo', 'ENTERAL');
-        $this->db->where('pc.ativo', 't');
-        $this->db->orderby('pt.nome');
-        $return = $this->db->get();
-        return $return->result();
-    }
+    
 
     function listainternao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
@@ -637,20 +624,7 @@ class nutricionista_model extends BaseModel {
         return $return->result();
     }
 
-    function listaprodutosequipo($internacao_id) {
-        $this->db->select(' pc.procedimento_convenio_id,
-                            pt.nome');
-        $this->db->from('tb_procedimento_convenio pc');
-        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
-        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
-        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
-        $this->db->where('i.internacao_id', $internacao_id);
-        $this->db->where('pt.grupo', 'EQUIPO');
-        $this->db->where('pc.ativo', 't');
-        $this->db->orderby('pt.nome');
-        $return = $this->db->get();
-        return $return->result();
-    }
+   
 
     function listaultimaprescricaoenteral($internacao_id) {
         $this->db->select('internacao_precricao_id');
@@ -772,6 +746,39 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+    
+    
+    function listaprodutosenteral($internacao_id) {
+        $this->db->select(' pc.procedimento_convenio_id,
+                            pt.nome');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
+        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
+        $this->db->where('i.internacao_id', $internacao_id);
+        $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('pt.ativo', 't');
+        $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function listaprodutosequipo($internacao_id) {
+        $this->db->select(' pc.procedimento_convenio_id,
+                            pt.nome');
+        $this->db->from('tb_procedimento_convenio pc');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
+        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
+        $this->db->where('i.internacao_id', $internacao_id);
+        $this->db->where('pt.grupo', 'EQUIPO');
+        $this->db->where('pc.ativo', 't');
+        $this->db->orderby('pt.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
 
     function formularioevolucaonutricional($internacao_id) {
 
@@ -781,8 +788,10 @@ class nutricionista_model extends BaseModel {
                             ipe.internacao_precricao_etapa_id,
                             ipp.etapas,
                             ipp.internacao_id,
-                            ipp.volume,
+                            ipe.volume ,
+                            ipp.volume as frasco,
                             ipp.vasao,
+                            ipp.descricao,
                             o.nome as nutricionista,
                             pt.nome,
                             pt.kcal,

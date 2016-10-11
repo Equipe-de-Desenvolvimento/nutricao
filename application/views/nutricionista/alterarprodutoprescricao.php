@@ -98,7 +98,7 @@
                             <select  name="produto" id="produto" class="size4" >
                                 <option  value="-1">Selecione</option>
                                 <? foreach ($enteral as $item) : ?>
-                                    <option  value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
+                                    <option  value="<?= $item->procedimento_convenio_id; ?>">  <?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </td>

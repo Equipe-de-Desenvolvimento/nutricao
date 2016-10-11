@@ -1712,7 +1712,8 @@ class exame_model extends Model {
         $this->db->join('tb_paciente p', 'p.convenio_id = pc.convenio_id ');
         $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
         $this->db->where('i.internacao_id', $internacao_id);
-        $this->db->where('pt.grupo', 'ENTERAL');
+        $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('pt.ativo', 't');
         $this->db->where('pc.ativo', 't');
         $this->db->orderby('pt.nome');
         $return = $this->db->get();

@@ -141,7 +141,12 @@ ALTER TABLE ponto.tb_internacao_precricao_evolucao ADD COLUMN data_inicio timest
 ALTER TABLE ponto.tb_internacao_precricao_evolucao ADD COLUMN data_fim timestamp without time zone;
 
 
+ALTER TABLE ponto.tb_internacao_precricao_produto_antigo ADD COLUMN descricao character varying(30);
 
+
+Dia 10/10/16
+
+ALTER TABLE ponto.tb_internacao_precricao_evolucao ALTER COLUMN texto_evolucao TYPE text;
 
 
 
