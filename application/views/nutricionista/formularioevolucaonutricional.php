@@ -85,7 +85,7 @@
                     <tr>
                         <td  class="<?php echo $estilo_linha; ?> "> 
                             <? if ($data != '&nbsp;') { ?>
-                            <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" value=" "><?=$data;?> Paciente em  TNE em BIC <?=$taxadeinfusao?> e VCT <?=$vct?> Dieta: <?= $item->etapas; ?> Etapas </textarea>
+                            <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" value=" "><?=$data;?> Paciente em  TNE em BIC <?=$taxadeinfusao?> e VCT <?=$vct?> Dieta: <?= $item->etapas; ?> Etapa(s) </textarea>
                             
                                 <?
                             }
@@ -104,7 +104,7 @@
                         $c++;
                         ?>
 
-                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $equipo_id ?>');"> <?= $equipo; ?></a>
+                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;color: #f00;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $equipo_id ?>');"> <?= $equipo; ?></a>
 
 
                         </td>
