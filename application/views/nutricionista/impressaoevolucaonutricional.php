@@ -155,7 +155,7 @@ $via= $listar[0]->via;
             <?foreach ($prescricao as $item){?>
                 <tr>
                     <td height="19" colspan="9" style="text-align: center; font-size: 13px;">
-                        <p>
+                        <p style="text-align:justify;">
                 <strong>DATA: <?=$item->texto_evolucao?>
                 </strong>
                         

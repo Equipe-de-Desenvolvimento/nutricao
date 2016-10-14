@@ -139,6 +139,7 @@ function debug($object) {
                             <li><span class="file"><a href="<?= base_url() ?>estoque/fornecedor">Manter Fornecedor</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/produto">Manter Produto</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/cliente">Manter Setor</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral">Manter Entrada Estoque Parenteral</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></li>
