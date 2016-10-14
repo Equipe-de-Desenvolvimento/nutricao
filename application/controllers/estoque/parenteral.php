@@ -34,7 +34,39 @@ class Parenteral extends BaseController {
 
 //            $this->carregarView($data);
     }
+    
+    function pesquisarestoqueparenteral($args = array()) {
 
+        $this->loadView('estoque/entradaparenteralhigienizacao-lista', $args);
+
+//            $this->carregarView($data);
+    }
+
+    function entradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id) {
+
+        $data['listar'] = $this->parenteral->entradaparenteralhigienizacao($estoque_entrada_parenteral_id);
+        
+//        echo var_dump($data['listar']);
+//        die;
+        
+        
+        $this->loadView('estoque/entradaparenteralhigienizacao-form', $data);
+    }
+    
+    function gravarentradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id) {
+        
+        $this->parenteral->gravarentradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id);
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar entrada de produto na sala de higienização';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar entrada de produto na sala de higienização.';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/pesquisarestoqueparenteral");
+   
+       
+    }
+    
     function entradaestoqueparenteral($estoque_saida_id) {
 
         $data['listar'] = $this->parenteral->entradaparenteral($estoque_saida_id);
@@ -52,9 +84,9 @@ class Parenteral extends BaseController {
         
         $this->parenteral->gravarentradaestoqueparenteral($estoque_saida_id);
         if ($teste == 0) {
-            $data['mensagem'] = 'Sucesso ao gravar entrada de produto parenteral';
+            $data['mensagem'] = 'Sucesso ao gravar entrada de produto no estoque parenteral';
         } else {
-            $data['mensagem'] = 'Erro ao gravar entrada de produto parenteral.';
+            $data['mensagem'] = 'Erro ao gravar entrada de produto no estoque parenteral.';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "estoque/parenteral");

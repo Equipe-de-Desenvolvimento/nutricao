@@ -55,7 +55,62 @@ class parenteral_model extends Model {
         }
         return $this->db;
     }
+    
+    function listarestoqueparenteral($args = array()) {
+        $this->db->select('eep.estoque_saida_id,
+                            eep.estoque_entrada_parenteral_id,
+                            eep.produto_id,
+                            f.fantasia,
+                            p.descricao as produto,
+                            eep.fornecedor_id,
+                            f.razao_social as fornecedor,
+                            eep.armazem_id,
+                            a.descricao as armazem,
+                            eep.quantidade,
+                            eep.validade');
+        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
+        $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
+        $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
+        $this->db->where('eep.ativo', 'true');
+        $this->db->where('eep.quantidade >', 0);
+        
+        if (isset($args['produto']) && strlen($args['produto']) > 0) {
+            $this->db->where('p.descricao ilike', "%" . $args['produto'] . "%");
+        }
+        if (isset($args['fornecedor']) && strlen($args['fornecedor']) > 0) {
+            $this->db->where('f.razao_social ilike', "%" . $args['fornecedor'] . "%");
+        }
+        if (isset($args['armazem']) && strlen($args['armazem']) > 0) {
+            $this->db->where('a.descricao ilike', "%" . $args['armazem'] . "%");
+        }
+        
+        return $this->db;
+    }
 
+    function entradaparenteralhigienizacao($estoque_entrada_parenteral_id) {
+        $this->db->select('eep.estoque_saida_id,
+                            eep.produto_id,
+                            eep.estoque_entrada_parenteral_id,
+                            p.descricao as produto,
+                            eep.fornecedor_id,
+                            eep.data_entrada,
+                            f.razao_social as fornecedor,
+                            eep.armazem_id,
+                            a.descricao as armazem,
+                            eep.quantidade,
+                            eep.validade');
+        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
+        $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
+        $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
+        $this->db->where('eep.estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+
+        $return = $this->db->get();
+        return $return->result();
+        
+    }
+    
     function entradaparenteral($estoque_saida_id) {
         $this->db->select('es.estoque_saida_id,
                             es.produto_id,
@@ -121,6 +176,71 @@ class parenteral_model extends Model {
             $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('estoque_saida_id', $estoque_saida_id);
             $this->db->update('tb_estoque_saida');
+        
+        } catch (Exception $exc) {
+            $teste = 0;
+            return $teste;
+        }
+        
+        
+    }
+    function gravarentradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id) {
+        
+        try {
+        
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+       $this->db->select('eep.estoque_saida_id,
+                            eep.produto_id,
+                            eep.estoque_entrada_parenteral_id,
+                            p.descricao as produto,
+                            eep.fornecedor_id,
+                            eep.data_entrada,
+                            f.razao_social as fornecedor,
+                            eep.armazem_id,
+                            a.descricao as armazem,
+                            eep.quantidade,
+                            eep.validade');
+        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
+        $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
+        $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
+        $this->db->where('eep.estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+
+        $querys = $this->db->get();
+        $returns = $querys->result();
+        
+        $quantidade= $returns[0]->quantidade - (int)$_POST['quantidade'];
+        
+//        echo var_dump($returns[0]);
+//        die;
+        
+        
+        
+            $this->db->set('estoque_entrada_parenteral_id', $returns[0]->estoque_entrada_parenteral_id);
+            $this->db->set('estoque_saida_id', $returns[0]->estoque_saida_id);
+            $this->db->set('produto_id', $returns[0]->produto_id);
+            $this->db->set('fornecedor_id', $returns[0]->fornecedor_id);
+            $this->db->set('armazem_id', $returns[0]->armazem_id);
+            $this->db->set('quantidade', $_POST['quantidade']);
+            $this->db->set('validade', $returns[0]->validade);
+            $this->db->set('data_entrada', $_POST['data_entrada']);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_estoque_entrada_parenteral_higienizacao');
+            
+        if ($quantidade==0){
+            
+            $this->db->set('ativo', 'f');
+            
+        }
+            
+            $this->db->set('quantidade', $quantidade);
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->where('estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+            $this->db->update('tb_estoque_entrada_parenteral');
         
         } catch (Exception $exc) {
             $teste = 0;
