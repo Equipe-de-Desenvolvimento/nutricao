@@ -68,7 +68,7 @@ class parenteral_model extends Model {
                             a.descricao as armazem,
                             eep.quantidade,
                             eep.validade');
-        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->from('tb_estoque_parenteral_entrada eep');
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
         $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
@@ -100,7 +100,7 @@ class parenteral_model extends Model {
                             a.descricao as armazem,
                             eep.quantidade,
                             eep.validade');
-        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->from('tb_estoque_parenteral_entrada eep');
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
         $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
@@ -168,7 +168,7 @@ class parenteral_model extends Model {
             $this->db->set('data_entrada', $_POST['data_entrada']);
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_estoque_entrada_parenteral');
+            $this->db->insert('tb_estoque_parenteral_entrada');
             
             
             $this->db->set('entrada_parenteral', 'f');
@@ -184,6 +184,7 @@ class parenteral_model extends Model {
         
         
     }
+    
     function gravarentradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id) {
         
         try {
@@ -202,7 +203,7 @@ class parenteral_model extends Model {
                             a.descricao as armazem,
                             eep.quantidade,
                             eep.validade');
-        $this->db->from('tb_estoque_entrada_parenteral eep');
+        $this->db->from('tb_estoque_parenteral_entrada eep');
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eep.produto_id', 'left');
         $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eep.fornecedor_id', 'left');
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eep.armazem_id', 'left');
@@ -228,7 +229,7 @@ class parenteral_model extends Model {
             $this->db->set('data_entrada', $_POST['data_entrada']);
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_estoque_entrada_parenteral_higienizacao');
+            $this->db->insert('tb_estoque_parenteral_higienizacao');
             
         if ($quantidade==0){
             
@@ -240,7 +241,7 @@ class parenteral_model extends Model {
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
-            $this->db->update('tb_estoque_entrada_parenteral');
+            $this->db->update('tb_estoque_parenteral_entrada');
         
         } catch (Exception $exc) {
             $teste = 0;

@@ -202,3 +202,9 @@ CREATE TABLE ponto.tb_estoque_entrada_parenteral_higienizacao
 
 
 
+Dia 20/10/16
+
+ALTER TABLE ponto.tb_estoque_entrada_parenteral RENAME TO tb_estoque_parenteral_entrada;
+
+ALTER TABLE ponto.tb_estoque_entrada_parenteral_higienizacao RENAME TO tb_estoque_parenteral_higienizacao;
+
