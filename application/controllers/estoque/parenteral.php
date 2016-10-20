@@ -32,14 +32,114 @@ class Parenteral extends BaseController {
 
         $this->loadView('estoque/entradaparenteral-lista', $args);
 
-//            $this->carregarView($data);
     }
     
     function pesquisarestoqueparenteral($args = array()) {
 
         $this->loadView('estoque/entradaparenteralhigienizacao-lista', $args);
 
-//            $this->carregarView($data);
+    }
+    
+    function pesquisarestoqueparenteralgeladeira($args = array()) {
+
+        $this->loadView('estoque/geladeira-lista', $args);
+
+    }
+    
+    function novageladeira() {
+
+        $this->loadView('estoque/geladeira-form');
+
+    }
+    
+    
+    
+    function gravargeladeiraparenteral() {
+
+         $this->parenteral->gravargeladeiraparenteral();
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/pesquisarestoqueparenteralgeladeira");
+
+    }
+    
+    function alterargeladeiraparenteral($estoque_parenteral_geladeira_id) {
+        $data['geladeira']= $this->parenteral->carregargeladeira($estoque_parenteral_geladeira_id);
+         
+        $this->loadView('estoque/alterargeladeira', $data);
+
+    }
+    
+    function gravaralterargeladeiraparenteral($estoque_parenteral_geladeira_id) {
+
+         $this->parenteral->gravaralterargeladeiraparenteral($estoque_parenteral_geladeira_id);
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao alterar Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao alterar Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/pesquisarestoqueparenteralgeladeira");
+
+    }
+    
+    function excluirgeladeiraparenteral($estoque_parenteral_geladeira_id) {
+
+         $this->parenteral->excluirgeladeiraparenteral($estoque_parenteral_geladeira_id);
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao excluir Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao excluir Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/pesquisarestoqueparenteralgeladeira");
+
+    }
+    
+    
+    function checagemtemperaturaparenteral() {
+
+        $this->loadView('estoque/checagemtemperaturaparenteral');
+
+    }
+    
+    function listarchecagemtemperaturaparenteral($estoque_parenteral_geladeira_id) {
+        
+        $data['estoque_parenteral_geladeira_id']= $estoque_parenteral_geladeira_id;
+        $data['lista']= $this->parenteral->listartemperaturas($estoque_parenteral_geladeira_id);
+
+        $this->loadView('estoque/listartemperatura', $data);
+
+    }
+    
+    function registrartemperatura($estoque_parenteral_geladeira_id) {
+        
+        $data['estoque_parenteral_geladeira_id']= $estoque_parenteral_geladeira_id;
+        
+        $this->loadView('estoque/registrartemperatura', $data);
+
+    }
+    
+    function gravarregistrartemperatura($estoque_parenteral_geladeira_id) {
+        $data['estoque_parenteral_geladeira_id']= $estoque_parenteral_geladeira_id;
+        
+        $this->parenteral->excluirgeladeiraparenteral($estoque_parenteral_geladeira_id);
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao excluir Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao excluir Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/listarchecagemtemperaturaparenteral", $estoque_parenteral_geladeira_id);
+
     }
 
     function entradaestoqueparenteralhigienizacao($estoque_entrada_parenteral_id) {

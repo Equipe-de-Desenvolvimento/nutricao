@@ -204,7 +204,46 @@ CREATE TABLE ponto.tb_estoque_entrada_parenteral_higienizacao
 
 Dia 20/10/16
 
+
+
 ALTER TABLE ponto.tb_estoque_entrada_parenteral RENAME TO tb_estoque_parenteral_entrada;
 
 ALTER TABLE ponto.tb_estoque_entrada_parenteral_higienizacao RENAME TO tb_estoque_parenteral_higienizacao;
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada RENAME COLUMN quantidade TO quantidade_entrada;
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN quantidade_saida numeric;
+
+
+CREATE TABLE ponto.tb_estoque_parenteral_geladeira
+(
+  estoque_parenteral_geladeira_id serial NOT NULL,
+  descricao character varying(200),
+  ativo boolean DEFAULT true,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  
+  CONSTRAINT tb_estoque_parenteral_geladeira_pkey PRIMARY KEY (estoque_parenteral_geladeira_id )
+);
+
+
+CREATE TABLE ponto.tb_estoque_parenteral_geladeira_temperatura
+(
+  estoque_parenteral_geladeira_temperatura_id serial NOT NULL,
+  estoque_parenteral_geladeira_id integer,
+  temperatura character varying(10),
+  ativo boolean DEFAULT true,
+  data_checagem timestamp without time zone,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  CONSTRAINT tb_estoque_parenteral_geladeira_temperatura_pkey PRIMARY KEY (estoque_parenteral_geladeira_temperatura_id )
+);
+
+
+ALTER TABLE ponto.tb_estoque_parenteral_geladeira_temperatura ADD COLUMN observacao character varying(200);
+
 
