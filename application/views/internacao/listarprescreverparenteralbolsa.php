@@ -63,7 +63,7 @@
                 </thead>
                 <?php
                 $url = $this->utilitario->build_query_params(current_url(), $_GET);
-                $consulta = $this->internacao_m->listarpacientesprescricao($_GET);
+                $consulta = $this->internacao_m->listarpacientesprescricaoparenteral($_GET);
                 $total = $consulta->count_all_results();
                 $limit = 10;
                 isset($_GET['per_page']) ? $pagina = $_GET['per_page'] : $pagina = 0;
@@ -72,7 +72,7 @@
                     ?>
                     <tbody>
                         <?php
-                        $lista = $this->internacao_m->listarpacientesprescricao($_GET)->orderby('p.nome')->limit($limit, $pagina)->get()->result();
+                        $lista = $this->internacao_m->listarpacientesprescricaoparenteral($_GET)->orderby('p.nome')->limit($limit, $pagina)->get()->result();
                         $estilo_linha = "tabela_content01";
                         foreach ($lista as $item) {
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
@@ -84,17 +84,14 @@
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo $item->nome; ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo substr($item->data_internacao, 8, 2) . '-' . substr($item->data_internacao, 5, 2) . '-' . substr($item->data_internacao, 0, 4); ?></td>
                                 <td class="<?php echo $estilo_linha; ?>"><?php echo substr($item->data_solicitacao, 8, 2) . '-' . substr($item->data_solicitacao, 5, 2) . '-' . substr($item->data_solicitacao, 0, 4); ?></td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new2">
-                                        <a onclick="javascript:window.open('<?= base_url() ?>internacao/internacao/selecionarprescricao/<?= $item->internacao_id ?>');">Prescrever</a></div>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;">
                                 </td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new2">
-                                        <a href="<?= base_url() ?>internacao/internacao/repetirultimaprescicaoenteralnormal/<?= $item->internacao_id ?>">Repetir</a></div>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new">
+                                        <a href="<?= base_url() ?>internacao/internacao/listartemperaturabolsaparenteral/<?= $item->internacao_id ?>">Checar Temperatura</a></div>
                                 </td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new2">
-                                        <a href="<?= base_url() ?>internacao/internacao/listarprescricaopaciente/<?= $item->internacao_id ?>">Prescr&ccedil;&otilde;es</a></div>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;">
                                 </td>
-                                <td class="<?php echo $estilo_linha; ?>" width="60px;"><div class="bt_link_new2">
-                                        <a href="<?= base_url() ?>internacao/internacao/relatorioentrega/<?= $item->internacao_id ?>">Rel. entrega</a></div>
+                                <td class="<?php echo $estilo_linha; ?>" width="60px;">
                                 </td>
                             </tr>
                         </tbody>

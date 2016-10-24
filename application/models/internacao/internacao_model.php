@@ -1200,7 +1200,7 @@ class internacao_model extends BaseModel {
         return $this->db;
     }
 
-    function listarpacientesprescricao($args = array()) {
+    function listarpacientesprescricaoenteral($args = array()) {
         $this->db->select(' i.internacao_id,
                             i.paciente_id,
                             i.data_solicitacao,
@@ -1218,6 +1218,7 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
         $this->db->where('i.ativo', 't');
         $this->db->where('i.prescricao', 't');
+        $this->db->where('i.carater_internacao', 'Enteral');
         if ($args) {
             if (isset($args['nome']) && strlen($args['nome']) > 0) {
                 $this->db->where('p.nome ilike', "%" . $args['nome'] . "%", 'left');
@@ -1227,6 +1228,153 @@ class internacao_model extends BaseModel {
             }
         }
         return $this->db;
+    }
+    
+    function listarpacientesprescricaoparenteral($args = array()) {
+        $this->db->select(' i.internacao_id,
+                            i.paciente_id,
+                            i.data_solicitacao,
+                            p.nome,
+                            i.motivo_saida,
+                            i.leito,
+                            c.nome as convenio,
+                            tis.tipo,
+                            iu.nome as hospital,
+                            i.data_internacao');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
+        $this->db->join('tb_internacao_saida tis', 'tis.internacao_saida_id = i.motivo_saida', 'left');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->where('i.ativo', 't');
+        $this->db->where('i.prescricao', 't');
+        $this->db->where('i.carater_internacao', 'Parenteral');
+        if ($args) {
+            if (isset($args['nome']) && strlen($args['nome']) > 0) {
+                $this->db->where('p.nome ilike', "%" . $args['nome'] . "%", 'left');
+            }
+            if (isset($args['hospital']) && strlen($args['hospital']) > 0) {
+                $this->db->where('i.hospital', $args['hospital']);
+            }
+        }
+        return $this->db;
+    }
+    
+    function listarpacientesprescricaoparenteralhospital($internacao_id) {
+        $this->db->select(' i.internacao_id,
+                            i.paciente_id,
+                            i.data_solicitacao,
+                            p.nome,
+                            i.motivo_saida,
+                            i.leito,
+                            iu.internacao_unidade_id as hospital_id,
+                          
+                           
+                            i.data_internacao');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->where('i.internacao_id', $internacao_id);
+
+         $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function listaroperadores() {
+        $this->db->select('o.operador_id,
+                               o.usuario,
+                               o.nome as operador,
+                               o.perfil_id,
+                               p.nome as perfil');
+        $this->db->from('tb_operador o');
+        $this->db->join('tb_perfil p', 'p.perfil_id = o.perfil_id', 'left');
+        $this->db->orderby('o.nome');
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function listartemperaturabolsaparenteralentrega($internacao_id) {
+        $this->db->select(' ippbe.internacao_precricao_parenteral_bolsa_entrega_id,
+                            ippbe.internacao_id,
+                            ippbe.hospital_id,
+                            ippbe.responsavel_entrega,
+                            ippbe.responsavel_recebimento,
+                            ippbe.data_checagem,
+                            ippbe.temperatura,
+                            ippbe.observacao,
+                            o.nome as operador,
+                            ');
+        $this->db->from('tb_internacao_precricao_parenteral_bolsa_entrega ippbe ');
+        $this->db->join('tb_operador o', 'ippbe.responsavel_entrega = o.operador_id', 'left');
+        $this->db->where('ippbe.internacao_id', $internacao_id);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function gravartemperaturabolsaparenteralentrega($internacao_id) {
+        
+        try {
+        
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+            $this->db->set('internacao_id', $internacao_id);
+            $this->db->set('hospital_id', $_POST['hospital']);
+            $this->db->set('temperatura', $_POST['temperatura']);
+            $this->db->set('observacao', $_POST['observacao']);
+            $this->db->set('responsavel_entrega', $_POST['responsavel']);
+            $this->db->set('responsavel_recebimento', $_POST['recebimento']);
+            $this->db->set('data_checagem', $_POST['data_checagem']);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_internacao_precricao_parenteral_bolsa_entrega');
+
+        } catch (Exception $exc) {
+            $teste = 0;
+            return $teste;
+        }
+    }
+    
+    function listartemperaturabolsaparenteral($internacao_id) {
+        $this->db->select(' ippb.internacao_precricao_parenteral_bolsa_id,
+                            ippb.internacao_id,
+                            ippb.hospital_id,
+                            ippb.responsavel_entrega,
+                            ippb.data_checagem,
+                            ippb.temperatura,
+                            ippb.observacao,
+                            o.nome as operador,
+                            ');
+        $this->db->from('tb_internacao_precricao_parenteral_bolsa ippb ');
+        $this->db->join('tb_operador o', 'ippb.responsavel_entrega = o.operador_id', 'left');
+        $this->db->where('ippb.internacao_id', $internacao_id);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function gravartemperaturabolsaparenteral($internacao_id) {
+        
+        try {
+        
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+            $this->db->set('internacao_id', $internacao_id);
+            $this->db->set('hospital_id', $_POST['hospital']);
+            $this->db->set('temperatura', $_POST['temperatura']);
+            $this->db->set('observacao', $_POST['observacao']);
+            $this->db->set('responsavel_entrega', $_POST['responsavel']);
+            $this->db->set('data_checagem', $_POST['data_checagem']);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_internacao_precricao_parenteral_bolsa');
+
+        } catch (Exception $exc) {
+            $teste = 0;
+            return $teste;
+        }
     }
 
     function listarrelatoriohoraentrega($hospital) {

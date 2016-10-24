@@ -27,8 +27,20 @@ class internacao extends BaseController {
         $this->loadView('internacao/listarinternacao');
     }
 
-    public function listarprescrever($args = array()) {
-        $this->loadView('internacao/listarpacientesprescricao');
+    public function listarprescreverenteral($args = array()) {
+        $this->loadView('internacao/listarpacientesprescricaoenteral');
+    }
+    
+    public function listarprescreverparenteral($args = array()) {
+        $this->loadView('internacao/listarpacientesprescricaoparenteral');
+    }
+    
+    public function listarprescreverparenteralbolsa($args = array()) {
+        $this->loadView('internacao/listarprescreverparenteralbolsa');
+    }
+    
+    public function listarprescreverparenteralbolsaentrega($args = array()) {
+        $this->loadView('internacao/listarprescreverparenteralbolsaentrega');
     }
 
     public function listarmotoqueiro($args = array()) {
@@ -184,6 +196,63 @@ class internacao extends BaseController {
 
         $this->loadView('internacao/cadastrarleito');
     }
+    
+    function listartemperaturabolsaparenteral($internacao_id) {
+        $data['internacao_id']= $internacao_id;
+        $data['lista']= $this->internacao_m->listartemperaturabolsaparenteral($internacao_id);
+
+        $this->loadView('internacao/listartemperaturaparenteral', $data);
+    }
+    
+    function listartemperaturabolsaparenteralentrega($internacao_id) {
+        $data['internacao_id']= $internacao_id;
+        $data['lista']= $this->internacao_m->listartemperaturabolsaparenteralentrega($internacao_id);
+
+        $this->loadView('internacao/listartemperaturaparenteralentrega', $data);
+    }
+    
+    function novotemperaturabolsaparenteralentrega($internacao_id) {
+        $data['internacao_id']= $internacao_id;
+        $data['hospital']= $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
+        
+        $this->loadView('internacao/novotemperaturabolsaparenteralentrega', $data);
+    }
+    
+    function gravartemperaturabolsaparenteralentrega($internacao_id) {
+
+         $this->internacao_m->gravartemperaturabolsaparenteralentrega($internacao_id);
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "internacao/internacao/listartemperaturabolsaparenteralentrega/$internacao_id");
+
+    }
+    
+    function novotemperaturabolsaparenteral($internacao_id) {
+        $data['internacao_id']= $internacao_id;
+        $data['hospital']= $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
+        
+        $this->loadView('internacao/novotemperaturabolsaparenteral', $data);
+    }
+    
+    function gravartemperaturabolsaparenteral($internacao_id) {
+
+         $this->internacao_m->gravartemperaturabolsaparenteral($internacao_id);
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar Geladeira';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar Geladeira';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "internacao/internacao/listartemperaturabolsaparenteral/$internacao_id");
+
+    }
+    
 
     function novosolicitacaointernacao($paciente_id) {
         $data['numero'] = $this->solicitacaointernacao_m->verificasolicitacao($paciente_id);

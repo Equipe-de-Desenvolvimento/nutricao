@@ -101,6 +101,20 @@ class parenteral_model extends Model {
         return $this->db;
     }
     
+    function listargeladeirarelatorio() {
+        $this->db->select('estoque_parenteral_geladeira_id,
+                            descricao
+                            
+                            ');
+        $this->db->from('tb_estoque_parenteral_geladeira');
+        
+        $this->db->where('ativo', 'true');
+
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
     function gravargeladeiraparenteral() {
         
         try {
@@ -155,6 +169,66 @@ class parenteral_model extends Model {
         return $return->result();
     }
     
+    function impressaorelatoriotemperaturaparenteral() {
+        $this->db->select('epgt.estoque_parenteral_geladeira_id,
+                           epgt.estoque_parenteral_geladeira_temperatura_id,
+                           epgt.temperatura,
+                           epgt.data_checagem,
+                           epgt.observacao,
+                            
+                            ');
+        $this->db->from('tb_estoque_parenteral_geladeira_temperatura epgt');
+        $this->db->join('tb_estoque_parenteral_geladeira epg', 'epgt.estoque_parenteral_geladeira_id = epg.estoque_parenteral_geladeira_id', 'left');
+        $this->db->where('epgt.estoque_parenteral_geladeira_id', $_POST['geladeira']);
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('epgt.data_checagem >=', $data_inicio);
+        $this->db->where('epgt.data_checagem <=', $data_fim);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function listarumidadeambienteparenteral() {
+        $this->db->select('estoque_parenteral_ambiente_temperatura_id,
+                           temperatura,
+                           umidade,
+                           data_checagem,
+                           observacao,
+                            
+                            ');
+        $this->db->from('tb_estoque_parenteral_ambiente_temperatura');
+        $this->db->where('ativo', 'true');
+
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function gravarumidadeambienteparenteral() {
+        
+        try {
+        
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+            $this->db->set('temperatura', $_POST['temperatura']);
+            $this->db->set('umidade', $_POST['umidade']);
+            $this->db->set('data_checagem', $_POST['data_checagem']);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->set('observacao', $_POST['observacao']);
+            $this->db->insert('tb_estoque_parenteral_ambiente_temperatura');
+            
+  
+        
+        } catch (Exception $exc) {
+            $teste = 0;
+            return $teste;
+        }
+    }
+    
     function gravaralterargeladeiraparenteral($estoque_parenteral_geladeira_id) {
         
         try {
@@ -198,6 +272,32 @@ class parenteral_model extends Model {
             return $teste;
         }
     }
+    
+    function gravarregistrartemperatura($estoque_parenteral_geladeira_id) {
+        
+        try {
+        
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+            $this->db->set('estoque_parenteral_geladeira_id', $estoque_parenteral_geladeira_id);
+            $this->db->set('temperatura', $_POST['temperatura']);
+            $this->db->set('data_checagem', $_POST['data_checagem']);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->set('observacao', $_POST['observacao']);
+            $this->db->insert('tb_estoque_parenteral_geladeira_temperatura');
+            
+  
+        
+        } catch (Exception $exc) {
+            $teste = 0;
+            return $teste;
+        }
+    }
+    
+    
 
     function entradaparenteralhigienizacao($estoque_entrada_parenteral_id) {
         $this->db->select('epe.estoque_saida_id,
@@ -243,6 +343,81 @@ class parenteral_model extends Model {
         $return = $this->db->get();
         return $return->result();
         
+    }
+    
+    function impressaorelatorioentradaparenteral() {
+      
+       $this->db->select('epe.estoque_saida_id,
+                            epe.produto_id,
+                            epe.estoque_entrada_parenteral_id,
+                            p.descricao as produto,
+                            epe.fornecedor_id,
+                            epe.data_entrada,
+                            f.razao_social as fornecedor,
+                            epe.armazem_id,
+                            a.descricao as armazem,
+                            epe.quantidade_entrada as quantidade,
+                            epe.validade');
+        $this->db->from('tb_estoque_parenteral_entrada epe');
+        $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = epe.produto_id', 'left');
+        $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = epe.fornecedor_id', 'left');
+        $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = epe.armazem_id', 'left');
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('epe.data_entrada >=', $data_inicio);
+        $this->db->where('epe.data_entrada <=', $data_fim);
+        $this->db->where('epe.ativo', 't');
+        
+        
+        $return = $this->db->get();
+        return $return->result();
+        
+    }
+    
+    function impressaorelatoriohigienizacaoparenteral() {
+      
+       $this->db->select('eph.estoque_saida_id,
+                            eph.produto_id,
+                            eph.estoque_entrada_parenteral_id,
+                            p.descricao as produto,
+                            eph.fornecedor_id,
+                            eph.data_entrada,
+                            f.razao_social as fornecedor,
+                            eph.armazem_id,
+                            a.descricao as armazem,
+                            eph.quantidade,
+                            eph.validade');
+        $this->db->from('tb_estoque_parenteral_higienizacao eph');
+        $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eph.produto_id', 'left');
+        $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = eph.fornecedor_id', 'left');
+        $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = eph.armazem_id', 'left');
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('eph.data_entrada >=', $data_inicio);
+        $this->db->where('eph.data_entrada <=', $data_fim);
+        $this->db->where('eph.ativo', 't');
+        
+        
+        $return = $this->db->get();
+        return $return->result();
+        
+    }
+    
+    function empresa() {
+        $empresa = $this->session->userdata('empresa_id');
+        $this->db->select('empresa_id,
+                            nome,
+                            cnpj,
+                            cep,
+                            razao_social,
+                            logradouro,
+                            bairro,
+                            telefone,
+                            numero');
+        $this->db->from('tb_empresa');
+        $this->db->where('empresa_id', $empresa);
+        $return = $this->db->get();
+        return $return->result();
     }
     
     function gravarentradaestoqueparenteral($estoque_saida_id) {

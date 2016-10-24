@@ -1,23 +1,26 @@
 
 <div class="content ficha_ceatox">
     <h3 class="h3_title">Entrada de Produtos Parenteral</h3>
-    <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarregistrartemperatura/<?=$estoque_parenteral_geladeira_id?>" method="post">
+    <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarumidadeambienteparenteral" method="post">
         
         
         <fieldset>
-            <legend>Temperatura</legend>
+            <legend>Temperatura e Umidade</legend>
             <div>
                 <label>Temperatura</label>
                 <input type="text" name="temperatura" id="temperatura"  class="size1"   />C°
             </div>
             <div>
+                <label>Umidade</label>
+                <input type="text" name="umidade" id="umidade"  class="size1"   />%
+            </div>
+            
+            <div>
                 <label>Data/hora de Checagem ex.( 20/01/2016 14:30:21)</label>
                 <input type="text" name="data_checagem" id="data_checagem"  class="size3" alt="39/19/9999 29:59:59" value=""  />
             </div>
             
-            
-            
-            
+ 
         </fieldset>
         
         <fieldset>

@@ -143,6 +143,10 @@ function debug($object) {
                             <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/checagemtemperaturaparenteral">Checagem Temperatura Parenteral</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral">Manter Entrada Estoque Parenteral</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/pesquisarestoqueparenteral">Entrada Sala de Higienização Parenteral</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/listarumidadeambienteparenteral">Temperatura e Umidade do Estoque Parenteral</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/relatoriotemperaturaparenteral">Relatorio Temperatura Geladeira</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/relatorioentradaparenteral">Relatorio Entrada Parenteral</a></span></li>
+                            <li><span class="file"><a href="<?= base_url() ?>estoque/parenteral/relatoriohigienizacaoparenteral">Relatorio Entrada Higienização Parenteral</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatorioentradaarmazem">Relatorio Entrada Produtos</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaidaarmazem">Relatorio Saida Produtos</a></span></li>
                             <li><span class="file"><a href="<?= base_url() ?>estoque/entrada/relatoriosaldoarmazem">Relatorio Saldo Produtos/Entrada</a></span></li>
@@ -196,7 +200,10 @@ function debug($object) {
                     <ul>
                         <!--<li><span class="file"><a href="<?= base_url() ?>internacao/internacao/pesquisarsolicitacaointernacao">Listar Solicitacoes</a></span></li>-->
                         <li><span class="file"><a href="<?= base_url() ?>internacao/internacao">Listar Internacoes</a></span></li>
-                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescrever">Listar Pacientes prescri&ccedil;&atilde;o</a></span></li>
+                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescreverenteral">Listar Pacientes prescri&ccedil;&atilde;o enteral</a></span></li>
+                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescreverparenteral">Listar Pacientes prescri&ccedil;&atilde;o parenteral</a></span></li>
+                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescreverparenteralbolsa">Checagem Temp. Bolsa Parenteral</a></span></li>
+                        <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescreverparenteralbolsaentrega">Checagem Temp. Bolsa Parenteral Entrega</a></span></li>
                         <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarmotoqueiro">Listar Internacoes Rota</a></span></li>
                         <!--<li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarmotoqueiro">Etiqueta de Entrega Paciente</a></span></li>-->
                         <li><span class="file"><a href="<?= base_url() ?>internacao/internacao/listarprescricao">Relatorio Prescricao</a></span></li>

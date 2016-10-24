@@ -247,3 +247,67 @@ CREATE TABLE ponto.tb_estoque_parenteral_geladeira_temperatura
 ALTER TABLE ponto.tb_estoque_parenteral_geladeira_temperatura ADD COLUMN observacao character varying(200);
 
 
+Dia 21/10/16
+
+CREATE TABLE ponto.tb_estoque_parenteral_ambiente_temperatura
+(
+  estoque_parenteral_ambiente_temperatura_id serial NOT NULL,
+  temperatura character varying(10),
+  umidade character varying(10),
+  ativo boolean DEFAULT true,
+  observacao character varying(200),
+  data_checagem timestamp without time zone,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  CONSTRAINT tb_estoque_parenteral_ambiente_temperatura_pkey PRIMARY KEY (estoque_parenteral_ambiente_temperatura_id )
+);
+
+
+CREATE TABLE ponto.tb_internacao_precricao_parenteral_bolsa
+(
+  internacao_precricao_parenteral_bolsa_id serial NOT NULL,
+  internacao_id integer,
+  hospital_id integer,
+  temperatura character varying(10),
+  observacao character varying(200),
+  responsavel_entrega character varying(100),
+  data_checagem timestamp without time zone,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  ativo boolean NOT NULL DEFAULT true,
+  CONSTRAINT tb_internacao_precricao_parenteral_bolsa_pkey PRIMARY KEY (internacao_precricao_parenteral_bolsa_id )
+);
+
+
+Dia 24/10/16
+
+ALTER TABLE ponto.tb_internacao_precricao_parenteral_bolsa DROP COLUMN responsavel_entrega;
+
+
+ALTER TABLE ponto.tb_internacao_precricao_parenteral_bolsa ADD COLUMN responsavel_entrega integer;
+
+
+
+CREATE TABLE ponto.tb_internacao_precricao_parenteral_bolsa_entrega
+(
+  internacao_precricao_parenteral_bolsa_entrega_id serial NOT NULL,
+  internacao_id integer,
+  hospital_id integer,
+  temperatura character varying(10),
+  observacao character varying(200),
+  responsavel_entrega integer,
+  responsavel_recebimento character varying(200),
+  data_checagem timestamp without time zone,
+  data_cadastro timestamp without time zone,
+  operador_cadastro integer,
+  data_atualizacao timestamp without time zone,
+  operador_atualizacao integer,
+  ativo boolean NOT NULL DEFAULT true,
+  CONSTRAINT tb_internacao_precricao_parenteral_bolsa_entrega_pkey PRIMARY KEY (internacao_precricao_parenteral_bolsa_entrega_id )
+);
+
+

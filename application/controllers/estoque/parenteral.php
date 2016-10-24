@@ -18,6 +18,7 @@ class Parenteral extends BaseController {
         $this->load->model('estoque/parenteral_model', 'parenteral');
         $this->load->model('estoque/cliente_model', 'cliente');
         $this->load->model('ambulatorio/guia_model', 'guia');
+        $this->load->model('cadastro/convenio_model', 'convenio');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -52,8 +53,52 @@ class Parenteral extends BaseController {
 
     }
     
+    function relatorioentradaparenteral() {
+        $this->loadView('estoque/relatorioentradaparenteral');
+    }
     
+     function impressaorelatorioentradaparenteral() {
+        $data['listar'] = $this->parenteral->impressaorelatorioentradaparenteral();
+        $data['empresa'] = $this->parenteral->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('estoque/impressaorelatorioentradaparenteral', $data);
+
+    }
     
+    function relatoriotemperaturaparenteral() {
+
+        $this->loadView('estoque/relatoriotemperaturaparenteral');
+
+    }
+
+    function impressaorelatoriotemperaturaparenteral() {
+        $data['listar'] = $this->parenteral->impressaorelatoriotemperaturaparenteral();
+        $data['empresa'] = $this->parenteral->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('estoque/impressaorelatoriotemperaturaparenteral', $data);
+
+    }
+    
+    function relatoriohigienizacaoparenteral() {
+
+        $this->loadView('estoque/relatoriohigienizacaoparenteral');
+
+    }
+
+    function impressaorelatoriohigienizacaoparenteral() {
+        $data['listar'] = $this->parenteral->impressaorelatoriohigienizacaoparenteral();
+        $data['empresa'] = $this->parenteral->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('estoque/impressaorelatoriohigienizacaoparenteral', $data);
+
+    }
+
     function gravargeladeiraparenteral() {
 
          $this->parenteral->gravargeladeiraparenteral();
@@ -119,6 +164,34 @@ class Parenteral extends BaseController {
 
     }
     
+    function listarumidadeambienteparenteral() {
+
+        $data['lista']= $this->parenteral->listarumidadeambienteparenteral();
+
+        $this->loadView('estoque/umidadeambienteparenteral', $data);
+
+    }
+    
+    function registrarumidadeambienteparenteral() {
+
+        $this->loadView('estoque/registrarumidadeambienteparenteral');
+
+    }
+    
+    function gravarumidadeambienteparenteral() {
+        
+        $this->parenteral->gravarumidadeambienteparenteral();
+         
+        if ($teste == 0) {
+            $data['mensagem'] = 'Sucesso ao gravar umidade e temperatura';
+        } else {
+            $data['mensagem'] = 'Erro ao gravar umidade e temperatura';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "estoque/parenteral/listarumidadeambienteparenteral");
+
+    }
+    
     function registrartemperatura($estoque_parenteral_geladeira_id) {
         
         $data['estoque_parenteral_geladeira_id']= $estoque_parenteral_geladeira_id;
@@ -130,15 +203,15 @@ class Parenteral extends BaseController {
     function gravarregistrartemperatura($estoque_parenteral_geladeira_id) {
         $data['estoque_parenteral_geladeira_id']= $estoque_parenteral_geladeira_id;
         
-        $this->parenteral->excluirgeladeiraparenteral($estoque_parenteral_geladeira_id);
+        $this->parenteral->gravarregistrartemperatura($estoque_parenteral_geladeira_id);
          
         if ($teste == 0) {
-            $data['mensagem'] = 'Sucesso ao excluir Geladeira';
+            $data['mensagem'] = 'Sucesso ao gravar temperatura';
         } else {
-            $data['mensagem'] = 'Erro ao excluir Geladeira';
+            $data['mensagem'] = 'Erro ao gravar temperatura';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "estoque/parenteral/listarchecagemtemperaturaparenteral", $estoque_parenteral_geladeira_id);
+        redirect(base_url() . "estoque/parenteral/listarchecagemtemperaturaparenteral/$estoque_parenteral_geladeira_id");
 
     }
 
