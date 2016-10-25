@@ -88,9 +88,9 @@ if ($mesatual == '01') {
 
 
             <tr>
-                <td height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA E HORA DE ENTRADA</strong></td>
-                <td height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PRODUTO</strong></td>
-                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>FORNECEDOR</strong></td>
+                <td width="15%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA E HORA DE ENTRADA</strong></td>
+                <td width="30%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PRODUTO</strong></td>
+                <td width="20%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>FORNECEDOR</strong></td>
                 <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANTIDADE</td>
                 <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALIDADE</td>
 

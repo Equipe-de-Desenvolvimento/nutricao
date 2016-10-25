@@ -13,6 +13,7 @@ class internacao extends BaseController {
         $this->load->model('ambulatorio/procedimentoplano_model', 'procedimentoplano');
         $this->load->model('internacao/internacao_model', 'internacao_m');
         $this->load->model('internacao/unidade_model', 'unidade_m');
+        $this->load->model('ambulatorio/guia_model', 'guia');
         $this->load->model('internacao/enfermaria_model', 'enfermaria_m');
         $this->load->model('internacao/leito_model', 'leito_m');
         $this->load->model('internacao/solicitainternacao_model', 'solicitacaointernacao_m');
@@ -474,6 +475,39 @@ class internacao extends BaseController {
 
 
         redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
+    }
+    
+    
+    function relatoriotemperaturabolsaparenteral() {
+
+        $this->loadView('internacao/relatoriotemperaturabolsaparenteral');
+
+    }
+
+    function impressaorelatoriotemperaturabolsaparenteral() {
+        $data['listar'] = $this->internacao_m->impressaorelatoriotemperaturabolsaparenteral();
+        $data['empresa'] = $this->internacao_m->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('internacao/impressaorelatoriotemperaturabolsaparenteral', $data);
+
+    }
+    
+    function relatoriotemperaturabolsaparenteralentrega() {
+
+        $this->loadView('internacao/relatoriotemperaturabolsaparenteralentrega');
+
+    }
+
+    function impressaorelatoriotemperaturabolsaparenteralentrega() {
+        $data['listar'] = $this->internacao_m->impressaorelatoriotemperaturabolsaparenteralentrega();
+        $data['empresa'] = $this->internacao_m->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('internacao/impressaorelatoriotemperaturabolsaparenteralentrega', $data);
+
     }
 
     function relatorioentrega($internacao_id) {

@@ -88,10 +88,10 @@ if ($mesatual == '01') {
 
 
             <tr>
-                <td height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA DE CHECAGEM</strong></td>
-                <td height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>HORA DE CHECAGEM</strong></td>
-                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>TEMPERATURA</strong></td>
-                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>OBSERVAÇÕES</td>
+                <td width="10%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA DE CHECAGEM</strong></td>
+                <td width="10%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>HORA DE CHECAGEM</strong></td>
+                <td width="20%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>TEMPERATURA</strong></td>
+                <td width="20%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>OBSERVAÇÕES</td>
 
             </tr> 
             <? if ($listar != null) { ?>

@@ -189,6 +189,24 @@ class parenteral_model extends Model {
         return $return->result();
     }
     
+    function impressaorelatoriotemperaturaumidadeparenteral() {
+        $this->db->select('epat.estoque_parenteral_ambiente_temperatura_id,
+                           epat.temperatura,
+                           epat.umidade,
+                           epat.data_checagem,
+                           epat.observacao,
+                            
+                            ');
+        $this->db->from('tb_estoque_parenteral_ambiente_temperatura epat');
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('epat.data_checagem >=', $data_inicio);
+        $this->db->where('epat.data_checagem <=', $data_fim);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
     function listarumidadeambienteparenteral() {
         $this->db->select('estoque_parenteral_ambiente_temperatura_id,
                            temperatura,

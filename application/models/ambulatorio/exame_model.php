@@ -1566,6 +1566,7 @@ class exame_model extends Model {
             if ($medida != null) {
                 $this->db->set('kcal', $medida);
                 $this->db->set('volume', null);
+                $this->db->set('peso', null);
             }
 
             if ($_POST['volume'] != '') {

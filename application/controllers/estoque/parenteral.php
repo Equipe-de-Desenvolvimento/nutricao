@@ -83,6 +83,22 @@ class Parenteral extends BaseController {
 
     }
     
+    function relatoriotemperaturaumidadeparenteral() {
+
+        $this->loadView('estoque/relatoriotemperaturaumidadeparenteral');
+
+    }
+
+    function impressaorelatoriotemperaturaumidadeparenteral() {
+        $data['listar'] = $this->parenteral->impressaorelatoriotemperaturaumidadeparenteral();
+        $data['empresa'] = $this->parenteral->empresa();
+//          echo var_dump($data['listar']);
+//        die;
+
+        $this->load->View('estoque/impressaorelatoriotemperaturaumidadeparenteral', $data);
+
+    }
+    
     function relatoriohigienizacaoparenteral() {
 
         $this->loadView('estoque/relatoriohigienizacaoparenteral');

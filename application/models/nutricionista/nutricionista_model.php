@@ -1157,20 +1157,18 @@ class nutricionista_model extends BaseModel {
                 $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);
                 $this->db->set('etapas', $_POST['etapas']);
+                $this->db->set('volume', null);
             }
             if ($medida != null) {
                 $this->db->set('kcal', $medida);
+                $this->db->set('volume', null);
+                $this->db->set('peso', null);
             }
 
             if ($_POST['volume'] != '') {
                 $this->db->set('volume', $_POST['volume']);
                 $this->db->set('etapas', $_POST['etapas']);
             }
-
-
-
-
-
 
             $this->db->set('produto_id', $_POST['produto']);
             if ($_POST['vazao'] != '') {

@@ -43,7 +43,7 @@ if ($mesatual == '01') {
         <meta charset="utf-8">
         <link href="<?= base_url() ?>/css/tabelarae.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
-        <title>Relatório entrada parenteral</title>
+        <title>Relatório Temp. Bolsa Parenteral</title>
     </head>
 
     <body>
@@ -64,7 +64,7 @@ if ($mesatual == '01') {
                 </tr>
 
                 <tr class="tic">
-                    <td height="16" colspan="7" class="tisemsublinhadogrande">Relatório de entrada estoque parenteral</td>
+                    <td height="16" colspan="7" class="tisemsublinhadogrande">Relatório de checagem de temperatura bolsa parenteral</td>
                 </tr>
                 <tr>
                     <td height="16" colspan="7" class="tisemsublinhadogrande" >PERÍODO:&nbsp;&nbsp;<? echo $_POST['txtdata_inicio'] ?> A&nbsp;<? echo $_POST['txtdata_fim']; ?></td>
@@ -88,11 +88,13 @@ if ($mesatual == '01') {
 
 
             <tr>
-                <td width="15%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA E HORA DE ENTRADA</strong></td>
-                <td width="30%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PRODUTO</strong></td>
-                <td width="20%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>FORNECEDOR</strong></td>
-                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANTIDADE</td>
-                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALIDADE</td>
+                <td width="10%" height="30"  align="center" style="text-align:center;font-size: 9px;"><strong>DATA DE CHECAGEM</strong></td>
+                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>HORA DE CHECAGEM</strong></td>
+                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>TEMPERATURA</strong></td>
+                <td width="30%" height="30"  align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PACIENTE/LEITO </strong></td>
+                
+                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>HOSPITAL DE ENTREGA</td>
+                <td width="15%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>RESPON. ENTREGA</td>
 
             </tr> 
             <? if ($listar != null) { ?>
@@ -102,23 +104,18 @@ if ($mesatual == '01') {
                     ?>
                     <tr>
                         <td height="19"  align="center" style="text-align: center; font-size: 10px;"> <?
-            $ano = substr($item->data_entrada, 0, 4);
-            $mes = substr($item->data_entrada, 5, 2);
-            $dia = substr($item->data_entrada, 8, 2);
-            $hora = substr($item->data_entrada, 11, 9);
-            $datafinal = $dia . '/' . $mes . '/' . $ano . " " . $hora;
+            $ano = substr($item->data_checagem, 0, 4);
+            $mes = substr($item->data_checagem, 5, 2);
+            $dia = substr($item->data_checagem, 8, 2);
+            $hora = substr($item->data_checagem, 11, 9);
+            $datafinal = $dia . '/' . $mes . '/' . $ano ;
             echo $datafinal;
                     ?></td>
-                        <td height="19"  align="center" style="text-align:center;font-size: 10px;"><?= $item->produto; ?></td>
-                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->fornecedor; ?></td>
-                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->quantidade; ?></td>
-                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?
-                            $ano = substr($item->validade, 0, 4);
-                            $mes = substr($item->validade, 5, 2);
-                            $dia = substr($item->validade, 8, 2);
-                            $datafinal = $dia . '/' . $mes . '/' . $ano;
-                            echo $datafinal;
-                            ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 10px;"> <?= $hora ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->temperatura; ?> C°</td>
+                        <td height="19"  align="center" style="text-align:center;font-size: 10px;"><?= $item->paciente; ?> / <?= $item->leito; ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->hospital; ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->operador; ?></td>
 
                     </tr> 
                     <?
@@ -127,7 +124,7 @@ if ($mesatual == '01') {
 
 
 <? } else { ?>
-                    <td height="19" colspan="4" align="center" style="text-align:center;font-size: 10px;">Sem entrada de produtos no periodo pesquisado</td>
+                    <td height="19" colspan="4" align="center" style="text-align:center;font-size: 10px;">Sem checagem de temperatura no periodo pesquisado</td>
                 
 <? } ?>         
 

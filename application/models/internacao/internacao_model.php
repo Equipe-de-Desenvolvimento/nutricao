@@ -1230,6 +1230,35 @@ class internacao_model extends BaseModel {
         return $this->db;
     }
     
+    function listarpacientesprescricao($args = array()) {
+        $this->db->select(' i.internacao_id,
+                            i.paciente_id,
+                            i.data_solicitacao,
+                            p.nome,
+                            i.motivo_saida,
+                            i.leito,
+                            c.nome as convenio,
+                            tis.tipo,
+                            iu.nome as hospital,
+                            i.data_internacao');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
+        $this->db->join('tb_internacao_saida tis', 'tis.internacao_saida_id = i.motivo_saida', 'left');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->where('i.ativo', 't');
+        $this->db->where('i.prescricao', 't');
+        if ($args) {
+            if (isset($args['nome']) && strlen($args['nome']) > 0) {
+                $this->db->where('p.nome ilike', "%" . $args['nome'] . "%", 'left');
+            }
+            if (isset($args['hospital']) && strlen($args['hospital']) > 0) {
+                $this->db->where('i.hospital', $args['hospital']);
+            }
+        }
+        return $this->db;
+    }
+    
     function listarpacientesprescricaoparenteral($args = array()) {
         $this->db->select(' i.internacao_id,
                             i.paciente_id,
@@ -1542,6 +1571,58 @@ class internacao_model extends BaseModel {
         $return = $this->db->count_all_results();
         return $return;
     }
+    
+    function impressaorelatoriotemperaturabolsaparenteral() {
+        $this->db->select('ippb.internacao_id,
+                           ippb.temperatura,
+                           ippb.data_checagem,
+                           ippb.observacao,
+                           ippb.responsavel_entrega,
+                           p.nome as paciente,
+                           i.leito,
+                           o.nome as operador,
+                           u.nome as hospital,
+                            ');
+        $this->db->from('tb_internacao_precricao_parenteral_bolsa ippb');
+        $this->db->join('tb_internacao i', 'i.internacao_id = ippb.internacao_id');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
+        $this->db->join('tb_operador o', 'o.operador_id = ippb.responsavel_entrega');
+        $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('ippb.data_checagem >=', $data_inicio);
+        $this->db->where('ippb.data_checagem <=', $data_fim);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function impressaorelatoriotemperaturabolsaparenteralentrega() {
+        $this->db->select('ippbe.internacao_id,
+                           ippbe.temperatura,
+                           ippbe.data_checagem,
+                           ippbe.observacao,
+                           ippbe.responsavel_entrega,
+                           ippbe.responsavel_recebimento,
+                           p.nome as paciente,
+                           i.leito,
+                           o.nome as operador,
+                           u.nome as hospital,
+                            ');
+        $this->db->from('tb_internacao_precricao_parenteral_bolsa_entrega ippbe');
+        $this->db->join('tb_internacao i', 'i.internacao_id = ippbe.internacao_id');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
+        $this->db->join('tb_operador o', 'o.operador_id = ippbe.responsavel_entrega');
+        $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
+        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
+        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $this->db->where('ippbe.data_checagem >=', $data_inicio);
+        $this->db->where('ippbe.data_checagem <=', $data_fim);
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
 
     function listainternacaofichadeavaliacao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
@@ -1586,6 +1667,7 @@ class internacao_model extends BaseModel {
         $this->db->select('empresa_id,
                             nome,
                             cnpj,
+                            cep,
                             razao_social,
                             logradouro,
                             bairro,
