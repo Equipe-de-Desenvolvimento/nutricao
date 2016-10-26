@@ -153,9 +153,9 @@ function debug($object) {
 
                             </li>
 
-                            <li><span class="folder">Checagem de Temperatura </span>
+                            <li><span class="folder">Checagem de Temperatura da Parenteral </span>
                                 <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral/pesquisarestoqueparenteralgeladeira">Manter Geladeiras</a></span></ul>
-                                <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral/checagemtemperaturaparenteral">Checagem Temperatura Parenteral</a></span></ul>
+                                <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral/checagemtemperaturaparenteral">Checagem Temperatura Geladeira Parenteral</a></span></ul>
                                 <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral/listarumidadeambienteparenteral">Temperatura e Umidade do Estoque Parenteral</a></span></ul>
                             </li>
 

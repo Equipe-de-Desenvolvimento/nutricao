@@ -1,6 +1,6 @@
 
 <div class="content ficha_ceatox">
-    <h3 class="h3_title">Entrada de Produtos Parenteral</h3>
+    <h3 class="h3_title">Registrar Temperatura da Geladeira Parenteral</h3>
     <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarregistrartemperatura/<?=$estoque_parenteral_geladeira_id?>" method="post">
         
         

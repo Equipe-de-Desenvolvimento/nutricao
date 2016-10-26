@@ -1020,11 +1020,13 @@ class nutricionista_model extends BaseModel {
                             ipp.volume,
                             ipp.kcal,
                             ipp.etapas,
+                            ip.data,
                             pt.grupo,
                             pt.nome');
         $this->db->from('tb_internacao_precricao_produto ipp');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ');
         $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
 
         $return = $this->db->get();

@@ -85,7 +85,7 @@
                     <tr>
                         <td  class="<?php echo $estilo_linha; ?> "> 
                             <? if ($data != '&nbsp;') { ?>
-                            <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" value=" "><?=$data;?> Paciente em  TNE em BIC <?=$taxadeinfusao?> e VCT <?=$vct?> Dieta: <?= $item->etapas; ?> Etapa(s) </textarea>
+                            <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" cols="60" rows="6" value=" "><?=$data;?> Paciente em  TNE em BIC <?=$taxadeinfusao?> e VCT <?=$vct?> Dieta: <?= $item->etapas; ?> Etapa(s) </textarea>
                             
                                 <?
                             }

@@ -11,6 +11,7 @@
             <div>
                                   
                 <input type="hidden" id="txtinternacao" name="etapa_id"  class="texto06" value="<?= $produto['0']->internacao_precricao_etapa_id; ?>" readonly/>
+                <input type="hidden" id="data_solicitacao" name="data_solicitacao"  class="texto06" value="<?= $produto['0']->data; ?>" readonly/>
             </div>
             <div>
                 <label>Nome</label>                      
@@ -76,8 +77,7 @@
             <!-- Início da tabela de Infusão de Drogas -->
             <table id="table_infusao_drogas" border="0">
                 <thead>
-                    
-                       <tr>
+                    <tr>
                         <td>Produto</td>
                         <td>Medida</td>
                         <td>Descrição</td>
@@ -88,26 +88,30 @@
                     </tr>
                 </thead>
                 <tfoot>
-                   
+                    <tr>
+                        <td colspan="3">
+                            <div class="bt_link_new mini_bt">
+                                <a href="#" id="plusInfusao">Adicionar Ítem</a>
+                            </div>
+                        </td>
+                    </tr>
                 </tfoot>
 
                 <tbody>
                     <tr class="linha1">
                         <td>
-                            
-                            <select  name="produto" id="produto" class="size4" >
-                                <option  value="-1">Selecione</option>
+                            <select  name="produto[1]" id="produto" class="size4" >
+                                <option value="-1">Selecione</option>
                                 <? foreach ($enteral as $item) : ?>
-                                    <option  value="<?= $item->procedimento_convenio_id; ?>">  <?= $item->nome; ?></option>
+                                    <option value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </td>
-                        
-                        <td><input type="text" name="medida" class="size1" value='' /></td>
-                        <td><input type="text" name="descricao" class="size1" value='' /></td>
-                        <td><input type="text" name="peso" class="size1" value='' /></td>
-                        <td><input type="text" name="volume" class="size1" value='' /></td>
-                        <td><input type="text" name="vazao" class="size1" value='' /></td>
+                        <td><input type="text" name="medida[1]" class="size1" /></td>
+                        <td><input type="text" name="descricao[1]" class="size1" /></td>
+                        <td><input type="text" name="peso[1]" class="size1" /></td>
+                        <td><input type="text" name="volume[1]" class="size1" /></td>
+                        <td><input type="text" name="vazao[1]" class="size1" /></td>
                         <td>
                             <a href="#" class="delete">Excluir</a>
                         </td>
@@ -262,6 +266,7 @@ foreach ($enteral as $item) {
                             linha += "</select>";
                             linha += "</td>";
                             linha += "<td><input type='text' name='medida[" + idlinha + "]' class='size1' /></td>";
+                            linha += "<td><input type='text' name='descricao[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='peso[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='volume[" + idlinha + "]' class='size1' /></td>";
                             linha += "<td><input type='text' name='vazao[" + idlinha + "]' class='size1' /></td>";
@@ -309,6 +314,7 @@ foreach ($enteral as $item) {
 
                         }
                     });
+
 
 </script>
 

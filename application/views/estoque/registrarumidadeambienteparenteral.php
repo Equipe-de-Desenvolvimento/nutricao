@@ -1,6 +1,6 @@
 
 <div class="content ficha_ceatox">
-    <h3 class="h3_title">Entrada de Produtos Parenteral</h3>
+    <h3 class="h3_title">Temperatura e Umidade do Estoque Parenteral</h3>
     <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarumidadeambienteparenteral" method="post">
         
         

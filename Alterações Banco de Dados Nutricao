@@ -151,35 +151,11 @@ ALTER TABLE ponto.tb_internacao_precricao_evolucao ALTER COLUMN texto_evolucao T
 
 Dia 13/10/16
 
-CREATE TABLE ponto.tb_estoque_entrada_parenteral
-(
-  estoque_entrada_parenteral_id serial NOT NULL,
-  produto_id integer,
-  estoque_saida_id integer,
-  fornecedor_id integer,
-  armazem_id integer,
-  quantidade numeric,
-  ativo boolean DEFAULT true,
-  data_entrada timestamp without time zone,
-  data_cadastro timestamp without time zone,
-  operador_cadastro integer,
-  validade date,
-  CONSTRAINT tb_estoque_entrada_parenteral_pkey PRIMARY KEY (estoque_entrada_parenteral_id )
-);
-
-
 
 ALTER TABLE ponto.tb_estoque_saida ADD COLUMN entrada_parenteral boolean DEFAULT true;
 
 
-
 Dia 14/10/16
-
-ALTER TABLE ponto.tb_estoque_entrada_parenteral ADD COLUMN data_atualizacao timestamp without time zone;
-
-ALTER TABLE ponto.tb_estoque_entrada_parenteral ADD COLUMN operador_atualizacao integer;
-
-
 
 CREATE TABLE ponto.tb_estoque_entrada_parenteral_higienizacao
 (
@@ -205,14 +181,8 @@ CREATE TABLE ponto.tb_estoque_entrada_parenteral_higienizacao
 Dia 20/10/16
 
 
-
-ALTER TABLE ponto.tb_estoque_entrada_parenteral RENAME TO tb_estoque_parenteral_entrada;
-
 ALTER TABLE ponto.tb_estoque_entrada_parenteral_higienizacao RENAME TO tb_estoque_parenteral_higienizacao;
 
-ALTER TABLE ponto.tb_estoque_parenteral_entrada RENAME COLUMN quantidade TO quantidade_entrada;
-
-ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN quantidade_saida numeric;
 
 
 CREATE TABLE ponto.tb_estoque_parenteral_geladeira
@@ -315,7 +285,7 @@ Dia 26/10/16
 
 CREATE TABLE ponto.tb_estoque_parenteral_entrada
 (
-  estoque_entrada_parenteral_id serial NOT NULL,
+  estoque_parenteral_entrada_id serial NOT NULL,
   produto_id integer,
   estoque_saida_id integer,
   fornecedor_id integer,
@@ -329,7 +299,16 @@ CREATE TABLE ponto.tb_estoque_parenteral_entrada
   data_atualizacao timestamp without time zone,
   operador_atualizacao integer,
   quantidade_saida numeric,
-  CONSTRAINT tb_estoque_entrada_parenteral_pkey PRIMARY KEY (estoque_entrada_parenteral_id )
-)
+  CONSTRAINT tb_estoque_parenteral_entrada_pkey PRIMARY KEY (estoque_parenteral_entrada_id )
+);
+
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada RENAME COLUMN quantidade TO quantidade_entrada;
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN quantidade_saida numeric;
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN data_atualizacao timestamp without time zone;
+
+ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN operador_atualizacao integer;
 
 

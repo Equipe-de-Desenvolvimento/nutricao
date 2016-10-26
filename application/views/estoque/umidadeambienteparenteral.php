@@ -9,7 +9,7 @@
         </a>
     </div>
     <div id="accordion">
-        <h3><a href="#">Temp/Umidade:</a></h3>
+        <h3><a href="#">Temp/Umidade do Estoque Parenteral:</a></h3>
         <div>
             <table><!-- Início da lista de pensionistas -->
 

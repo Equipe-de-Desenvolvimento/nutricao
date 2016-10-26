@@ -1,4 +1,3 @@
-
 <div class="content"> <!-- Inicio da DIV content -->
     <div class="bt_link_voltar">
         <a href="<?= base_url() ?>estoque/parenteral/">
@@ -8,7 +7,7 @@
     
     <div id="accordion">
         
-        <h3 class="singular"><a href="#">Checagem Temperatura Parenteral</a></h3>
+        <h3 class="singular"><a href="#">Checagem Temperatura Geladeira Parenteral</a></h3>
         <div>
             <table>
                 

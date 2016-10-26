@@ -9,7 +9,7 @@
         </a>
     </div>
     <div id="accordion">
-        <h3><a href="#">Temperatura:</a></h3>
+        <h3><a href="#">Temperatura Geladeira Parenteral:</a></h3>
         <div>
             <table><!-- Início da lista de pensionistas -->
 
