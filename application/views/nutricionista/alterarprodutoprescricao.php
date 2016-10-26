@@ -79,9 +79,9 @@
                     
                        <tr>
                         <td>Produto</td>
-                        <td>Kcal</td>
-                        <td>Descrição</td>
                         <td>Medida</td>
+                        <td>Descrição</td>
+                        <td>Kcal</td>
                         <td>Volume(ml)</td>
                         <td>Vazão</td>
                         <td>&nbsp;</td>

@@ -1558,7 +1558,6 @@ class exame_model extends Model {
 //            die;
 //            
             if ($peso != null) {
-                $this->db->set('peso', $peso);
                 $this->db->set('kcal', $kcal);
                 $this->db->set('etapas', $_POST['etapas']);
                 $this->db->set('volume', null);
