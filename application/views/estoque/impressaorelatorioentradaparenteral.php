@@ -92,6 +92,7 @@ if ($mesatual == '01') {
                 <td width="30%" height="35"  align="center" style="text-align:center;font-size: 9px;"><strong>NOME DO PRODUTO</strong></td>
                 <td width="20%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>FORNECEDOR</strong></td>
                 <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>QUANTIDADE</td>
+                <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>LOTE</td>
                 <td width="10%" height="35" align="center" style="text-align:center;font-size: 9px;"><strong>VALIDADE</td>
 
             </tr> 
@@ -102,16 +103,17 @@ if ($mesatual == '01') {
                     ?>
                     <tr>
                         <td height="19"  align="center" style="text-align: center; font-size: 10px;"> <?
-            $ano = substr($item->data_entrada, 0, 4);
-            $mes = substr($item->data_entrada, 5, 2);
-            $dia = substr($item->data_entrada, 8, 2);
-            $hora = substr($item->data_entrada, 11, 9);
+            $ano = substr($item->data_cadastro, 0, 4);
+            $mes = substr($item->data_cadastro, 5, 2);
+            $dia = substr($item->data_cadastro, 8, 2);
+            $hora = substr($item->data_cadastro, 11, 9);
             $datafinal = $dia . '/' . $mes . '/' . $ano . " " . $hora;
             echo $datafinal;
                     ?></td>
                         <td height="19"  align="center" style="text-align:center;font-size: 10px;"><?= $item->produto; ?></td>
                         <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->fornecedor; ?></td>
                         <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->quantidade; ?></td>
+                        <td height="19" align="center" style="text-align:center;font-size: 10px;"><?= $item->lote; ?></td>
                         <td height="19" align="center" style="text-align:center;font-size: 10px;"><?
                             $ano = substr($item->validade, 0, 4);
                             $mes = substr($item->validade, 5, 2);

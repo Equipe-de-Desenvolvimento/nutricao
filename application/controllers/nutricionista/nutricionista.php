@@ -522,7 +522,8 @@ class nutricionista extends BaseController {
         $this->loadView('nutricionista/alterarprescricaonormalenteral', $data);
     }
 
-    function geraralterarnormalenteral($internacao_id) {
+    function geraralterarnormalenteral($internacao_id, $data) {
+        $_POST['data_solicitacao']= $data;
         $data['internacao_id'] = $internacao_id;
         $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
         $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);

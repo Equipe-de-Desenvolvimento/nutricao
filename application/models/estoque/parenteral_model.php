@@ -58,7 +58,7 @@ class parenteral_model extends Model {
     
     function listarestoqueparenteral($args = array()) {
         $this->db->select('epe.estoque_saida_id,
-                            epe.estoque_entrada_parenteral_id,
+                            epe.estoque_parenteral_entrada_id,
                             epe.produto_id,
                             f.fantasia,
                             p.descricao as produto,
@@ -320,10 +320,10 @@ class parenteral_model extends Model {
     function entradaparenteralhigienizacao($estoque_entrada_parenteral_id) {
         $this->db->select('epe.estoque_saida_id,
                             epe.produto_id,
-                            epe.estoque_entrada_parenteral_id,
+                            epe.estoque_parenteral_entrada_id,
                             p.descricao as produto,
                             epe.fornecedor_id,
-                            epe.data_entrada,
+                            epe.data_cadastro,
                             f.razao_social as fornecedor,
                             epe.armazem_id,
                             a.descricao as armazem,
@@ -333,7 +333,7 @@ class parenteral_model extends Model {
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = epe.produto_id', 'left');
         $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = epe.fornecedor_id', 'left');
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = epe.armazem_id', 'left');
-        $this->db->where('epe.estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+        $this->db->where('epe.estoque_parenteral_entrada_id', $estoque_entrada_parenteral_id);
 
         $return = $this->db->get();
         return $return->result();
@@ -367,14 +367,15 @@ class parenteral_model extends Model {
       
        $this->db->select('epe.estoque_saida_id,
                             epe.produto_id,
-                            epe.estoque_entrada_parenteral_id,
+                            epe.estoque_parenteral_entrada_id,
                             p.descricao as produto,
                             epe.fornecedor_id,
-                            epe.data_entrada,
+                            epe.data_cadastro,
                             f.razao_social as fornecedor,
                             epe.armazem_id,
                             a.descricao as armazem,
                             epe.quantidade_entrada as quantidade,
+                            epe.lote,
                             epe.validade');
         $this->db->from('tb_estoque_parenteral_entrada epe');
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = epe.produto_id', 'left');
@@ -382,8 +383,8 @@ class parenteral_model extends Model {
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = epe.armazem_id', 'left');
         $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
         $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
-        $this->db->where('epe.data_entrada >=', $data_inicio);
-        $this->db->where('epe.data_entrada <=', $data_fim);
+        $this->db->where('epe.data_cadastro >=', $data_inicio);
+        $this->db->where('epe.data_cadastro <=', $data_fim);
         $this->db->where('epe.ativo', 't');
         
         
@@ -404,6 +405,7 @@ class parenteral_model extends Model {
                             eph.armazem_id,
                             a.descricao as armazem,
                             eph.quantidade,
+                            eph.lote,
                             eph.validade');
         $this->db->from('tb_estoque_parenteral_higienizacao eph');
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = eph.produto_id', 'left');
@@ -499,10 +501,11 @@ class parenteral_model extends Model {
         
        $this->db->select('epe.estoque_saida_id,
                             epe.produto_id,
-                            epe.estoque_entrada_parenteral_id,
+                            epe.estoque_parenteral_entrada_id,
                             p.descricao as produto,
                             epe.fornecedor_id,
-                            epe.data_entrada,
+                            epe.data_cadastro,
+                            epe.lote,
                             f.razao_social as fornecedor,
                             epe.armazem_id,
                             a.descricao as armazem,
@@ -513,7 +516,7 @@ class parenteral_model extends Model {
         $this->db->join('tb_estoque_produto p', 'p.estoque_produto_id = epe.produto_id', 'left');
         $this->db->join('tb_estoque_fornecedor f', 'f.estoque_fornecedor_id = epe.fornecedor_id', 'left');
         $this->db->join('tb_estoque_armazem a', 'a.estoque_armazem_id = epe.armazem_id', 'left');
-        $this->db->where('epe.estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+        $this->db->where('epe.estoque_parenteral_entrada_id', $estoque_entrada_parenteral_id);
 
         $querys = $this->db->get();
         $returns = $querys->result();
@@ -532,6 +535,7 @@ class parenteral_model extends Model {
             $this->db->set('armazem_id', $returns[0]->armazem_id);
             $this->db->set('quantidade', $_POST['quantidade']);
             $this->db->set('validade', $returns[0]->validade);
+            $this->db->set('lote', $returns[0]->lote);
             $this->db->set('data_entrada', $_POST['data_entrada']);
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
@@ -546,7 +550,7 @@ class parenteral_model extends Model {
             $this->db->set('quantidade_saida', $quantidade);
             $this->db->set('data_atualizacao', $horario);
             $this->db->set('operador_atualizacao', $operador_id);
-            $this->db->where('estoque_entrada_parenteral_id', $estoque_entrada_parenteral_id);
+            $this->db->where('estoque_parenteral_entrada_id', $estoque_entrada_parenteral_id);
             $this->db->update('tb_estoque_parenteral_entrada');
         
         } catch (Exception $exc) {

@@ -516,6 +516,7 @@ class entrada_model extends Model {
             $this->db->set('valor_compra', str_replace(",", ".", str_replace(".", "", $_POST['compra'])));
             $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['quantidade'])));
             $this->db->set('nota_fiscal', str_replace(",", ".", str_replace(".", "", $_POST['nota'])));
+            $this->db->set('lote', str_replace(",", ".", str_replace(".", "", $_POST['lote'])));
             if ($_POST['validade'] != "//") {
                 $this->db->set('validade', $_POST['validade']);
             }
@@ -539,6 +540,7 @@ class entrada_model extends Model {
                 $this->db->set('valor_compra', str_replace(",", ".", str_replace(".", "", $_POST['compra'])));
                 $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['quantidade'])));
                 $this->db->set('nota_fiscal', str_replace(",", ".", str_replace(".", "", $_POST['nota'])));
+                $this->db->set('lote', str_replace(",", ".", str_replace(".", "", $_POST['lote'])));
                 if ($_POST['validade'] != "//") {
                     $this->db->set('validade', $_POST['validade']);
                 }
@@ -558,6 +560,7 @@ class entrada_model extends Model {
                 $this->db->set('valor_compra', str_replace(",", ".", str_replace(".", "", $_POST['compra'])));
                 $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['quantidade'])));
                 $this->db->set('nota_fiscal', str_replace(",", ".", str_replace(".", "", $_POST['nota'])));
+                $this->db->set('lote', str_replace(",", ".", str_replace(".", "", $_POST['lote'])));
                 if ($_POST['validade'] != "//") {
                     $this->db->set('validade', $_POST['validade']);
                 }
@@ -584,6 +587,7 @@ class entrada_model extends Model {
                             e.quantidade,
                             e.valor_compra,
                             e.quantidade,
+                            e.lote,
                             e.validade,
                             e.nota_fiscal');
             $this->db->from('tb_estoque_entrada e');
@@ -601,6 +605,7 @@ class entrada_model extends Model {
             $this->_armazem_id = $return[0]->armazem_id;
             $this->_armazem = $return[0]->armazem;
             $this->_nota_fiscal = $return[0]->nota_fiscal;
+            $this->_lote = $return[0]->lote;
             $this->_quantidade = $return[0]->quantidade;
             $this->_valor_compra = $return[0]->valor_compra;
             $this->_validade = $return[0]->validade;

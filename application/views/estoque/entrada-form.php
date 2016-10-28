@@ -51,6 +51,13 @@
                     <dd>
                         <input type="text" id="nota" alt="integer" class="texto02" name="nota" value="<?= @$obj->_nota_fiscal; ?>" />
                     </dd>
+                    
+                    <dt>
+                    <label>Lote</label>
+                    </dt>
+                    <dd>
+                        <input type="text" id="lote" alt="integer" class="texto02" name="lote" value="<?= @$obj->_lote; ?>" />
+                    </dd>
                     <dt>
                     <label>Validade</label>
                     </dt>

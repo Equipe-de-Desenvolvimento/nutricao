@@ -1,6 +1,6 @@
 <div class="content ficha_ceatox">
     <h3 class="h3_title">Entrada de Produtos Na Sala de Higienização</h3>
-    <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarentradaestoqueparenteralhigienizacao/<?=$listar[0]->estoque_entrada_parenteral_id;?>" method="post">
+    <form name="parenteral_form" id="parenteral_form" action="<?= base_url() ?>estoque/parenteral/gravarentradaestoqueparenteralhigienizacao/<?=$listar[0]->estoque_parenteral_entrada_id;?>" method="post">
         <fieldset>
             <legend>Dados</legend>
             <div>
@@ -24,7 +24,7 @@
             
             <div>
                 <label>Data de Entrada no Estoque Parenteral</label>
-                <input type="text" name="txtCB" id="txtCB"  class="size2" value="<?echo $validade = substr($listar[0]->data_entrada, 8, 2) . '/' . substr($listar[0]->data_entrada, 5, 2) . '/' . substr($listar[0]->data_entrada, 0, 4);?>" readonly/>
+                <input type="text" name="txtCB" id="txtCB"  class="size2" value="<?echo $validade = substr($listar[0]->data_cadastro, 8, 2) . '/' . substr($listar[0]->data_cadastro, 5, 2) . '/' . substr($listar[0]->data_cadastro, 0, 4);?>" readonly/>
             </div>   
             
             
@@ -86,7 +86,7 @@ $(document).ready(function(){
         jQuery('#parenteral_form').validate( {
             rules: {
                 
-                data_entrada: {
+                data_cadastro: {
                     required: true
                 },
                 quantidade: {
@@ -96,7 +96,7 @@ $(document).ready(function(){
             },
             messages: {
                 
-                data_entrada: {
+                data_cadastro: {
                     required: "* Informe a data e hora de entrada na sala de higienização"
                 },
                 quantidade: {

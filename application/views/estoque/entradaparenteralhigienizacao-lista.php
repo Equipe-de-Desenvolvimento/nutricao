@@ -68,7 +68,7 @@
                                 <td class="<?php echo $estilo_linha; ?>" width="70px;"> </td>
                                 <td class="<?php echo $estilo_linha; ?>" width="50px;">
                                     <div class="bt_link_new">                                  
-                                    <a href="<?= base_url() ?>estoque/parenteral/entradaestoqueparenteralhigienizacao/<?=$item->estoque_entrada_parenteral_id;?>">Entrada Higienização</a></div>
+                                    <a href="<?= base_url() ?>estoque/parenteral/entradaestoqueparenteralhigienizacao/<?=$item->estoque_parenteral_entrada_id;?>">Entrada Higienização</a></div>
                                 </td>
                             </tr>
 

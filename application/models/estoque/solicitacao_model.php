@@ -312,6 +312,53 @@ class solicitacao_model extends Model {
         else
             return 0;
     }
+    
+    function gravarentradaparenteral($estoque_solicitacao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+        $this->db->select('
+                           ec.parenteral,
+                    ');
+        $this->db->from('tb_estoque_solicitacao_cliente esc');
+        $this->db->join('tb_estoque_cliente ec', 'ec.estoque_cliente_id = esc.cliente_id', 'left');
+        $this->db->where('esc.estoque_solicitacao_setor_id', $estoque_solicitacao_id);
+   
+        $querys = $this->db->get();
+        $teste = $querys->result();
+
+        if ($teste[0]->parenteral == 't'){
+        
+        $this->db->select('es.estoque_saida_id,
+                            es.produto_id,
+                            es.fornecedor_id,
+                            es.armazem_id,
+                            es.quantidade,
+                            es.lote,
+                            es.validade');
+        $this->db->from('tb_estoque_saida es');
+        $this->db->where('es.solicitacao_cliente_id', $estoque_solicitacao_id);
+   
+        $querys = $this->db->get();
+        $returns = $querys->result();
+   
+        foreach ($returns as $item ){
+     
+            $this->db->set('estoque_saida_id', $item->estoque_saida_id);
+            $this->db->set('produto_id', $item->produto_id);
+            $this->db->set('fornecedor_id', $item->fornecedor_id);
+            $this->db->set('armazem_id', $item->armazem_id);
+            $this->db->set('quantidade_entrada', $item->quantidade);
+            $this->db->set('quantidade_saida', $item->quantidade);
+            $this->db->set('validade', $item->validade);
+            $this->db->set('lote', $item->lote);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_estoque_parenteral_entrada');
+        }
+          }
+    }
 
     function gravaritens() {
         try {
@@ -338,6 +385,8 @@ class solicitacao_model extends Model {
 
     function gravarsaidaitens() {
         try {
+          $estoque_solicitacao_itens_id =$_POST['txtestoque_solicitacao_itens_id'];
+            
             /* inicia o mapeamento no banco */
             $this->db->select('estoque_entrada_id,
                             produto_id,
@@ -346,6 +395,7 @@ class solicitacao_model extends Model {
                             valor_compra,
                             quantidade,
                             nota_fiscal,
+                            lote,
                             validade');
             $this->db->from('tb_estoque_entrada');
             $this->db->where("estoque_entrada_id", $_POST['produto_id']);
@@ -366,6 +416,7 @@ class solicitacao_model extends Model {
             $this->db->set('valor_venda', $returno[0]->valor_compra);
             $this->db->set('quantidade', str_replace(",", ".", str_replace(".", "", $_POST['txtqtde'])));
             $this->db->set('nota_fiscal', $returno[0]->nota_fiscal);
+            $this->db->set('lote', $returno[0]->lote);
             if ($returno[0]->validade != "") {
             $this->db->set('validade', $returno[0]->validade);
             }
@@ -390,6 +441,7 @@ class solicitacao_model extends Model {
             $quantidade = -(str_replace(",", ".", str_replace(".", "", $_POST['txtqtde'])));
             $this->db->set('quantidade', $quantidade);
             $this->db->set('nota_fiscal', $returno[0]->nota_fiscal);
+            $this->db->set('lote', $returno[0]->lote);
             if ($returno[0]->validade != "") {
             $this->db->set('validade', $returno[0]->validade);
             }
@@ -397,6 +449,7 @@ class solicitacao_model extends Model {
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_estoque_saldo');
             return $estoque_saida_id;
+            
         } catch (Exception $exc) {
             return -1;
         }

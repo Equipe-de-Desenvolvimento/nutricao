@@ -29,11 +29,11 @@ class Parenteral extends BaseController {
         $this->pesquisar();
     }
 
-    function pesquisar($args = array()) {
-
-        $this->loadView('estoque/entradaparenteral-lista', $args);
-
-    }
+//    function pesquisar($args = array()) {
+//
+//        $this->loadView('estoque/entradaparenteral-lista', $args);
+//
+//    }
     
     function pesquisarestoqueparenteral($args = array()) {
 

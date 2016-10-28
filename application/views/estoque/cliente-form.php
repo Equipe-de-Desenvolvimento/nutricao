@@ -31,6 +31,22 @@
                             <? endforeach; ?>
                         </select>
                     </dd>
+                    <dt>
+                    <label>Tipo de Nutrição</label>
+                    </dt>
+                    <dd>
+                    <?php
+                    if (@$obj->_parenteral == "t") {
+                        ?>
+                        <input type="checkbox" name="txtparenteral" checked ="true" />Parenteral
+                        <?php
+                    } else {
+                        ?>
+                        <input type="checkbox" name="txtparenteral"  />Parenteral
+    <?php
+}
+?>
+                </dd>
                 </dl>    
                 <hr/>
                 <button type="submit" name="btnEnviar">Enviar</button>

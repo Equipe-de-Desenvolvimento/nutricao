@@ -126,6 +126,8 @@ class Solicitacao extends BaseController {
 
     function fecharsolicitacao($estoque_solicitacao_id) {
         $this->solicitacao->fecharsolicitacao($estoque_solicitacao_id);
+        $this->solicitacao->gravarentradaparenteral($estoque_solicitacao_id);
+        
         $this->pesquisar();
     }
 

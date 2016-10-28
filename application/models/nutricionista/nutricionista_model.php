@@ -70,30 +70,14 @@ class nutricionista_model extends BaseModel {
             $this->db->set('data', $dataprescricao);
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('empresa_id', $empresa_id);
-            if ($_POST['medico'] != '') {
-                $this->db->set('nutricionista', $_POST['medico']);
-            }
-            if ($_POST['preparo'] != '') {
-                $this->db->set('preparo', $_POST['preparo']);
-            }
-            if ($_POST['validade'] != '') {
-                $this->db->set('validade', $_POST['validade']);
-            }
+            
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao');
             $internacao_precricao_id = $this->db->insert_id();
         } else {
             $internacao_precricao_id = $return[0]->internacao_precricao_id;
-            if ($_POST['medico'] != '') {
-                $this->db->set('nutricionista', $_POST['medico']);
-            }
-            if ($_POST['preparo'] != '') {
-                $this->db->set('preparo', $_POST['preparo']);
-            }
-            if ($_POST['validade'] != '') {
-                $this->db->set('validade', $_POST['validade']);
-            }
+            
             $this->db->where('internacao_precricao_id', $internacao_precricao_id);
             $this->db->update('tb_internacao_precricao');
         }

@@ -131,6 +131,7 @@ class cliente_model extends Model {
             $this->db->set('nome', $_POST['txtNome']);
             $this->db->set('menu_id', $_POST['menu']);
             $this->db->set('telefone', $_POST['txttelefone']);
+            $this->db->set('parenteral', $_POST['txtparenteral']);
             $horario = date("Y-m-d H:i:s");
             $operador_id = $this->session->userdata('operador_id');
 
@@ -160,7 +161,7 @@ class cliente_model extends Model {
     private function instanciar($estoque_cliente_id) {
 
         if ($estoque_cliente_id != 0) {
-            $this->db->select('estoque_cliente_id, nome, telefone, menu_id');
+            $this->db->select('estoque_cliente_id, nome, telefone, menu_id, parenteral');
             $this->db->from('tb_estoque_cliente');
             $this->db->where("estoque_cliente_id", $estoque_cliente_id);
             $query = $this->db->get();
@@ -169,6 +170,7 @@ class cliente_model extends Model {
             $this->_nome = $return[0]->nome;
             $this->_telefone = $return[0]->telefone;
             $this->_menu = $return[0]->menu_id;
+            $this->_parenteral = $return[0]->parenteral;
         } else {
             $this->_estoque_cliente_id = null;
         }

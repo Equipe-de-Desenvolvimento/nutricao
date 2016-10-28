@@ -95,7 +95,7 @@
                         
                         <td class="<?php echo $estilo_linha; ?>" >
 
-                            <a  style="cursor: pointer; color: #f00;" onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $item->internacao_precricao_produto_id ?>');">  <?= $item->nome; ?> </a> Formula (<?= $item->classificacao; ?>) +
+                            <a  style="cursor: pointer; color: #f00;" onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/geraralterarnormalenteral/<?= $item->internacao_id ?>/<?= $data; ?>');">  <?= $item->nome; ?> </a> Formula (<?= $item->classificacao; ?>) +
 
 
                         </td>

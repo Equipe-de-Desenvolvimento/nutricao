@@ -148,7 +148,7 @@ function debug($object) {
 
                             <li><span class="folder">Estoque Parenteral </span>
 
-                                <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral">Manter Entrada Estoque Parenteral</a></span></ul>
+<!--                                <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral">Manter Entrada Estoque Parenteral</a></span></ul>-->
                                 <ul><span class="file"><a href="<?= base_url() ?>estoque/parenteral/pesquisarestoqueparenteral">Entrada Sala de Higienização Parenteral</a></span></ul>
 
                             </li>
