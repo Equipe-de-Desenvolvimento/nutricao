@@ -1,36 +1,12 @@
 
 <div class="content ficha_ceatox"> <!-- Inicio da DIV content -->
     <h3 class="h3_title">Prescri&ccedil;&atilde;o</h3>
-    <form name="form_exame" id="form_exame" action="<?= base_url() ?>internacao/internacao/gravarprescricaoenteralnormal/<?= $internacao_id ?>" method="post">
-        <fieldset>
-            <legend>Dados do Pacienete</legend>
-            <div>
-                <label>Nome</label>                      
-                <input type="text" id="txtNome" name="nome"  class="texto09" value="<?= $paciente['0']->nome; ?>" readonly/>
-            </div>
-            <div>
-                <label>Nascimento</label>
-                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?php echo substr($paciente['0']->nascimento, 8, 2) . '/' . substr($paciente['0']->nascimento, 5, 2) . '/' . substr($paciente['0']->nascimento, 0, 4); ?>" onblur="retornaIdade()" readonly/>
-            </div>
-
-            <div>
-                <label>Nome da M&atilde;e</label>
-                <input type="text" name="nome_mae" id="txtNomeMae" class="texto08" value="<?= $paciente['0']->nome_mae; ?>" readonly/>
-            </div>
-            <div>
-                <label>Nome do Pai</label>
-                <input type="text"  name="nome_pai" id="txtNomePai" class="texto08" value="<?= $paciente['0']->nome_pai; ?>" readonly/>
-            </div>
-            <div>
-                <label>CNS</label>
-                <input type="text" id="txtCns" name="cns"  class="texto04" value="<?= $paciente['0']->cns; ?>" readonly/>
-            </div>
-
-        </fieldset>
+    <form name="form_exame" id="form_exame" action="<?= base_url() ?>nutricionista/nutricionista/gravarprescricaoenteralnormal/<?= $internacao_id; ?>" method="post">
+        
         <fieldset>
             <div>
-                <legend>Data</legend>
-                <input type="text" id="data_solicitacao" class="texto02" name="data_solicitacao" />
+               
+                <input type="hidden" id="data_solicitacao" class="texto02" name="data_solicitacao" value="<?=$teste[0]->data?>" />
             </div>
             <div>
                 <legend>Nutricionista</legend>
@@ -213,7 +189,7 @@ if (count($prescricao) > 0) {
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->volume; ?></td>
                 <td class="<?php echo $estilo_linha; ?>"><?= $item->vasao; ?></td>
                 <td ><div class="bt_link">
-                        <a href="<?= base_url() ?>internacao/internacao/excluiritemprescicao/<?= $item->internacao_precricao_produto_id; ?>/<?= $internacao_id; ?>">EXCLUIR
+                        <a href="<?= base_url() ?>nutricionista/nutricionista/excluiritemprescicao/<?= $item->internacao_precricao_produto_id; ?>/<?= $internacao_precricao_id; ?>">EXCLUIR
 
                         </a></div>
                 </td>
@@ -227,10 +203,7 @@ if (count($prescricao) > 0) {
 
     </table>
 <? } ?>
-<div class="bt_link_new">
-    <a id="finalizar"  href="<?= base_url() ?>internacao/internacao/etiquetapaciente/<?= $internacao_precricao_id; ?>">Finalizar Prescricao
 
-    </a></div>
 <!--<div class="bt_link_new">
     <a id="finalizar"  href="<?= base_url() ?>internacao/internacao/finalizarprescricaoenteralnormal/<?= $internacao_id; ?>">Finalizar Prescricao
 
@@ -250,10 +223,7 @@ if (count($prescricao) > 0) {
         <td>F8</td>
         <td>Bot&atilde;o Enviar</td>
     </tr>
-    <tr>
-        <td>F9</td>
-        <td>Bot&atilde;o Finalizar</td>
-    </tr>
+    
 
 </table>
 </div> 

@@ -46,7 +46,6 @@ class nutricionista extends BaseController {
     public function pesquisarleito($args = array()) {
         $this->loadView('nutricionista/listarleito');
     }
-   
 
     public function pesquisarsolicitacaointernacao($args = array()) {
         $this->loadView('nutricionista/listarsolicitacaointernacao');
@@ -56,75 +55,70 @@ class nutricionista extends BaseController {
         $data['internacao_id'] = $internacao_id;
         $data['lista'] = $this->nutricionista->listarevolucaoprescricao($internacao_id);
         $data['teste'] = $this->nutricionista->listarevolucaoprescricaoteste($internacao_id);
-        
-        
+
+
         $this->loadView('nutricionista/listarevolucaonutricional', $data);
     }
-    
+
     function imprimirrevolucaonutricional($internacao_evolucao_id) {
         $data['listar'] = $this->nutricionista->imprimirevolucaoprescricao($internacao_evolucao_id);
         $data['prescricao'] = $this->nutricionista->imprimirprodutoevolucaoprescricao($internacao_evolucao_id);
         $data['empresa'] = $this->nutricionista->empresa();
-        
+
         $this->load->View('nutricionista/impressaoevolucaonutricional', $data);
     }
-    
+
     function novoevolucaonutricional($internacao_id) {
         $data['internacao_id'] = $internacao_id;
-        
+
         $this->loadView('nutricionista/evolucaonutricional', $data);
     }
-    
-    
+
     function formularioevolucaonutricional($internacao_id) {
-        
+
         $data['internacao_id'] = $internacao_id;
         $data['prescricao'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
         $data['prescricoes'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
         $data['prescricaoequipo'] = $this->nutricionista->formularioevolucaonutricionalequipo($internacao_id);
-        
+
 //      echo  var_dump($data['listar']);
 //      die;
-        
+
         $this->loadView('nutricionista/formularioevolucaonutricional', $data);
     }
-    
+
     function gravarevolucaonutricional($internacao_id) {
-        
-        
-       $this->nutricionista->gravarevolucaoprescricao($internacao_id);
-       if ($return == 0) {
+
+
+        $this->nutricionista->gravarevolucaoprescricao($internacao_id);
+        if ($return == 0) {
             $data['mensagem'] = 'Evolução gravada com sucesso';
             $this->session->set_flashdata('message', $data['mensagem']);
         } else {
             $data['mensagem'] = 'Erro ao gravar evolução';
             $this->session->set_flashdata('message', $data['mensagem']);
-            
         }
-       redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
-       
+        redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
     }
-    
+
     function excluirevolucaonutricional($internacao_evolucao_id) {
-        
-        
-       $data['internacao_id']= $this->nutricionista->idinternacaoevolucaoprescricao($internacao_evolucao_id);
-       $internacao_id= $data['internacao_id'][0]->internacao_id;
+
+
+        $data['internacao_id'] = $this->nutricionista->idinternacaoevolucaoprescricao($internacao_evolucao_id);
+        $internacao_id = $data['internacao_id'][0]->internacao_id;
 //       echo var_dump ($data['internacao_id'][0]);
 //       die;
-       $this->nutricionista->excluirevolucaoprescricao($internacao_evolucao_id);
-       if ($return == 0) {
+        $this->nutricionista->excluirevolucaoprescricao($internacao_evolucao_id);
+        if ($return == 0) {
             $data['mensagem'] = 'Evolução excluida com sucesso';
             $this->session->set_flashdata('message', $data['mensagem']);
         } else {
             $data['mensagem'] = 'Erro ao excluir evolução';
             $this->session->set_flashdata('message', $data['mensagem']);
-            
         }
-       redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
-       
+        redirect(base_url() . "nutricionista/nutricionista/listarevolucaonutricional/$internacao_id", $data);
     }
-    
+
     function alterarprodutoprescricao($internacao_precricao_produto_id) {
 
         $data['produto'] = $this->nutricionista->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -138,8 +132,8 @@ class nutricionista extends BaseController {
     }
 
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
-        
-        
+
+
         $data['antigo'] = $this->nutricionista->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
         $this->nutricionista->gravarprodutoantigoprescricao($data['antigo']);
 
@@ -159,9 +153,6 @@ class nutricionista extends BaseController {
     </script>
 </html>';
     }
-    
-    
-    
 
     function gravarsaida($internacao_id) {
         $internacao_saida_id = $_POST['saida'];
@@ -229,16 +220,15 @@ class nutricionista extends BaseController {
         $data['numero'] = $this->nutricionista->verificainternacao($paciente_id);
 //        var_dump($data['numero']);
 //        die;
-            $data['paciente'] = $this->paciente->listardados($paciente_id);
-            $data['unidade'] = $this->nutricionista->listaunidade();
+        $data['paciente'] = $this->paciente->listardados($paciente_id);
+        $data['unidade'] = $this->nutricionista->listaunidade();
 //            if ($data['paciente'][0]->cep == '' || $data['paciente'][0]->cns == '') {
 //                $data['mensagem'] = 'CEP ou CNS obrigatorio';
 //                $this->session->set_flashdata('message', $data['mensagem']);
 //                redirect(base_url() . "emergencia/filaacolhimento/novo/$paciente_id");
 //            }
-            $data['paciente_id'] = $paciente_id;
-            $this->loadView('nutricionista/cadastrarinternacaonutricao', $data);
-
+        $data['paciente_id'] = $paciente_id;
+        $this->loadView('nutricionista/cadastrarinternacaonutricao', $data);
     }
 
     function movimentacao($paciente_id) {
@@ -398,7 +388,10 @@ class nutricionista extends BaseController {
     }
 
     function excluiritemprescicao($item_id, $internacao_id) {
+        $internacao_precricao_produto_id = $item_id;
+        $this->nutricionista->gravarprodutoantigoprescricao($internacao_precricao_produto_id);
         $this->nutricionista->excluiritemprescicao($item_id);
+
         $this->prescricaonormalenteral($internacao_id);
     }
 
@@ -426,18 +419,19 @@ class nutricionista extends BaseController {
         $data['paciente'] = $this->nutricionista->listainternao($internacao_id);
         $this->loadView('nutricionista/repetirprescricaonormalenteral', $data);
     }
+
     function listafichadeavaliacao($internacao_id) {
-        
+
         $data['lista'] = $this->nutricionista->listafichadeavaliacao($internacao_id);
 
-        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id)?$data['lista'][0]->internacao_fichadeavaliacao_id:'';
+        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id) ? $data['lista'][0]->internacao_fichadeavaliacao_id : '';
 
         $data['internacao_id'] = $internacao_id;
 //        echo var_dump($data['ficha']);
 //        die;
         $this->loadView('nutricionista/listarfichadeavaliacao', $data);
     }
-    
+
     function novofichadeavaliacao($internacao_id) {
         $data['internacao_id'] = $internacao_id;
 //        $data['prescricao'] = $this->nutricionista->listaultimaprescricaoenteral($internacao_id);
@@ -447,7 +441,7 @@ class nutricionista extends BaseController {
         $data['paciente'] = $this->nutricionista->listainternacaofichadeavaliacao($internacao_id);
         $this->loadView('nutricionista/novofichadeavaliacao', $data);
     }
-    
+
     function gravarfichadeavaliacao($internacao_id) {
 //      echo  var_dump($_POST);
 //      die;
@@ -455,49 +449,46 @@ class nutricionista extends BaseController {
         $data['paciente'] = $this->nutricionista->listainternacaofichadeavaliacao($internacao_id);
         $data['empresa'] = $this->nutricionista->empresa();
         $this->nutricionista->gravarfichadeavaliacao($internacao_id);
-        if ($return==0) {
+        if ($return == 0) {
             $data['mensagem'] = 'Ficha de avaliação gravada com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar Ficha de avaliação';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
-        
+
 //        echo var_dump($data['diagnostico']);
 //        die;
 //        $data['impressao'] = $this->nutricionista->imprimirfichadeavaliacao($internacao_id);
-        
 //        $this->load->View('nutricionista/listarfichadeavaliacao/', $data);
         redirect(base_url() . "nutricionista/nutricionista/listafichadeavaliacao/$internacao_id", $data);
     }
+
     function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
         $data['impressao'] = $this->nutricionista->imprimirfichadeavaliacao($internacao_fichadeavaliacao_id);
         $data['empresa'] = $this->nutricionista->empresa();
 //        echo var_dump($data['impressao'][0]);
 //        die;
-        
-        
-        $this->load->View('nutricionista/imprimirfichadeavaliacao', $data);
 
+
+        $this->load->View('nutricionista/imprimirfichadeavaliacao', $data);
     }
-    
-    
-    
+
     function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
-       $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
-       $data['diagnostico'] = $this->nutricionista->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
+        $data['diagnostico'] = $this->nutricionista->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
 
         $this->loadView('nutricionista/diagnosticofichadeavaliacao', $data);
-
     }
+
     function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
 //       echo var_dump($internacao_fichadeavaliacao_id);
 //        die;
         $data['internacao_id'] = $this->nutricionista->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-        $internacao_id= $data['internacao_id'][0]->internacao_id;
+        $internacao_id = $data['internacao_id'][0]->internacao_id;
 //               echo var_dump($data['internacao_id'][0]->internacao_id);
 //        die;
-       $this->nutricionista->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-       if ($return==0) {
+        $this->nutricionista->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        if ($return == 0) {
             $data['mensagem'] = 'Diagnostico gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar Diagnostico';
@@ -522,30 +513,34 @@ class nutricionista extends BaseController {
         $this->loadView('nutricionista/alterarprescricaonormalenteral', $data);
     }
 
-    function geraralterarnormalenteral($internacao_id, $data) {
-        $_POST['data_solicitacao']= $data;
-        $data['internacao_id'] = $internacao_id;
-        $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
-        $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);
-        $data['prescricao'] = $this->nutricionista->listaprescricoesenteralalterar($internacao_id);
-        $data['paciente_id'] = $this->nutricionista->listapacienteid($internacao_id);
-        $paciente_id = $data['paciente_id'][0]->paciente_id;
-        $data['paciente'] = $this->paciente->listardados($paciente_id);
-        $this->loadView('nutricionista/prescricaonormalenteral', $data);
-    }
+    function geraralterarnormalenteral($internacao_precricao_id) {
 
-    function prescricaonormalenteral($internacao_id, $internacao_precricao_id=null) {
+        $data['teste'] = $this->nutricionista->formularioevolucaonutricionalteste($internacao_precricao_id);
+
+        $internacao_id = $data['teste'][0]->internacao_id;
         $data['internacao_id'] = $internacao_id;
+        $teste = $data['teste'];
         $data['medico'] = $this->operador_m->listarmedicos();
         $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
         $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);
-        $data['prescricao'] = $this->nutricionista->listaprescricoesenteral($internacao_id, $internacao_precricao_id);
-        $data['paciente_id'] = $this->nutricionista->listapacienteid($internacao_id);
-        $paciente_id = $data['paciente_id'][0]->paciente_id;
-        $data['paciente'] = $this->paciente->listardados($paciente_id);
+        $data['prescricao'] = $this->nutricionista->listaprescricoesenteralalterar($teste);
+
+        $this->loadView('nutricionista/prescricaonormalenteral', $data);
+    }
+
+    function prescricaonormalenteral($internacao_precricao_id) {
+        $data['teste'] = $this->nutricionista->formularioevolucaonutricionalteste($internacao_precricao_id);
+        $data['internacao_precricao_id'] = $internacao_precricao_id;
+        $internacao_id = $data['teste'][0]->internacao_id;
+        $data['internacao_id'] = $internacao_id;
+        $teste = $data['teste'];
+        $data['medico'] = $this->operador_m->listarmedicos();
+        $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
+        $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);
+        $data['prescricao'] = $this->nutricionista->listaprescricoesenteralalterar($teste);
+
 //        echo var_dump($data['equipo']); die;
         $this->loadView('nutricionista/prescricaonormalenteral', $data);
-        
     }
 
     function prescricaoemergencialenteral($internacao_id) {
@@ -574,10 +569,10 @@ class nutricionista extends BaseController {
 //        die;
         $data['prescricaoequipo'] = $this->nutricionista->etiquetapacienteequipo($internacao_precricao_id);
 
-        if($data['prescricao'][0]->sf == 'f'){
-        $this->load->View('nutricionista/impressaoetiquetapacienteenteral', $data);
-        }else{
-        $this->load->View('nutricionista/impressaoetiquetapacienteenteralsf', $data);
+        if ($data['prescricao'][0]->sf == 'f') {
+            $this->load->View('nutricionista/impressaoetiquetapacienteenteral', $data);
+        } else {
+            $this->load->View('nutricionista/impressaoetiquetapacienteenteralsf', $data);
         }
     }
 
@@ -638,8 +633,8 @@ class nutricionista extends BaseController {
             foreach ($_POST['volume'] as $itemvolume) {
                 $c++;
                 if ($i == $c) {
-                    if($itemvolume != ""){
-                      $volume = $volume + $itemvolume;  
+                    if ($itemvolume != "") {
+                        $volume = $volume + $itemvolume;
                     }
                     break;
                 }
@@ -654,7 +649,21 @@ class nutricionista extends BaseController {
     function gravarvolume($internacao_id) {
         $internacao_precricao = $this->nutricionista->gravaretapa($internacao_id);
         $internacao_precricao_id = $internacao_precricao[0]->internacao_precricao_id;
-        redirect(base_url() . "nutricionista/nutricionista/prescricaonormalenteral/$internacao_id/$internacao_precricao_id");
+//        echo "chegou aqui";
+//        die;
+        echo '<html>
+    <head>
+    <meta charset="UTF-8">
+    </head> 
+    <script type="text/javascript">
+        alert("Prescrição alterada com sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
     }
 
     function gravarprescricaoenteralemergencial($internacao_id) {

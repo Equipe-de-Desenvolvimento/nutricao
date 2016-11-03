@@ -527,6 +527,7 @@ class internacao extends BaseController {
     function geraralterarnormalenteral($internacao_id) {
         $data['internacao_id'] = $internacao_id;
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $data['medico'] = $this->operador_m->listarmedicos();
         $data['equipo'] = $this->internacao_m->listaprodutosequipo($internacao_id);
         $data['prescricao'] = $this->internacao_m->listaprescricoesenteralalterar($internacao_id);
         $data['paciente_id'] = $this->internacao_m->listapacienteid($internacao_id);
