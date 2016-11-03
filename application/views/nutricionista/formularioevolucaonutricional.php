@@ -104,7 +104,7 @@
                         $c++;
                         ?>
 
-                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;color: #f00;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $equipo_id ?>');"> <?= $equipo; ?></a>
+                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;color: #f00;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/geraralterarnormalenteral/<?= $item->internacao_precricao_id ?>');"> <?= $equipo; ?></a>
 
 
                         </td>
