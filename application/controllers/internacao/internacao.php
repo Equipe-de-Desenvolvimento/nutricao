@@ -587,6 +587,84 @@ class internacao extends BaseController {
         $data['unidade'] = $this->internacao_m->listaunidade();
         $this->loadView('internacao/relatorioprescricao', $data);
     }
+    
+    function alterarprodutorelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarprodutorelatorio-form', $data);
+    }
+    
+    function alterarequiporelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['equipo'] = $this->internacao_m->listaprodutosequipo($internacao_id);
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarequiporelatorio-form', $data);
+    }
+    
+    function alterarvolumerelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->volumerelatorio($internacao_precricao_produto_id);
+        $data['internacao_precricao_etapa_id'] = $data['produto'][0]->internacao_precricao_etapa_id;
+        $data['volume'] = $data['produto'][0]->frasco;
+        $data['internacao_id'] = $data['produto'][0]->internacao_id;
+//        var_dump($data['produto']); die;
+
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarvolumerelatorio-form', $data);
+    }
+    
+    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarprodutoprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarequiporelatorio($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarequiporelatorio($internacao_precricao_produto_id);
+
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravarvolumerelatorio($internacao_id) {
+        $internacao_precricao = $this->internacao_m->gravaretapa($internacao_id);
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
 
     function gerarelatoriointernacao() {
         $data['prescricao'] = $this->internacao_m->listaprescricoesdata();
@@ -614,6 +692,13 @@ class internacao extends BaseController {
 //            var_dump($data['prescricoes']);
 //            die;
             $this->load->View('internacao/listarprescricaoenteralnormal', $data);
+        }
+        
+        if ($relatorio == 'ALTERACAO') {
+            $data['prescricoes'] = $this->internacao_m->listaprescricoesdataproducao();
+//            var_dump($data['prescricoes']);
+//            die;
+            $this->load->View('internacao/listarprescricaoenteralalteracao', $data);
         }
         if ($relatorio == 'IMPRESSAOPEQUENA') {
             $data['prescricoes'] = $this->internacao_m->listaprescricoesdataproducao();

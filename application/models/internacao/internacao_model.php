@@ -174,6 +174,34 @@ class internacao_model extends BaseModel {
         return $return = $query->result();
     }
 
+    function produtoexamefaturamento($internacao_precricao_produto_id) {
+
+        $this->db->select('
+                            ipp.internacao_precricao_produto_id,
+                            ipp.internacao_id,
+                            ipp.internacao_precricao_etapa_id,
+                            ipp.internacao_precricao_id,
+                            ipp.produto_id,
+                            ipp.operador_cadastro,
+                            ipp.ativo,
+                            ipp.internacao_precricao_etapa_id,
+                            ipp.tipo,
+                            ipp.peso,
+                            ipp.vasao,
+                            ipp.volume,
+                            ipp.kcal,
+                            ipp.etapas,
+                            pt.grupo,
+                            pt.nome');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+
     function gravarprescricaoenteralnormal($internacao_id) {
 
         $empresa_id = $this->session->userdata('empresa_id');
@@ -750,6 +778,104 @@ class internacao_model extends BaseModel {
         return $return->result();
     }
 
+    function gravaralterarequiporelatorio($internacao_precricao_produto_id) {
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+        $this->db->set('etapas', 1);
+        $this->db->set('produto_id', $_POST['equipo']);
+        $this->db->set('volume', null);
+//        $this->db->set('observacao', $_POST['observacao']);
+//        $this->db->set('descricao', $_POST['descricao']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+        $this->db->set('etapas', 1);
+        $this->db->set('operador_cadastro', $operador_id);
+        $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
+        $this->db->update('tb_internacao_precricao_etapa');
+    }
+
+    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+        $peso = $_POST['peso'];
+        $medida = $_POST['medida'];
+//            echo var_dump($peso);
+//            die;
+
+        if ($_POST['peso'] = !'') {
+            $this->db->select('medida');
+            $this->db->from('tb_procedimento_tuss_caloria ptc');
+            $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
+            $this->db->where('pc.procedimento_convenio_id', $_POST['produto']);
+            $this->db->where('ptc.kcal', (string) $peso);
+            $this->db->where('ptc.ativo', 't');
+            $querys = $this->db->get();
+            $returns = $querys->result();
+            if ($returns != null) {
+                $kcal = $returns[0]->medida;
+            } else {
+                $kcal = '';
+            }
+        }
+
+
+//            echo var_dump($returns);
+//            die;
+//            
+        if ($peso != null) {
+            $this->db->set('kcal', $kcal);
+            $this->db->set('etapas', $_POST['etapas']);
+            $this->db->set('volume', null);
+        }
+        if ($medida != null) {
+            $this->db->set('kcal', $medida);
+            $this->db->set('volume', null);
+            $this->db->set('peso', null);
+        }
+
+        if ($_POST['volume'] != '') {
+            $this->db->set('volume', $_POST['volume']);
+            $this->db->set('etapas', $_POST['etapas']);
+        }
+
+
+        $this->db->set('produto_id', $_POST['produto']);
+        if ($_POST['vazao'] != '') {
+            $this->db->set('vasao', $_POST['vazao']);
+        }
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->set('descricao', $_POST['descricao']);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+        if ($_POST['volume'] != '') {
+            if ($_POST['etapas'] == "0") {
+                $etapavolume = ((int) $_POST['volume']) / 1;
+            }
+            $etapavolume = ((int) $_POST['volume']) / ((int) $_POST['etapas']);
+
+            $this->db->set('volume', $etapavolume);
+        }
+        //Etapa Tabela
+
+
+        $this->db->set('etapas', $_POST['etapas']);
+        $this->db->set('operador_cadastro', $operador_id);
+        $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
+        $this->db->update('tb_internacao_precricao_etapa');
+    }
+
     function listainternao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
                             i.leito,
@@ -999,7 +1125,7 @@ class internacao_model extends BaseModel {
         $this->db->where('ipp.ativo', 't');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
         $this->db->orderby('ipp.internacao_precricao_produto_id');
-        
+
         $return = $this->db->get();
         return $return->result();
     }
@@ -1085,6 +1211,41 @@ class internacao_model extends BaseModel {
         $this->db->orderby('i.leito');
         $this->db->orderby('ipp.internacao_precricao_produto_id');
         $this->db->orderby('ipe.internacao_precricao_etapa_id');
+        $return = $this->db->get();
+        return $return->result();
+    }
+
+    function volumerelatorio($internacao_precricao_produto_id) {
+
+        $this->db->select(' 
+                            ipe.internacao_precricao_etapa_id,
+                            i.internacao_id,
+                            ipe.volume as frasco,
+                           ');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ', 'left');
+        $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function observacaorelatorio($internacao_precricao_produto_id) {
+
+        $this->db->select(' ipp.internacao_precricao_produto_id,
+                            ipe.internacao_precricao_etapa_id,
+                            i.internacao_id,
+                            ipe.volume as frasco,
+                            ipp.observacao,
+                           ');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->join('tb_internacao_precricao ip', 'ip.internacao_precricao_id = ipp.internacao_precricao_id ', 'left');
+        $this->db->join('tb_internacao i', 'i.internacao_id = ip.internacao_id');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+
         $return = $this->db->get();
         return $return->result();
     }
@@ -1229,7 +1390,7 @@ class internacao_model extends BaseModel {
         }
         return $this->db;
     }
-    
+
     function listarpacientesprescricao($args = array()) {
         $this->db->select(' i.internacao_id,
                             i.paciente_id,
@@ -1258,7 +1419,7 @@ class internacao_model extends BaseModel {
         }
         return $this->db;
     }
-    
+
     function listarpacientesprescricaoparenteral($args = array()) {
         $this->db->select(' i.internacao_id,
                             i.paciente_id,
@@ -1288,7 +1449,7 @@ class internacao_model extends BaseModel {
         }
         return $this->db;
     }
-    
+
     function listarpacientesprescricaoparenteralhospital($internacao_id) {
         $this->db->select(' i.internacao_id,
                             i.paciente_id,
@@ -1305,10 +1466,10 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
         $this->db->where('i.internacao_id', $internacao_id);
 
-         $return = $this->db->get();
+        $return = $this->db->get();
         return $return->result();
     }
-    
+
     function listaroperadores() {
         $this->db->select('o.operador_id,
                                o.usuario,
@@ -1321,7 +1482,7 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function listartemperaturabolsaparenteralentrega($internacao_id) {
         $this->db->select(' ippbe.internacao_precricao_parenteral_bolsa_entrega_id,
                             ippbe.internacao_id,
@@ -1336,17 +1497,17 @@ class internacao_model extends BaseModel {
         $this->db->from('tb_internacao_precricao_parenteral_bolsa_entrega ippbe ');
         $this->db->join('tb_operador o', 'ippbe.responsavel_entrega = o.operador_id', 'left');
         $this->db->where('ippbe.internacao_id', $internacao_id);
-        
+
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function gravartemperaturabolsaparenteralentrega($internacao_id) {
-        
+
         try {
-        
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
+
+            $horario = date("Y-m-d H:i:s");
+            $operador_id = $this->session->userdata('operador_id');
 
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('hospital_id', $_POST['hospital']);
@@ -1358,13 +1519,12 @@ class internacao_model extends BaseModel {
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao_parenteral_bolsa_entrega');
-
         } catch (Exception $exc) {
             $teste = 0;
             return $teste;
         }
     }
-    
+
     function listartemperaturabolsaparenteral($internacao_id) {
         $this->db->select(' ippb.internacao_precricao_parenteral_bolsa_id,
                             ippb.internacao_id,
@@ -1378,17 +1538,17 @@ class internacao_model extends BaseModel {
         $this->db->from('tb_internacao_precricao_parenteral_bolsa ippb ');
         $this->db->join('tb_operador o', 'ippb.responsavel_entrega = o.operador_id', 'left');
         $this->db->where('ippb.internacao_id', $internacao_id);
-        
+
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function gravartemperaturabolsaparenteral($internacao_id) {
-        
+
         try {
-        
-        $horario = date("Y-m-d H:i:s");
-        $operador_id = $this->session->userdata('operador_id');
+
+            $horario = date("Y-m-d H:i:s");
+            $operador_id = $this->session->userdata('operador_id');
 
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('hospital_id', $_POST['hospital']);
@@ -1399,7 +1559,6 @@ class internacao_model extends BaseModel {
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao_parenteral_bolsa');
-
         } catch (Exception $exc) {
             $teste = 0;
             return $teste;
@@ -1571,7 +1730,7 @@ class internacao_model extends BaseModel {
         $return = $this->db->count_all_results();
         return $return;
     }
-    
+
     function impressaorelatoriotemperaturabolsaparenteral() {
         $this->db->select('ippb.internacao_id,
                            ippb.temperatura,
@@ -1588,15 +1747,15 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
         $this->db->join('tb_operador o', 'o.operador_id = ippb.responsavel_entrega');
         $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
-        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
-        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $data_inicio = $_POST['txtdata_inicio'] . " " . "00:00:00";
+        $data_fim = $_POST['txtdata_fim'] . " " . "23:59:59";
         $this->db->where('ippb.data_checagem >=', $data_inicio);
         $this->db->where('ippb.data_checagem <=', $data_fim);
-        
+
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function impressaorelatoriotemperaturabolsaparenteralentrega() {
         $this->db->select('ippbe.internacao_id,
                            ippbe.temperatura,
@@ -1614,15 +1773,14 @@ class internacao_model extends BaseModel {
         $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
         $this->db->join('tb_operador o', 'o.operador_id = ippbe.responsavel_entrega');
         $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
-        $data_inicio =  $_POST['txtdata_inicio'] . " " .  "00:00:00";
-        $data_fim =  $_POST['txtdata_fim'] .  " " .   "23:59:59";
+        $data_inicio = $_POST['txtdata_inicio'] . " " . "00:00:00";
+        $data_fim = $_POST['txtdata_fim'] . " " . "23:59:59";
         $this->db->where('ippbe.data_checagem >=', $data_inicio);
         $this->db->where('ippbe.data_checagem <=', $data_fim);
-        
+
         $return = $this->db->get();
         return $return->result();
     }
-    
 
     function listainternacaofichadeavaliacao($internacao_id) {
         $this->db->select(' pc.nome as convenio,

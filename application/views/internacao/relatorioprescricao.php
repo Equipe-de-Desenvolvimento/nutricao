@@ -45,6 +45,7 @@
                             <option value="VISUALIZAR">VISUALIZAR</option>
                             <option value="IMPRESSAONORMAL">PRODU&Ccedil;&Atilde;O</option>
                             <option value="IMPRESSAOPEQUENA">NUTRICIONISTA</option>
+                            <option value="ALTERACAO">ALTERAÇÃO</option>
                         </select>
                     </dd>
                     <dt>

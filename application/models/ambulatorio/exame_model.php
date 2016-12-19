@@ -1517,20 +1517,7 @@ class exame_model extends Model {
 
 
 
-        if ($_POST['equipo'] != "Selecione") {
-
-
-
-            $this->db->set('etapas', 1);
-            $this->db->set('produto_id', $_POST['equipo']);
-            $this->db->set('volume', null);
-            $this->db->set('observacao', $_POST['observacao']);
-            $this->db->set('descricao', $_POST['descricao']);
-            $this->db->set('data_atualizacao', $horario);
-            $this->db->set('operador_atualizacao', $operador_id);
-            $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
-            $this->db->update('tb_internacao_precricao_produto');
-        } else {
+     
 
             $peso = $_POST['peso'];
             $medida = $_POST['medida'];
@@ -1599,7 +1586,7 @@ class exame_model extends Model {
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
             $this->db->update('tb_internacao_precricao_etapa');
-        }
+        
     }
 
     function produtoexamefaturamento($internacao_precricao_produto_id) {
