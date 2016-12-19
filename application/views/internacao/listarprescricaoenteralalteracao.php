@@ -38,6 +38,9 @@ IF ($tipo == 'ENTERALNORMAL') {
                 <font size = -3> Paciente</font>
             </th>
             <th >
+                <font size = -3> Dt de Prescrição</font>
+            </th>
+            <th >
                 <font size = -3> Prescricao</font>
             </th>
             <th >
@@ -68,12 +71,22 @@ IF ($tipo == 'ENTERALNORMAL') {
 //                echo '<pre>';
 //                var_dump($prescricao); die; 
                 $i = $item->etapas;
-                
                 if ($item->internacao_precricao_id != $internacao_precricao_id) {
-                    $frasco = $item->frasco . "ml";
-                    
-                    
-                } else {
+                    $paciente = $item->paciente;
+                    $internacao_id = $item->internacao_id;
+                    $totalpacientes ++;
+                    $data = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
+                    $internacao_precricao_id = $item->internacao_precricao_id;
+                    foreach ($prescricaoequipo as $value) {
+                        if ($value->internacao_precricao_id == $internacao_precricao_id) {
+                        $equipo = $value->nome;
+                        $equipo_id = $value->internacao_precricao_produto_id;
+                        }
+                    }
+                     $frasco = $item->frasco . "ml";
+                }
+ 
+                 else {
                     $frasco = '&nbsp;';
                     
                 }
@@ -88,23 +101,18 @@ IF ($tipo == 'ENTERALNORMAL') {
                     else {
                         $produto =  $item->etapas . " "  .  "Etapas de  "  .  $item->nome . " " . " " . $item->volume ;
                     }
-                    $internacao_id = $item->internacao_id;
-                    $totalpacientes ++;
-                    $data = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
-                    $internacao_precricao_id = $item->internacao_precricao_id;
-                    foreach ($prescricaoequipo as $value) {
-                        if ($value->internacao_id == $internacao_id) {
-                        $equipo = $value->nome;
-                        $equipo_id = $value->internacao_precricao_produto_id;
-                        }
-                    }
-                
-                if ($item->internacao_precricao_etapa_id == $etapas) {
-                    $i = '&nbsp;';
-                    ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content01" : $estilo_linha = "tabela_content02";
-                } else {
-                    ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
-                }
+//                    $internacao_id = $item->internacao_id;
+//                    $totalpacientes ++;
+                    $data_prescricao = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
+//                    $data = substr($item->nascimento, 8, 2) . '/' . substr($item->nascimento, 5, 2) . '/' . substr($item->nascimento, 0, 4);
+//                    $internacao_precricao_id = $item->internacao_precricao_id;
+//                    foreach ($prescricaoequipo as $value) {
+//                        if ($value->$internacao_precricao_id != $internacao_id$internacao_precricao_id) {
+//                        $equipo = $value->nome;
+//                        $equipo_id = $value->internacao_precricao_produto_id;
+//                        }
+//                    }
+ 
                 $totaletapas = $totaletapas + $i;
                 ?>
             <tr>
@@ -113,6 +121,7 @@ IF ($tipo == 'ENTERALNORMAL') {
                 <td ><font size = -3><?= $leito; ?></font></td>
                 <td ><font size = -3><?= $data; ?></font></td>
                 <td ><font size = -3><?= $paciente; ?></font></td>
+                <td ><font size = -3><?= $data_prescricao; ?></font></td>
                 
                 <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarprodutorelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $produto; ?></font></a></td>
                 <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarvolumerelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $frasco  ?></font></a></td>
@@ -129,7 +138,7 @@ IF ($tipo == 'ENTERALNORMAL') {
           
         }
         ?>
-        <tr><th colspan="9" class="tabela_header">Total de Pacientes: <?= $totalpacientes; ?></th></tr>
+        <tr><th colspan="9" class="tabela_header">Total de Prescrições: <?= $totalpacientes; ?></th></tr>
     </table>
 
 

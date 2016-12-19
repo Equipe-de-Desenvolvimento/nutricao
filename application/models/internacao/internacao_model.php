@@ -1186,6 +1186,7 @@ class internacao_model extends BaseModel {
                             ipe.volume as frasco,
                             pt.nome,
                             iu.nome as hospital,
+                            p.nascimento,
                             i.leito,
                             c.nome as convenio,
                             i.diagnostico,
