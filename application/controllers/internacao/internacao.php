@@ -596,6 +596,46 @@ class internacao extends BaseController {
         $this->load->View('internacao/alterarprodutorelatorio-form', $data);
     }
     
+    function alteraretapasrelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alteraretapasrelatorio-form', $data);
+    }
+    
+    function alterarmedidarelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarmedidarelatorio-form', $data);
+    }
+    
+    function alterardescricaorelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterardescricaorelatorio-form', $data);
+    }
+    
+    function alterarpesorelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarpesorelatorio-form', $data);
+    }
+    
+    function alterarvolumerelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarvolumerelatorio-form', $data);
+    }
+    
     function alterarequiporelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['equipo'] = $this->internacao_m->listaprodutosequipo($internacao_id);
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -612,6 +652,33 @@ class internacao extends BaseController {
         $this->load->View('internacao/alterarobservacaorelatorio-form', $data);
     }
     
+    function alterarpacienterelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+        
+        $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
+//        var_dump($data['paciente']); die;
+
+        $this->load->View('internacao/alterarpacienterelatorio-form', $data);
+    }
+    
+    function alterarleitorelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+        
+        $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
+//        var_dump($data['paciente']); die;
+
+        $this->load->View('internacao/alterarleitorelatorio-form', $data);
+    }
+    
+    function alterarhospitalrelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+        $data['unidade'] = $this->internacao_m->listaunidade();
+        $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
+//        var_dump($data['paciente']); die;
+
+        $this->load->View('internacao/alterarhospitalrelatorio-form', $data);
+    }
+    
     function alterarvazaorelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
 //        var_dump($data['produto']); die;
@@ -619,7 +686,7 @@ class internacao extends BaseController {
         $this->load->View('internacao/alterarvazaorelatorio-form', $data);
     }
     
-    function alterarvolumerelatorio($internacao_id, $internacao_precricao_produto_id) {
+    function alterarvolumefrascorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->volumerelatorio($internacao_precricao_produto_id);
         $data['internacao_precricao_etapa_id'] = $data['produto'][0]->internacao_precricao_etapa_id;
@@ -628,7 +695,166 @@ class internacao extends BaseController {
 //        var_dump($data['produto']); die;
 
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
-        $this->load->View('internacao/alterarvolumerelatorio-form', $data);
+        $this->load->View('internacao/alterarvolumefrascorelatorio-form', $data);
+    }
+    
+    function adicionarprodutorelatorio($internacao_id, $internacao_precricao_produto_id) {
+
+         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/adicionarprodutorelatorio-form', $data);
+    }
+    
+    function excluiritemprescicaorelatorio($item_id) {
+//        echo 'teste';die;
+        $this->internacao_m->excluiritemprescicao($item_id);
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Produto excluido da prescrição com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+
+    
+    function gravaralterarhospitalrelatorio($internacao_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarhospitalrelatorio($internacao_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Hospital alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarleitorelatorio($internacao_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarleitorelatorio($internacao_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Volume Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarvolumeprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarvolumeprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Volume Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarpesoprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarpesoprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Peso Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterardescricaoprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterardescricaoprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Descrição alterada Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarmedidaprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarmedidaprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Medida alterada Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralteraretapasprescricao($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralteraretapasprescricao($internacao_precricao_produto_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Etapas alteradas Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
     }
     
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
@@ -638,8 +864,9 @@ class internacao extends BaseController {
         $this->internacao_m->gravaralterarprodutoprescricao($internacao_precricao_produto_id);
 
         echo '<html>
+            <meta charset= "utf-8">
     <script type="text/javascript">
-        alert("Produto Alterado Com Sucesso");
+        alert("Produto alterado Com Sucesso");
         window.onunload = fechaEstaAtualizaAntiga;
         function fechaEstaAtualizaAntiga() {
             window.opener.location.reload();
@@ -656,8 +883,9 @@ class internacao extends BaseController {
         $this->internacao_m->gravaralterarequiporelatorio($internacao_precricao_produto_id);
 
         echo '<html>
+            <meta charset= "utf-8">
     <script type="text/javascript">
-        alert("Produto Alterado Com Sucesso");
+        alert("Equipo alterado Com Sucesso");
         window.onunload = fechaEstaAtualizaAntiga;
         function fechaEstaAtualizaAntiga() {
             window.opener.location.reload();
@@ -674,8 +902,9 @@ class internacao extends BaseController {
         $this->internacao_m->gravaralterarobservacaorelatorio($internacao_precricao_produto_id);
 
         echo '<html>
+            <meta charset= "utf-8">
     <script type="text/javascript">
-        alert("Produto Alterado Com Sucesso");
+        alert("Observação alterada Com Sucesso");
         window.onunload = fechaEstaAtualizaAntiga;
         function fechaEstaAtualizaAntiga() {
             window.opener.location.reload();
@@ -693,8 +922,28 @@ class internacao extends BaseController {
         $this->internacao_m->gravaralterarvazaorelatorio($internacao_precricao_produto_id);
 
         echo '<html>
+            <meta charset= "utf-8">
     <script type="text/javascript">
-        alert("Produto Alterado Com Sucesso");
+        alert("Vazão alterada Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarpacienterelatorio($paciente_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarpacienterelatorio($paciente_id);
+
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Paciente alterado Com Sucesso");
         window.onunload = fechaEstaAtualizaAntiga;
         function fechaEstaAtualizaAntiga() {
             window.opener.location.reload();
@@ -708,7 +957,7 @@ class internacao extends BaseController {
         $internacao_precricao = $this->internacao_m->gravaretapa($internacao_id);
         echo '<html>
     <script type="text/javascript">
-        alert("Produto Alterado Com Sucesso");
+        alert("Volume do Frasco alterado Com Sucesso");
         window.onunload = fechaEstaAtualizaAntiga;
         function fechaEstaAtualizaAntiga() {
             window.opener.location.reload();

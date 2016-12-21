@@ -527,6 +527,21 @@ class nutricionista extends BaseController {
 
         $this->loadView('nutricionista/prescricaonormalenteral', $data);
     }
+    
+    function geraralterarnormalenteralrelatorio($internacao_precricao_id) {
+
+        $data['teste'] = $this->nutricionista->formularioevolucaonutricionalteste($internacao_precricao_id);
+
+        $internacao_id = $data['teste'][0]->internacao_id;
+        $data['internacao_id'] = $internacao_id;
+        $teste = $data['teste'];
+        $data['medico'] = $this->operador_m->listarmedicos();
+        $data['enteral'] = $this->nutricionista->listaprodutosenteral($internacao_id);
+        $data['equipo'] = $this->nutricionista->listaprodutosequipo($internacao_id);
+        $data['prescricao'] = $this->nutricionista->listaprescricoesenteralalterar($teste);
+
+        $this->loadView('nutricionista/prescricaonormalenteral', $data);
+    }
 
     function prescricaonormalenteral($internacao_precricao_id) {
         $data['teste'] = $this->nutricionista->formularioevolucaonutricionalteste($internacao_precricao_id);

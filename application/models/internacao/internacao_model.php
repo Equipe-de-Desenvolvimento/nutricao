@@ -186,6 +186,7 @@ class internacao_model extends BaseModel {
                             ipp.ativo,
                             ipp.observacao,
                             ipp.internacao_precricao_etapa_id,
+                            ipp.descricao,
                             ipp.tipo,
                             ipp.peso,
                             ipp.vasao,
@@ -814,6 +815,20 @@ class internacao_model extends BaseModel {
         $this->db->update('tb_internacao_precricao_produto');
 
     }
+    
+    function gravaralterarvolumeprescricao($internacao_precricao_produto_id) {
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+        $this->db->set('volume', $_POST['volume']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+    }
 
     function gravaralterarvazaorelatorio($internacao_precricao_produto_id) {
         $empresa_id = $this->session->userdata('empresa_id');
@@ -830,9 +845,112 @@ class internacao_model extends BaseModel {
 
     }
 
-    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+    function gravaralteraretapasprescricao($internacao_precricao_produto_id) {
 
-        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+        $this->db->set('etapas', $_POST['etapas']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+        
+        //Etapa Tabela
+        $this->db->set('etapas', $_POST['etapas']);
+        $this->db->set('operador_cadastro', $operador_id);
+        $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
+        $this->db->update('tb_internacao_precricao_etapa');
+    }
+    
+    function gravaralterarmedidaprescricao($internacao_precricao_produto_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+        $peso = $_POST['peso'];
+        $medida = $_POST['medida'];
+//            echo var_dump($peso);
+//            die;
+
+        if ($_POST['peso'] = !'') {
+            $this->db->select('medida');
+            $this->db->from('tb_procedimento_tuss_caloria ptc');
+            $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_tuss_id = ptc.procedimento_tuss_id');
+            $this->db->where('pc.procedimento_convenio_id', $_POST['produto']);
+            $this->db->where('ptc.kcal', (string) $peso);
+            $this->db->where('ptc.ativo', 't');
+            $querys = $this->db->get();
+            $returns = $querys->result();
+            if ($returns != null) {
+                $kcal = $returns[0]->medida;
+            } else {
+                $kcal = null;
+            }
+        }
+        
+//echo var_dump($kcal);
+//die;
+        if ($kcal != null) {
+            $this->db->set('kcal', $kcal);
+            
+        }
+        else{
+            $this->db->set('kcal', $medida);
+        }
+        
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+        
+    }
+    function gravaralterardescricaoprescricao($internacao_precricao_produto_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+        $this->db->set('descricao', $_POST['descricao']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+        
+    }
+    
+    function gravaralterarpesoprescricao($internacao_precricao_produto_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+        $this->db->set('peso', $_POST['peso']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+        
+    }
+    
+    function alterarpacienteprescricaorelatorio($internacao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+        
+        $this->db->select(' 
+                            i.paciente_id');
+        $this->db->from('tb_internacao i');
+//        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
+        $this->db->where('i.internacao_id', $internacao_id);
+        
+
+        
+    }
+    
+    function gravaralterarprescricao($internacao_precricao_produto_id) {
+
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
 
@@ -905,11 +1023,65 @@ class internacao_model extends BaseModel {
         $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
         $this->db->update('tb_internacao_precricao_etapa');
     }
+    
+    function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+        $this->db->set('produto_id', $_POST['produto']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+    }
+    
+    function gravaralterarpacienterelatorio($paciente_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+//echo 'teste'; die;
+        $this->db->set('nome', $_POST['paciente']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('paciente_id', $paciente_id);
+        $this->db->update('tb_paciente');
+
+    }
+    
+    function gravaralterarleitorelatorio($internacao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+//echo 'teste'; die;
+        $this->db->set('leito', $_POST['leito']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_id', $internacao_id);
+        $this->db->update('tb_internacao');
+
+    }
+    
+    function gravaralterarhospitalrelatorio($internacao_id) {
+
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+//echo 'teste'; die;
+        $this->db->set('hospital', $_POST['hospital']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_id', $internacao_id);
+        $this->db->update('tb_internacao');
+
+    }
 
     function listainternao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
                             i.leito,
+                            i.internacao_id,
                             u.nome as hospital,
+                            u.internacao_unidade_id as hospital_id,
                             p.nascimento,
                             p.nome,
                             p.paciente_id,
@@ -1210,6 +1382,7 @@ class internacao_model extends BaseModel {
                             ipp.volume,
                             ipp.observacao,
                             ipp.kcal,
+                            ipp.peso,
                             ipp.descricao,
                             ip.internacao_id,
                             ipp.vasao,

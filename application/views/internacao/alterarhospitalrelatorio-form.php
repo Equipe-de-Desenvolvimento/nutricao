@@ -1,28 +1,32 @@
 <meta charset="utf-8">
 <body bgcolor="#C0C0C0">
     <div class="content"> <!-- Inicio da DIV content -->
-        <h3 class="singular">Alterar</h3>
+        <h3 class="singular">Alterar </h3>
         <div>
-            <form name="form_faturar" id="form_faturar" action="<?= base_url() ?>internacao/internacao/gravaralterarvolumeprescricao/<?= $produto['0']->internacao_precricao_produto_id; ?>" method="post">
+            <form name="form_faturar" id="form_faturar" action="<?= base_url() ?>internacao/internacao/gravaralterarhospitalrelatorio/<?= $paciente['0']->internacao_id; ?>" method="post">
                 <fieldset>
                     <table>
                         <tr>
-                            
                             <td style="text-align: left">
-                                Volume(ml) 
+                                Hospital 
                             </td>
-                            
+
                         </tr>
 
                         <tr>
-                                <input type="hidden" id="txtinternacao" name="etapa_id"  class="texto06" value="<?= $produto['0']->internacao_precricao_etapa_id; ?>" readonly/>
-
-        
                             <td style="text-align: left">
-                                <input type="text" name="valorafaturar" id="valorafaturar" size="7" class="texto01" value="<?= $produto['0']->volume; ?>" readonly />
+                                <input type="hidden" id="txtinternacao" name="etapa_id"  class="texto06" value="<?= $produto['0']->internacao_id; ?>" readonly/>
+                                <select  name="hospital" id="hospital" class="size8" >
+                                    <option value="-1">Selecione</option>
+                                    <? foreach ($unidade as $item) : ?>
+                                        <option value="<?= $item->internacao_unidade_id; ?>"<?
+                                        if ($paciente['0']->hospital_id == $item->internacao_unidade_id):echo 'selected';
+                                        endif;
+                                        ?>><?= $item->nome; ?></option>
+                                            <? endforeach; ?>
+                                </select>
 
                             </td>
-
 
                         </tr>
 
@@ -30,30 +34,8 @@
                     </table>
                     <br>
                     <br>
-                  
-                    <table>
 
 
-                        <tr>
-                            
-                            
-                            <td style="text-align: center">
-                                Volume(ml) 
-                            
-                        </tr>
-
-                        <tr>
-                            
-                            
-                            <td style="text-align: left" >
-                                <input type="text" name="volume" id="valorajuste1" size="4" value="<? //= $valor;   ?>" />
-                            </td>
-                            
-                       
-                        </tr>
-
-
-                    </table>
                     <dl class="dl_desconto_lista">
 
 

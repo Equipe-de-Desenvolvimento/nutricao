@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 <body bgcolor="#C0C0C0">
     <div class="content"> <!-- Inicio da DIV content -->
-        <h3 class="singular">Faturar</h3>
+        <h3 class="singular">Alterar</h3>
         <div>
             <form name="form_faturar" id="form_faturar" action="<?= base_url() ?>internacao/internacao/gravaralterarequiporelatorio/<?= $produto['0']->internacao_precricao_produto_id; ?>" method="post">
                 <fieldset>
