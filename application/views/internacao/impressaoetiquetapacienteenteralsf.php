@@ -133,7 +133,10 @@
                             <td colspan="2" ><font size = -1><b></b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
                         </tr>
 
                     </tbody>
@@ -259,9 +262,12 @@
                             <tr>
                                 <td colspan="2" ><font size = -1><b></b></td>
                             </tr>
-                            <tr>
-                                <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
-                            </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
+                        </tr>
 
 
                         </tbody>
@@ -339,7 +345,10 @@
                             <td colspan="2" ><font size = -1><b></b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
                         </tr>
 
                     </tbody>

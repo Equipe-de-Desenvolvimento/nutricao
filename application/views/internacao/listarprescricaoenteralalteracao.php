@@ -49,9 +49,9 @@ IF ($tipo == 'ENTERALNORMAL') {
             <th >
                 <font size = -3> Equipo</font>
             </th>
-<!--            <th >
-                <font size = -3> Observação</font>
-            </th>-->
+            <th >
+                <font size = -3>Observacao</font>
+            </th>
             <th >
                 <font size = -3> Vaz&atildeo</font>
             </th>
@@ -82,13 +82,16 @@ IF ($tipo == 'ENTERALNORMAL') {
                         $equipo = $value->nome;
                         $equipo_id = $value->internacao_precricao_produto_id;
                         }
+//                        else {
+//                            $equipo = "E";
+//                        }
                     }
                      $frasco = $item->frasco . "ml";
                 }
  
                  else {
-                    $frasco = '&nbsp;';
-                    
+                    $frasco = 'ml';
+//                    $equipo = 'S';
                 }
                
                     $paciente = $item->paciente;
@@ -97,9 +100,11 @@ IF ($tipo == 'ENTERALNORMAL') {
                     $leito = $item->leito;
                     if ($item->volume != ''){
                         $produto =  $item->etapas . " "  .  "Etapas de  "  .  $item->nome . " " . " " . $item->volume . "ml " ;
+                        $frasco = $item->frasco . " ml";
                     }
                     else {
                         $produto =  $item->etapas . " "  .  "Etapas de  "  .  $item->nome . " " . " " . $item->volume ;
+                        $frasco = " ";
                     }
 //                    $internacao_id = $item->internacao_id;
 //                    $totalpacientes ++;
@@ -124,10 +129,10 @@ IF ($tipo == 'ENTERALNORMAL') {
                 <td ><font size = -3><?= $data_prescricao; ?></font></td>
                 
                 <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarprodutorelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $produto; ?></font></a></td>
-                <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarvolumerelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $frasco  ?></font></a></td>
+                <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarvolumerelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $frasco ?></font></a></td>
                 <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarequiporelatorio/$item->internacao_id/$equipo_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3><?= $equipo  ?></font></a></td>
-                <!--<td ><font size = -3><?= $item->observacao; ?></font></td>-->
-                <td ><font size = -3><?= $item->vasao; ?></font></td>
+                <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarobservacaorelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3>=><?= $item->observacao; ?></font></a></td>
+                <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarvazaorelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3>=><?= $item->vasao; ?></font></a></td>
             </tr>
             <?
             $i++;

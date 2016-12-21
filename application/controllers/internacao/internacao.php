@@ -604,6 +604,21 @@ class internacao extends BaseController {
         $this->load->View('internacao/alterarequiporelatorio-form', $data);
     }
     
+    function alterarobservacaorelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+
+        $this->load->View('internacao/alterarobservacaorelatorio-form', $data);
+    }
+    
+    function alterarvazaorelatorio($internacao_id, $internacao_precricao_produto_id) {
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+//        var_dump($data['produto']); die;
+        $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
+        $this->load->View('internacao/alterarvazaorelatorio-form', $data);
+    }
+    
     function alterarvolumerelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->volumerelatorio($internacao_precricao_produto_id);
@@ -639,6 +654,43 @@ class internacao extends BaseController {
 //        die;
 
         $this->internacao_m->gravaralterarequiporelatorio($internacao_precricao_produto_id);
+
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    function gravaralterarobservacaorelatorio($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarobservacaorelatorio($internacao_precricao_produto_id);
+
+        echo '<html>
+    <script type="text/javascript">
+        alert("Produto Alterado Com Sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
+        }
+        window.close();
+    </script>
+</html>';
+    }
+    
+    
+    function gravaralterarvazaorelatorio($internacao_precricao_produto_id) {
+//        var_dump($_POST);
+//        die;
+
+        $this->internacao_m->gravaralterarvazaorelatorio($internacao_precricao_produto_id);
 
         echo '<html>
     <script type="text/javascript">

@@ -29,7 +29,7 @@
                                                                         <th class="tabela_title" colspan="3">
 
                         </th>
-                <form method="get" action="<?php echo base_url() ?>internacao/internacao/listarprescrever">
+                <form method="get" action="<?php echo base_url() ?>internacao/internacao/listarprescreverenteral">
                     <th class="tabela_title">
                         <select name="hospital" id="sala" class="size2">
                             <option value=""></option>

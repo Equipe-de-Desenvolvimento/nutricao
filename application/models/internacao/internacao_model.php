@@ -184,6 +184,7 @@ class internacao_model extends BaseModel {
                             ipp.produto_id,
                             ipp.operador_cadastro,
                             ipp.ativo,
+                            ipp.observacao,
                             ipp.internacao_precricao_etapa_id,
                             ipp.tipo,
                             ipp.peso,
@@ -798,6 +799,35 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_cadastro', $operador_id);
         $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
         $this->db->update('tb_internacao_precricao_etapa');
+    }
+
+    function gravaralterarobservacaorelatorio($internacao_precricao_produto_id) {
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+        $this->db->set('observacao', $_POST['observacao']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
+    }
+
+    function gravaralterarvazaorelatorio($internacao_precricao_produto_id) {
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $operador_id = $this->session->userdata('operador_id');
+
+
+        
+        $this->db->set('vasao', $_POST['vazao']);
+        $this->db->set('data_atualizacao', $horario);
+        $this->db->set('operador_atualizacao', $operador_id);
+        $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->update('tb_internacao_precricao_produto');
+
     }
 
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {

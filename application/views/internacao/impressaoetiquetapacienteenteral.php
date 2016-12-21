@@ -149,7 +149,10 @@
                             <td colspan="3" ><font size = -1><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
                         </tr>
 
                     </tbody>
@@ -273,9 +276,12 @@
                             <tr>
                                 <td colspan="3" ><font size = -1><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                             </tr>
-                            <tr>
-                                <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
-                            </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
+                        </tr>
 
                         </tbody>
                     </table>
@@ -352,7 +358,10 @@
                             <td colspan="3" ><font size = -1><b>Conservar sob refrigera&ccedil;&atilde;o de 2&deg; a 8&deg; C&deg;</b></td>
                         </tr>
                         <tr>
-                            <td colspan="2" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                            <td colspan="3" ><font size = -1><b>Nutricionista/CRN <?= $nutricionista . '  ' . $conselho; ?> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" ><font size = -1>&nbsp; </b></td>
                         </tr>
                     </tbody>
                 </table>
