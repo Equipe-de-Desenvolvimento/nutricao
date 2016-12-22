@@ -369,8 +369,14 @@ class internacao extends BaseController {
     }
 
     function repetirultimaprescicaoenteralnormal($internacao_id) {
-        $this->internacao_m->repetirultimaprescicaoenteralnormal($internacao_id);
-        redirect(base_url() . "internacao/internacao/listarprescreverenteral");
+      $return = $this->internacao_m->repetirultimaprescicaoenteralnormal($internacao_id);
+         if (count($return) == 0) {
+            $data['mensagem'] = 'Prescrição repetida com sucesso';
+        } else {
+            $data['mensagem'] = 'Já existe prescrição para esse paciente nesse dia';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "internacao/internacao/listarprescreverenteral", $data);
     }
     
     function repetirultimaprescicaoenteralnormaltodas() {

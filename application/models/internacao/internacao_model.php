@@ -498,17 +498,27 @@ class internacao_model extends BaseModel {
         $horario = date("Y-m-d H:i:s");
         $dataprescricao = date("Y-m-d");
         $operador_id = $this->session->userdata('operador_id');
-
+        // Traz a ultima prescricao em que a data é diferente de hoje
         $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
         $this->db->from('tb_internacao_precricao');
         $this->db->where("internacao_id", $internacao_id);
         $this->db->where("data !=", $dataprescricao);
         $query = $this->db->get();
         $row = $query->last_row();
-//        var_dump($row);
+        // Select para testar se há prescricao para o paciente na data inserida pelo usuário
+        $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
+        $this->db->from('tb_internacao_precricao');
+        $this->db->where("internacao_id", $internacao_id);
+        $this->db->where("data", $dataprescricao);
+        $query2 = $this->db->get();
+        $ultima_data = $query2->result();
+//        var_dump($ultima_data);
 //        die;
         $numero = count($row->internacao_precricao_id);
         if ($numero > 0) {
+            if (count($ultima_data) == 0){
+                
+            
             $this->db->set('data', $dataprescricao);
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('empresa_id', $empresa_id);
@@ -589,8 +599,10 @@ class internacao_model extends BaseModel {
                     }
                 }
             }
-            return $row->internacao_precricao_id;
+            
         }
+      }
+      return $ultima_data;
     }
     
     function listarpacientesprescricaoenteralrepetir() {
@@ -612,14 +624,13 @@ class internacao_model extends BaseModel {
     
     function repetirultimaprescicaoenteralnormaltodas($internacao_id) {
         
-        foreach($internacao_id as $item2){
-            
-            
         $empresa_id = $this->session->userdata('empresa_id');
         $horario = date("Y-m-d H:i:s");
         $dataprescricao = date("Y-m-d");
         $operador_id = $this->session->userdata('operador_id');
-
+        
+        foreach($internacao_id as $item2){
+        
         $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
         $this->db->from('tb_internacao_precricao');
         $this->db->where("internacao_id", $item2->internacao_id);
