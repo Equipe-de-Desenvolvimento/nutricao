@@ -33,10 +33,10 @@
                             ?>
                     <tr>
                         <td class="<?=$classe;?>"><?=$item->internacao_fichadeavaliacao_id;?></td>
-                        <td class="<?=$classe;?>"><?$ano= substr($item->data_atualizacao,0,4);?>
-                                                            <?$mes= substr($item->data_atualizacao,5,2);?>
-                                                            <?$dia= substr($item->data_atualizacao,8,2);?>
-                                                            <?$hora= substr($item->data_atualizacao,10,10);?>
+                        <td class="<?=$classe;?>"><?$ano= substr($item->data_cadastro,0,4);?>
+                                                            <?$mes= substr($item->data_cadastro,5,2);?>
+                                                            <?$dia= substr($item->data_cadastro,8,2);?>
+                                                            <?$hora= substr($item->data_cadastro,10,10);?>
                                                             <?$datafinal= $dia . '/' . $mes . '/' . $ano . $hora; ?>
                                                             <?php echo$datafinal?></td>
                         <td class="<?=$classe;?>"></td>
@@ -50,6 +50,12 @@
                         <td class="<?=$classe;?>" width="50px;" ><div class="bt_link_new">
                             <a  href="<?=  base_url()?>internacao/internacao/imprimirfichadeavaliacao/<?=$item->internacao_fichadeavaliacao_id;?>">
                                 <b>Imprimir</b>
+                            </a>
+                            </div>    
+                        </td>
+                        <td class="<?=$classe;?>" width="50px;" ><div class="bt_link">
+                            <a onclick="javascript: return confirm('Deseja realmente excluir a ficha de avaliação?'); " href="<?=  base_url()?>internacao/internacao/excluirfichadeavaliacao/<?=$item->internacao_fichadeavaliacao_id;?>">
+                                <b>Excluir</b>
                             </a>
                             </div>    
                         </td>

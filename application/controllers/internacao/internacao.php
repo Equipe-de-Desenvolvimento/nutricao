@@ -370,7 +370,22 @@ class internacao extends BaseController {
 
     function repetirultimaprescicaoenteralnormal($internacao_id) {
         $this->internacao_m->repetirultimaprescicaoenteralnormal($internacao_id);
-        redirect(base_url() . "seguranca/operador/pesquisarrecepcao");
+        redirect(base_url() . "internacao/internacao/listarprescreverenteral");
+    }
+    
+    function repetirultimaprescicaoenteralnormaltodas() {
+        
+        $data['internacao_id'] = $this->internacao_m->listarpacientesprescricaoenteralrepetir();
+//        var_dump($data['internacao_id']); die;
+        
+       $return = $this->internacao_m->repetirultimaprescicaoenteralnormaltodas($data['internacao_id']);
+        if ($return==1) {
+            $data['mensagem'] = 'Prescrições repetidas com sucesso';
+        } else {
+            $data['mensagem'] = 'Erro ao repetir prescrições';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+        redirect(base_url() . "internacao/internacao/listarprescreverenteral", $data);
     }
 
     function finalizarprescricaoenteralnormal($internacao_id) {
@@ -437,6 +452,9 @@ class internacao extends BaseController {
     }
     function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
         $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_fichadeavaliacao_id);
+        $internacao_id = $data['impressao'][0]->internacao_id;
+        $data['primeira'] = $this->internacao_m->imprimirfichadeavaliacaodata($internacao_id);
+//        var_dump($data['primeira_avaliacao'] ); die;
         $data['empresa'] = $this->internacao_m->empresa();
 //        echo var_dump($data['impressao'][0]);
 //        die;
@@ -470,6 +488,25 @@ class internacao extends BaseController {
             $data['mensagem'] = 'Diagnostico gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar Diagnostico';
+        }
+        $this->session->set_flashdata('message', $data['mensagem']);
+
+
+        redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
+    }
+    
+    function excluirfichadeavaliacao($internacao_fichadeavaliacao_id) {
+//       echo var_dump($internacao_fichadeavaliacao_id);
+//        die;
+        $data['internacao_id'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        $internacao_id= $data['internacao_id'][0]->internacao_id;
+//               echo var_dump($data['internacao_id'][0]->internacao_id);
+//        die;
+       $this->internacao_m->excluirfichadeavaliacao($internacao_fichadeavaliacao_id);
+       if ($return==0) {
+            $data['mensagem'] = 'Ficha de Avaliação excluida com sucesso';
+        } else {
+            $data['mensagem'] = 'Erro ao excluir Ficha de Avaliação';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
 

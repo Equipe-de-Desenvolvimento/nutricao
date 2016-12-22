@@ -592,6 +592,134 @@ class internacao_model extends BaseModel {
             return $row->internacao_precricao_id;
         }
     }
+    
+    function listarpacientesprescricaoenteralrepetir() {
+        $this->db->select(' i.internacao_id,
+                            ');
+        $this->db->from('tb_internacao i');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id ');
+        $this->db->join('tb_internacao_saida tis', 'tis.internacao_saida_id = i.motivo_saida', 'left');
+        $this->db->join('tb_internacao_unidade iu', 'iu.internacao_unidade_id = i.hospital', 'left');
+        $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
+        $this->db->where('i.ativo', 't');
+        $this->db->where('i.prescricao', 't');
+        $this->db->where('i.carater_internacao', 'Enteral');
+        $this->db->orderby('i.internacao_id');
+        
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function repetirultimaprescicaoenteralnormaltodas($internacao_id) {
+        
+        foreach($internacao_id as $item2){
+            
+            
+        $empresa_id = $this->session->userdata('empresa_id');
+        $horario = date("Y-m-d H:i:s");
+        $dataprescricao = date("Y-m-d");
+        $operador_id = $this->session->userdata('operador_id');
+
+        $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
+        $this->db->from('tb_internacao_precricao');
+        $this->db->where("internacao_id", $item2->internacao_id);
+        $this->db->where("data !=", $dataprescricao);
+        $query = $this->db->get();
+        $row = $query->last_row();
+
+        $numero = count($row);
+
+        if ($numero > 0) {
+            $this->db->set('data', $dataprescricao);
+            $this->db->set('internacao_id', $item2->internacao_id);
+            $this->db->set('empresa_id', $empresa_id);
+            $this->db->set('data_cadastro', $horario);
+            if ($row->nutricionista != '') {
+                $this->db->set('nutricionista', $row->nutricionista);
+            }
+            if ($row->preparo != '') {
+                $this->db->set('preparo', $row->preparo);
+            }
+            if ($row->validade != '') {
+                $this->db->set('validade', $row->validade);
+            }
+            $this->db->set('operador_cadastro', $operador_id);
+            $this->db->insert('tb_internacao_precricao');
+            $internacao_precricao_id = $this->db->insert_id();
+
+            $this->db->select('internacao_precricao_etapa_id, etapas, volume');
+            $this->db->from('tb_internacao_precricao_etapa');
+            $this->db->where("internacao_precricao_id", $row->internacao_precricao_id);
+            $query = $this->db->get();
+            $returno = $query->result();
+            $numeroetapa = count($returno);
+
+            if ($numeroetapa > 0) {
+                foreach ($returno as $item) {
+                    $this->db->set('etapas', $item->etapas);
+                    $this->db->set('volume', $item->volume);
+                    $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+                    $this->db->set('empresa_id', $empresa_id);
+                    $this->db->set('data_cadastro', $horario);
+                    $this->db->set('operador_cadastro', $operador_id);
+                    $this->db->insert('tb_internacao_precricao_etapa');
+                    $internacao_precricao_etapa_id = $this->db->insert_id();
+
+                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
+                    $this->db->from('tb_internacao_precricao_produto');
+                    $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
+                    $this->db->where("ativo", 'true');
+                    $query = $this->db->get();
+                    $return = $query->result();
+                    $numeroproduto = count($return);
+
+
+
+                    if ($numeroproduto > 0) {
+                        foreach ($return as $value) {
+                            $this->db->set('internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+                            $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+                            $this->db->set('internacao_id', $value->internacao_id);
+                            $this->db->set('etapas', $value->etapas);
+                            $this->db->set('tipo', 'ENTERALNORMAL');
+                            if ($value->produto_id != "") {
+                                $this->db->set('produto_id', $value->produto_id);
+                            }
+                            if ($value->volume != "") {
+                                $this->db->set('volume', $value->volume);
+                            }
+                            if ($value->vasao != "") {
+                                $this->db->set('vasao', $value->vasao);
+                            }
+
+                            if ($value->peso != "") {
+                                $this->db->set('peso', $value->peso);
+                            }
+                            if ($value->descricao != "") {
+                                $this->db->set('descricao', $value->descricao);
+                            }
+                            if ($value->kcal != "") {
+                                $this->db->set('kcal', $value->kcal);
+                            }
+
+                            $this->db->set('empresa_id', $empresa_id);
+                            $this->db->set('data_cadastro', $horario);
+                            $this->db->set('operador_cadastro', $operador_id);
+                            $this->db->insert('tb_internacao_precricao_produto');
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+      }
+      
+            $return = 1;
+            return $return;
+        
+        
+    }
 
     function gravarmovimentacao($paciente_id, $leito_id) {
 
@@ -813,9 +941,8 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
     }
-    
+
     function gravaralterarvolumeprescricao($internacao_precricao_produto_id) {
         $empresa_id = $this->session->userdata('empresa_id');
         $horario = date("Y-m-d H:i:s");
@@ -827,7 +954,6 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
     }
 
     function gravaralterarvazaorelatorio($internacao_precricao_produto_id) {
@@ -836,13 +962,12 @@ class internacao_model extends BaseModel {
         $operador_id = $this->session->userdata('operador_id');
 
 
-        
+
         $this->db->set('vasao', $_POST['vazao']);
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
     }
 
     function gravaralteraretapasprescricao($internacao_precricao_produto_id) {
@@ -855,19 +980,19 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-        
+
         //Etapa Tabela
         $this->db->set('etapas', $_POST['etapas']);
         $this->db->set('operador_cadastro', $operador_id);
         $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
         $this->db->update('tb_internacao_precricao_etapa');
     }
-    
+
     function gravaralterarmedidaprescricao($internacao_precricao_produto_id) {
 
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
-        
+
         $peso = $_POST['peso'];
         $medida = $_POST['medida'];
 //            echo var_dump($peso);
@@ -888,67 +1013,57 @@ class internacao_model extends BaseModel {
                 $kcal = null;
             }
         }
-        
+
 //echo var_dump($kcal);
 //die;
         if ($kcal != null) {
             $this->db->set('kcal', $kcal);
-            
-        }
-        else{
+        } else {
             $this->db->set('kcal', $medida);
         }
-        
+
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
-        
     }
+
     function gravaralterardescricaoprescricao($internacao_precricao_produto_id) {
 
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
-        
+
         $this->db->set('descricao', $_POST['descricao']);
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
-        
     }
-    
+
     function gravaralterarpesoprescricao($internacao_precricao_produto_id) {
 
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
-        
+
         $this->db->set('peso', $_POST['peso']);
         $this->db->set('data_atualizacao', $horario);
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
-        
     }
-    
+
     function alterarpacienteprescricaorelatorio($internacao_id) {
 
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
-        
+
         $this->db->select(' 
                             i.paciente_id');
         $this->db->from('tb_internacao i');
 //        $this->db->join('tb_internacao i', 'i.paciente_id = p.paciente_id ');
         $this->db->where('i.internacao_id', $internacao_id);
-        
-
-        
     }
-    
+
     function gravaralterarprescricao($internacao_precricao_produto_id) {
 
         $horario = date("Y-m-d H:i:s");
@@ -1023,7 +1138,7 @@ class internacao_model extends BaseModel {
         $this->db->where('internacao_precricao_etapa_id', $_POST['etapa_id']);
         $this->db->update('tb_internacao_precricao_etapa');
     }
-    
+
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
 
         $horario = date("Y-m-d H:i:s");
@@ -1034,9 +1149,8 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $this->db->update('tb_internacao_precricao_produto');
-
     }
-    
+
     function gravaralterarpacienterelatorio($paciente_id) {
 
         $horario = date("Y-m-d H:i:s");
@@ -1047,9 +1161,8 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('paciente_id', $paciente_id);
         $this->db->update('tb_paciente');
-
     }
-    
+
     function gravaralterarleitorelatorio($internacao_id) {
 
         $horario = date("Y-m-d H:i:s");
@@ -1060,9 +1173,8 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_id', $internacao_id);
         $this->db->update('tb_internacao');
-
     }
-    
+
     function gravaralterarhospitalrelatorio($internacao_id) {
 
         $horario = date("Y-m-d H:i:s");
@@ -1073,7 +1185,6 @@ class internacao_model extends BaseModel {
         $this->db->set('operador_atualizacao', $operador_id);
         $this->db->where('internacao_id', $internacao_id);
         $this->db->update('tb_internacao');
-
     }
 
     function listainternao($internacao_id) {
@@ -1435,7 +1546,7 @@ class internacao_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function observacaorelatorio($internacao_precricao_produto_id) {
 
         $this->db->select(' ipp.internacao_precricao_produto_id,
@@ -1594,6 +1705,8 @@ class internacao_model extends BaseModel {
         }
         return $this->db;
     }
+    
+    
 
     function listarpacientesprescricao($args = array()) {
         $this->db->select(' i.internacao_id,
@@ -2016,9 +2129,12 @@ class internacao_model extends BaseModel {
 //       die;
         $this->db->select(' internacao_fichadeavaliacao_id,
                             data_atualizacao,
+                            data_cadastro,
                             ');
         $this->db->from('tb_internacao_fichadeavaliacao');
         $this->db->where('internacao_id', $internacao_id);
+        $this->db->where('ativo', 't');
+        $this->db->orderby('internacao_fichadeavaliacao_id');
 
         $return = $this->db->get();
         return $return->result();
@@ -2061,6 +2177,9 @@ class internacao_model extends BaseModel {
                             if.tipoget,
                             if.get,
                             if.peso_ideal,
+                            if.compleicao,
+                            if.internacao_id,
+                            if.data_cadastro,
                             if.peso_atual,
                             if.peso_habitual,
                             if.panturrilha,
@@ -2085,10 +2204,27 @@ class internacao_model extends BaseModel {
         return $return->result();
     }
 
+    function imprimirfichadeavaliacaodata($internacao_id) {
+        $this->db->select(' 
+                            if.data_cadastro,
+                            ');
+        $this->db->from('tb_internacao_fichadeavaliacao if');
+        $this->db->join('tb_internacao i', 'i.internacao_id = if.internacao_id');
+        $this->db->join('tb_paciente p', 'p.paciente_id = i.paciente_id');
+        $this->db->join('tb_convenio pc', 'pc.convenio_id = p.convenio_id', 'left');
+        $this->db->join('tb_internacao_unidade u', 'u.internacao_unidade_id = i.hospital', 'left');
+        $this->db->where('if.internacao_id', $internacao_id);
+        $this->db->where('if.ativo', 't');
+        $this->db->orderby('if.internacao_fichadeavaliacao_id');
+        $return = $this->db->get();
+        return $return->first_row();
+    }
+
     function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
         $this->db->select('internacao_fichadeavaliacao_id,
                  dncd,
                  tipoget,
+                 compleicao,
                  get,
                  cen,
                  internacao_id,
@@ -2103,6 +2239,24 @@ class internacao_model extends BaseModel {
     function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
         try {
             $this->db->set('diagnostico_nutricional', $_POST['txtDiag']);
+            $this->db->set('compleicao', $_POST['compleicao']);
+            $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
+            $this->db->update('tb_internacao_fichadeavaliacao');
+        } catch (Exception $exc) {
+            $return = 0;
+            return $return;
+        }
+    }
+
+    function excluirfichadeavaliacao($internacao_fichadeavaliacao_id) {
+
+        try {
+            $horario = date("Y-m-d H:i:s");
+            $operador_id = $this->session->userdata('operador_id');
+
+            $this->db->set('ativo', 'f');
+            $this->db->set('data_atualizacao', $horario);
+            $this->db->set('operador_atualizacao', $operador_id);
             $this->db->where('internacao_fichadeavaliacao_id', $internacao_fichadeavaliacao_id);
             $this->db->update('tb_internacao_fichadeavaliacao');
         } catch (Exception $exc) {
@@ -2162,8 +2316,8 @@ class internacao_model extends BaseModel {
                     $peso_atual = (int) $_POST['txtPeso'];
                     $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
                 } else {
-                    $imc = 'NI';
-                    $peso_atual = 'NI';
+                    $imc = '';
+                    $peso_atual = '';
                 }
                 $cen = (float) substr(($cb * 100) / $p50, 0, 5);
                 if ($_POST['txtEtnia'] == 1) {
@@ -2202,8 +2356,8 @@ class internacao_model extends BaseModel {
                     $peso_atual = (int) $_POST['txtPeso'];
                     $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
                 } else {
-                    $imc = 'NI';
-                    $peso_atual = 'NI';
+                    $imc = '';
+                    $peso_atual = '';
                 }
                 $cen = (float) substr(($cb * 100) / $p50, 0, 5);
                 if ($_POST['txtEtnia'] == 1) {
@@ -2236,8 +2390,8 @@ class internacao_model extends BaseModel {
             $this->db->set('imc', $imc);
             $this->db->set('p50', $p50);
             $this->db->set('etnia', $etnia);
-            $this->db->set('data_atualizacao', $horario);
-            $this->db->set('operador_atualizacao', $operador_id);
+            $this->db->set('data_cadastro', $horario);
+            $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_fichadeavaliacao');
         } catch (Exception $exc) {
             $return = 0;

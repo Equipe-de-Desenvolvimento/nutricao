@@ -18,7 +18,7 @@
             <table>
                 <thead>
                     <tr>
-                                                <th class="tabela_title" colspan="3">
+                        <th class="tabela_title" colspan="3">
 
                         </th>
                         <th class="tabela_title" >Hospital</th>
@@ -26,7 +26,7 @@
 
                     </tr>
                     <tr>
-                                                                        <th class="tabela_title" colspan="3">
+                        <th class="tabela_title" colspan="3">
 
                         </th>
                 <form method="get" action="<?php echo base_url() ?>internacao/internacao/listarprescreverenteral">
@@ -44,7 +44,11 @@
                     <th class="tabela_title" colspan="2"><input type="text" name="nome" value="<?php echo @$_GET['nome']; ?>" /></th>
                     <th class="tabela_title" > <button type="submit" name="enviar">Pesquisar</button>
                 </form>
+                
                 </th>
+                
+                <div class="bt_link_new">
+                    <a onclick="javascript: return confirm('Deseja realmente repetir todas as prescrições? Obs: Esse processo pode ser demorado');  " href="<?= base_url() ?>internacao/internacao/repetirultimaprescicaoenteralnormaltodas/">Repetir Todas</a></div>
                 </tr>
 
                 <tr>
@@ -119,8 +123,8 @@
 <link rel="stylesheet" href="<?php base_url() ?>css/jquery-ui-1.8.5.custom.css">
 <script type="text/javascript">
 
-                        $(function() {
-                            $("#accordion").accordion();
-                        });
+    $(function () {
+        $("#accordion").accordion();
+    });
 
 </script>

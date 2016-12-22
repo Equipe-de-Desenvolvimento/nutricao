@@ -36,6 +36,8 @@ TB Internação
 
 ALTER TABLE ponto.tb_internacao ADD COLUMN diagnostico_nutricional character varying(100);
 
+
+
 TB convenio
 
 ALTER TABLE ponto.tb_convenio ADD COLUMN valor_diaria character varying(20);
@@ -323,6 +325,16 @@ ALTER TABLE ponto.tb_estoque_saldo ADD COLUMN lote character varying(30);
 ALTER TABLE ponto.tb_estoque_parenteral_entrada ADD COLUMN lote character varying(30);
 
 DROP TABLE ponto.tb_estoque_parenteral_entrada CASCADE;
+
+
+
+
+
+-- Dia 23/12/16
+
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ADD COLUMN data_cadastro timestamp without time zone;
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ADD COLUMN operador_cadastro integer;
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ADD COLUMN compleicao character varying(300);
 
 
 

@@ -666,19 +666,7 @@ class nutricionista extends BaseController {
         $internacao_precricao_id = $internacao_precricao[0]->internacao_precricao_id;
 //        echo "chegou aqui";
 //        die;
-        echo '<html>
-    <head>
-    <meta charset="UTF-8">
-    </head> 
-    <script type="text/javascript">
-        alert("Prescrição alterada com sucesso");
-        window.onunload = fechaEstaAtualizaAntiga;
-        function fechaEstaAtualizaAntiga() {
-            window.opener.location.reload();
-        }
-        window.close();
-    </script>
-</html>';
+        $this->geraralterarnormalenteral($internacao_precricao_id);
     }
 
     function gravarprescricaoenteralemergencial($internacao_id) {

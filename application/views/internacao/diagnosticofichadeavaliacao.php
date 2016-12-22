@@ -44,6 +44,8 @@ if ($cen > 120) {
         <fieldset>
             <legend>Diagnostico</legend>
              <div>
+                 <label>Compleição</label>
+                 <input type="text" name="compleicao" id="txtPesoHabitual"  class="size2" value="<?echo $diagnostico[0]->compleicao;?>"  />
                 <label>Diagnóstico Nutricional e Conduta Dioterápica</label>
                 <textarea cols="" rows="" name="txtDiag" id="txtDiag" class="texto_area" ><?echo $diagnostico[0]->diagnostico_nutricional;?></textarea>
             </div>

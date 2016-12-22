@@ -137,6 +137,13 @@ table#tabelaspec .tm {
     text-align: center;
     font-weight:bold;
 }
+
+table#tabelaspec .tm2 {
+    border-top:0px ;
+    padding: 0px;
+    text-align: center;
+    /*font-weight:bold;*/
+}
 table#tabelaspec .tmtextoesquerdo {
     border-top:0px ;
     padding: 0px;
