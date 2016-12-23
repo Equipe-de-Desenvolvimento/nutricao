@@ -516,95 +516,94 @@ class internacao_model extends BaseModel {
 //        die;
         $numero = count($row->internacao_precricao_id);
         if ($numero > 0) {
-            if (count($ultima_data) == 0){
-                
-            
-            $this->db->set('data', $dataprescricao);
-            $this->db->set('internacao_id', $internacao_id);
-            $this->db->set('empresa_id', $empresa_id);
-            $this->db->set('data_cadastro', $horario);
-            if ($row->nutricionista != '') {
-                $this->db->set('nutricionista', $row->nutricionista);
-            }
-            if ($row->preparo != '') {
-                $this->db->set('preparo', $row->preparo);
-            }
-            if ($row->validade != '') {
-                $this->db->set('validade', $row->validade);
-            }
-            $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_internacao_precricao');
-            $internacao_precricao_id = $this->db->insert_id();
-
-            $this->db->select('internacao_precricao_etapa_id, etapas, volume');
-            $this->db->from('tb_internacao_precricao_etapa');
-            $this->db->where("internacao_precricao_id", $row->internacao_precricao_id);
-            $query = $this->db->get();
-            $returno = $query->result();
-            $numeroetapa = count($returno);
-
-            if ($numeroetapa > 0) {
-                foreach ($returno as $item) {
-                    $this->db->set('etapas', $item->etapas);
-                    $this->db->set('volume', $item->volume);
-                    $this->db->set('internacao_precricao_id', $internacao_precricao_id);
-                    $this->db->set('empresa_id', $empresa_id);
-                    $this->db->set('data_cadastro', $horario);
-                    $this->db->set('operador_cadastro', $operador_id);
-                    $this->db->insert('tb_internacao_precricao_etapa');
-                    $internacao_precricao_etapa_id = $this->db->insert_id();
-
-                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
-                    $this->db->from('tb_internacao_precricao_produto');
-                    $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
-                    $this->db->where("ativo", 'true');
-                    $query = $this->db->get();
-                    $return = $query->result();
-                    $numeroproduto = count($return);
+            if (count($ultima_data) == 0) {
 
 
+                $this->db->set('data', $dataprescricao);
+                $this->db->set('internacao_id', $internacao_id);
+                $this->db->set('empresa_id', $empresa_id);
+                $this->db->set('data_cadastro', $horario);
+                if ($row->nutricionista != '') {
+                    $this->db->set('nutricionista', $row->nutricionista);
+                }
+                if ($row->preparo != '') {
+                    $this->db->set('preparo', $row->preparo);
+                }
+                if ($row->validade != '') {
+                    $this->db->set('validade', $row->validade);
+                }
+                $this->db->set('operador_cadastro', $operador_id);
+                $this->db->insert('tb_internacao_precricao');
+                $internacao_precricao_id = $this->db->insert_id();
 
-                    if ($numeroproduto > 0) {
-                        foreach ($return as $value) {
-                            $this->db->set('internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
-                            $this->db->set('internacao_precricao_id', $internacao_precricao_id);
-                            $this->db->set('internacao_id', $value->internacao_id);
-                            $this->db->set('etapas', $value->etapas);
-                            $this->db->set('tipo', 'ENTERALNORMAL');
-                            if ($value->produto_id != "") {
-                                $this->db->set('produto_id', $value->produto_id);
+                $this->db->select('internacao_precricao_etapa_id, etapas, volume');
+                $this->db->from('tb_internacao_precricao_etapa');
+                $this->db->where("internacao_precricao_id", $row->internacao_precricao_id);
+                $query = $this->db->get();
+                $returno = $query->result();
+                $numeroetapa = count($returno);
+
+                if ($numeroetapa > 0) {
+                    foreach ($returno as $item) {
+                        $this->db->set('etapas', $item->etapas);
+                        $this->db->set('volume', $item->volume);
+                        $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+                        $this->db->set('empresa_id', $empresa_id);
+                        $this->db->set('data_cadastro', $horario);
+                        $this->db->set('operador_cadastro', $operador_id);
+                        $this->db->insert('tb_internacao_precricao_etapa');
+                        $internacao_precricao_etapa_id = $this->db->insert_id();
+
+                        $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
+                        $this->db->from('tb_internacao_precricao_produto');
+                        $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
+                        $this->db->where("ativo", 'true');
+                        $query = $this->db->get();
+                        $return = $query->result();
+                        $numeroproduto = count($return);
+
+
+
+                        if ($numeroproduto > 0) {
+                            foreach ($return as $value) {
+                                $this->db->set('internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+                                $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+                                $this->db->set('internacao_id', $value->internacao_id);
+                                $this->db->set('etapas', $value->etapas);
+                                $this->db->set('tipo', 'ENTERALNORMAL');
+                                if ($value->produto_id != "") {
+                                    $this->db->set('produto_id', $value->produto_id);
+                                }
+                                if ($value->volume != "") {
+                                    $this->db->set('volume', $value->volume);
+                                }
+                                if ($value->vasao != "") {
+                                    $this->db->set('vasao', $value->vasao);
+                                }
+
+                                if ($value->peso != "") {
+                                    $this->db->set('peso', $value->peso);
+                                }
+                                if ($value->descricao != "") {
+                                    $this->db->set('descricao', $value->descricao);
+                                }
+                                if ($value->kcal != "") {
+                                    $this->db->set('kcal', $value->kcal);
+                                }
+
+                                $this->db->set('empresa_id', $empresa_id);
+                                $this->db->set('data_cadastro', $horario);
+                                $this->db->set('operador_cadastro', $operador_id);
+                                $this->db->insert('tb_internacao_precricao_produto');
                             }
-                            if ($value->volume != "") {
-                                $this->db->set('volume', $value->volume);
-                            }
-                            if ($value->vasao != "") {
-                                $this->db->set('vasao', $value->vasao);
-                            }
-
-                            if ($value->peso != "") {
-                                $this->db->set('peso', $value->peso);
-                            }
-                            if ($value->descricao != "") {
-                                $this->db->set('descricao', $value->descricao);
-                            }
-                            if ($value->kcal != "") {
-                                $this->db->set('kcal', $value->kcal);
-                            }
-
-                            $this->db->set('empresa_id', $empresa_id);
-                            $this->db->set('data_cadastro', $horario);
-                            $this->db->set('operador_cadastro', $operador_id);
-                            $this->db->insert('tb_internacao_precricao_produto');
                         }
                     }
                 }
             }
-            
         }
-      }
-      return $ultima_data;
+        return $ultima_data;
     }
-    
+
     function listarpacientesprescricaoenteralrepetir() {
         $this->db->select(' i.internacao_id,
                             ');
@@ -617,119 +616,124 @@ class internacao_model extends BaseModel {
         $this->db->where('i.prescricao', 't');
         $this->db->where('i.carater_internacao', 'Enteral');
         $this->db->orderby('i.internacao_id');
-        
+
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function repetirultimaprescicaoenteralnormaltodas($internacao_id) {
-        
+
         $empresa_id = $this->session->userdata('empresa_id');
         $horario = date("Y-m-d H:i:s");
         $dataprescricao = date("Y-m-d");
         $operador_id = $this->session->userdata('operador_id');
-        
-        foreach($internacao_id as $item2){
-        
-        $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
-        $this->db->from('tb_internacao_precricao');
-        $this->db->where("internacao_id", $item2->internacao_id);
-        $this->db->where("data !=", $dataprescricao);
-        $query = $this->db->get();
-        $row = $query->last_row();
 
-        $numero = count($row);
-
-        if ($numero > 0) {
-            $this->db->set('data', $dataprescricao);
-            $this->db->set('internacao_id', $item2->internacao_id);
-            $this->db->set('empresa_id', $empresa_id);
-            $this->db->set('data_cadastro', $horario);
-            if ($row->nutricionista != '') {
-                $this->db->set('nutricionista', $row->nutricionista);
-            }
-            if ($row->preparo != '') {
-                $this->db->set('preparo', $row->preparo);
-            }
-            if ($row->validade != '') {
-                $this->db->set('validade', $row->validade);
-            }
-            $this->db->set('operador_cadastro', $operador_id);
-            $this->db->insert('tb_internacao_precricao');
-            $internacao_precricao_id = $this->db->insert_id();
-
-            $this->db->select('internacao_precricao_etapa_id, etapas, volume');
-            $this->db->from('tb_internacao_precricao_etapa');
-            $this->db->where("internacao_precricao_id", $row->internacao_precricao_id);
+        foreach ($internacao_id as $item2) {
+            // Traz a ultima prescricao em que a data é diferente de hoje
+            $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
+            $this->db->from('tb_internacao_precricao');
+            $this->db->where("internacao_id", $item2->internacao_id);
+            $this->db->where("data !=", $dataprescricao);
             $query = $this->db->get();
-            $returno = $query->result();
-            $numeroetapa = count($returno);
+            $row = $query->last_row();
+            // Select para testar se há prescricao para o paciente na data inserida pelo usuário
+            $this->db->select('internacao_precricao_id, nutricionista, preparo, validade');
+            $this->db->from('tb_internacao_precricao');
+            $this->db->where("internacao_id", $item2->internacao_id);
+            $this->db->where("data", $_POST['txtdata_repetir']);
+            $query2 = $this->db->get();
+            $ultima_data = $query2->result();
+            $numero = count($row);
 
-            if ($numeroetapa > 0) {
-                foreach ($returno as $item) {
-                    $this->db->set('etapas', $item->etapas);
-                    $this->db->set('volume', $item->volume);
-                    $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+            if ($numero > 0) {
+                if (count($ultima_data) == 0) {
+
+                    $this->db->set('data', $_POST['txtdata_repetir']);
+                    $this->db->set('internacao_id', $item2->internacao_id);
                     $this->db->set('empresa_id', $empresa_id);
                     $this->db->set('data_cadastro', $horario);
+                    if ($row->nutricionista != '') {
+                        $this->db->set('nutricionista', $row->nutricionista);
+                    }
+                    if ($row->preparo != '') {
+                        $this->db->set('preparo', $row->preparo);
+                    }
+                    if ($row->validade != '') {
+                        $this->db->set('validade', $row->validade);
+                    }
                     $this->db->set('operador_cadastro', $operador_id);
-                    $this->db->insert('tb_internacao_precricao_etapa');
-                    $internacao_precricao_etapa_id = $this->db->insert_id();
+                    $this->db->insert('tb_internacao_precricao');
+                    $internacao_precricao_id = $this->db->insert_id();
 
-                    $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
-                    $this->db->from('tb_internacao_precricao_produto');
-                    $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
-                    $this->db->where("ativo", 'true');
+                    $this->db->select('internacao_precricao_etapa_id, etapas, volume');
+                    $this->db->from('tb_internacao_precricao_etapa');
+                    $this->db->where("internacao_precricao_id", $row->internacao_precricao_id);
                     $query = $this->db->get();
-                    $return = $query->result();
-                    $numeroproduto = count($return);
+                    $returno = $query->result();
+                    $numeroetapa = count($returno);
 
-
-
-                    if ($numeroproduto > 0) {
-                        foreach ($return as $value) {
-                            $this->db->set('internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+                    if ($numeroetapa > 0) {
+                        foreach ($returno as $item) {
+                            $this->db->set('etapas', $item->etapas);
+                            $this->db->set('volume', $item->volume);
                             $this->db->set('internacao_precricao_id', $internacao_precricao_id);
-                            $this->db->set('internacao_id', $value->internacao_id);
-                            $this->db->set('etapas', $value->etapas);
-                            $this->db->set('tipo', 'ENTERALNORMAL');
-                            if ($value->produto_id != "") {
-                                $this->db->set('produto_id', $value->produto_id);
-                            }
-                            if ($value->volume != "") {
-                                $this->db->set('volume', $value->volume);
-                            }
-                            if ($value->vasao != "") {
-                                $this->db->set('vasao', $value->vasao);
-                            }
-
-                            if ($value->peso != "") {
-                                $this->db->set('peso', $value->peso);
-                            }
-                            if ($value->descricao != "") {
-                                $this->db->set('descricao', $value->descricao);
-                            }
-                            if ($value->kcal != "") {
-                                $this->db->set('kcal', $value->kcal);
-                            }
-
                             $this->db->set('empresa_id', $empresa_id);
                             $this->db->set('data_cadastro', $horario);
                             $this->db->set('operador_cadastro', $operador_id);
-                            $this->db->insert('tb_internacao_precricao_produto');
+                            $this->db->insert('tb_internacao_precricao_etapa');
+                            $internacao_precricao_etapa_id = $this->db->insert_id();
+
+                            $this->db->select('internacao_precricao_id, internacao_id, etapas, produto_id,descricao, volume, vasao, peso, kcal, observacao');
+                            $this->db->from('tb_internacao_precricao_produto');
+                            $this->db->where("internacao_precricao_etapa_id", $item->internacao_precricao_etapa_id);
+                            $this->db->where("ativo", 'true');
+                            $query = $this->db->get();
+                            $return = $query->result();
+                            $numeroproduto = count($return);
+
+
+
+                            if ($numeroproduto > 0) {
+                                foreach ($return as $value) {
+                                    $this->db->set('internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+                                    $this->db->set('internacao_precricao_id', $internacao_precricao_id);
+                                    $this->db->set('internacao_id', $value->internacao_id);
+                                    $this->db->set('etapas', $value->etapas);
+                                    $this->db->set('tipo', 'ENTERALNORMAL');
+                                    if ($value->produto_id != "") {
+                                        $this->db->set('produto_id', $value->produto_id);
+                                    }
+                                    if ($value->volume != "") {
+                                        $this->db->set('volume', $value->volume);
+                                    }
+                                    if ($value->vasao != "") {
+                                        $this->db->set('vasao', $value->vasao);
+                                    }
+
+                                    if ($value->peso != "") {
+                                        $this->db->set('peso', $value->peso);
+                                    }
+                                    if ($value->descricao != "") {
+                                        $this->db->set('descricao', $value->descricao);
+                                    }
+                                    if ($value->kcal != "") {
+                                        $this->db->set('kcal', $value->kcal);
+                                    }
+
+                                    $this->db->set('empresa_id', $empresa_id);
+                                    $this->db->set('data_cadastro', $horario);
+                                    $this->db->set('operador_cadastro', $operador_id);
+                                    $this->db->insert('tb_internacao_precricao_produto');
+                                }
+                            }
                         }
                     }
                 }
             }
-            
         }
-        
-      }
-      
-            $return = 1;
-            return $return;
-        
-        
+
+        $return = 1;
+        return $return;
     }
 
     function gravarmovimentacao($paciente_id, $leito_id) {
@@ -1716,8 +1720,6 @@ class internacao_model extends BaseModel {
         }
         return $this->db;
     }
-    
-    
 
     function listarpacientesprescricao($args = array()) {
         $this->db->select(' i.internacao_id,

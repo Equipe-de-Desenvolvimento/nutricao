@@ -31,15 +31,15 @@ class internacao extends BaseController {
     public function listarprescreverenteral($args = array()) {
         $this->loadView('internacao/listarpacientesprescricaoenteral');
     }
-    
+
     public function listarprescreverparenteral($args = array()) {
         $this->loadView('internacao/listarpacientesprescricaoparenteral');
     }
-    
+
     public function listarprescreverparenteralbolsa($args = array()) {
         $this->loadView('internacao/listarprescreverparenteralbolsa');
     }
-    
+
     public function listarprescreverparenteralbolsaentrega($args = array()) {
         $this->loadView('internacao/listarprescreverparenteralbolsaentrega');
     }
@@ -59,7 +59,6 @@ class internacao extends BaseController {
     public function pesquisarleito($args = array()) {
         $this->loadView('internacao/listarleito');
     }
-   
 
     public function pesquisarsolicitacaointernacao($args = array()) {
         $this->loadView('internacao/listarsolicitacaointernacao');
@@ -138,16 +137,15 @@ class internacao extends BaseController {
         $data['numero'] = $this->internacao_m->verificainternacao($paciente_id);
 //        var_dump($data['numero']);
 //        die;
-            $data['paciente'] = $this->paciente->listardados($paciente_id);
-            $data['unidade'] = $this->internacao_m->listaunidade();
+        $data['paciente'] = $this->paciente->listardados($paciente_id);
+        $data['unidade'] = $this->internacao_m->listaunidade();
 //            if ($data['paciente'][0]->cep == '' || $data['paciente'][0]->cns == '') {
 //                $data['mensagem'] = 'CEP ou CNS obrigatorio';
 //                $this->session->set_flashdata('message', $data['mensagem']);
 //                redirect(base_url() . "emergencia/filaacolhimento/novo/$paciente_id");
 //            }
-            $data['paciente_id'] = $paciente_id;
-            $this->loadView('internacao/cadastrarinternacaonutricao', $data);
-
+        $data['paciente_id'] = $paciente_id;
+        $this->loadView('internacao/cadastrarinternacaonutricao', $data);
     }
 
     function movimentacao($paciente_id) {
@@ -197,32 +195,32 @@ class internacao extends BaseController {
 
         $this->loadView('internacao/cadastrarleito');
     }
-    
+
     function listartemperaturabolsaparenteral($internacao_id) {
-        $data['internacao_id']= $internacao_id;
-        $data['lista']= $this->internacao_m->listartemperaturabolsaparenteral($internacao_id);
+        $data['internacao_id'] = $internacao_id;
+        $data['lista'] = $this->internacao_m->listartemperaturabolsaparenteral($internacao_id);
 
         $this->loadView('internacao/listartemperaturaparenteral', $data);
     }
-    
+
     function listartemperaturabolsaparenteralentrega($internacao_id) {
-        $data['internacao_id']= $internacao_id;
-        $data['lista']= $this->internacao_m->listartemperaturabolsaparenteralentrega($internacao_id);
+        $data['internacao_id'] = $internacao_id;
+        $data['lista'] = $this->internacao_m->listartemperaturabolsaparenteralentrega($internacao_id);
 
         $this->loadView('internacao/listartemperaturaparenteralentrega', $data);
     }
-    
+
     function novotemperaturabolsaparenteralentrega($internacao_id) {
-        $data['internacao_id']= $internacao_id;
-        $data['hospital']= $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
-        
+        $data['internacao_id'] = $internacao_id;
+        $data['hospital'] = $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
+
         $this->loadView('internacao/novotemperaturabolsaparenteralentrega', $data);
     }
-    
+
     function gravartemperaturabolsaparenteralentrega($internacao_id) {
 
-         $this->internacao_m->gravartemperaturabolsaparenteralentrega($internacao_id);
-         
+        $this->internacao_m->gravartemperaturabolsaparenteralentrega($internacao_id);
+
         if ($teste == 0) {
             $data['mensagem'] = 'Sucesso ao gravar Geladeira';
         } else {
@@ -230,20 +228,19 @@ class internacao extends BaseController {
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "internacao/internacao/listartemperaturabolsaparenteralentrega/$internacao_id");
-
     }
-    
+
     function novotemperaturabolsaparenteral($internacao_id) {
-        $data['internacao_id']= $internacao_id;
-        $data['hospital']= $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
-        
+        $data['internacao_id'] = $internacao_id;
+        $data['hospital'] = $this->internacao_m->listarpacientesprescricaoparenteralhospital($internacao_id);
+
         $this->loadView('internacao/novotemperaturabolsaparenteral', $data);
     }
-    
+
     function gravartemperaturabolsaparenteral($internacao_id) {
 
-         $this->internacao_m->gravartemperaturabolsaparenteral($internacao_id);
-         
+        $this->internacao_m->gravartemperaturabolsaparenteral($internacao_id);
+
         if ($teste == 0) {
             $data['mensagem'] = 'Sucesso ao gravar Geladeira';
         } else {
@@ -251,9 +248,7 @@ class internacao extends BaseController {
         }
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "internacao/internacao/listartemperaturabolsaparenteral/$internacao_id");
-
     }
-    
 
     function novosolicitacaointernacao($paciente_id) {
         $data['numero'] = $this->solicitacaointernacao_m->verificasolicitacao($paciente_id);
@@ -369,8 +364,8 @@ class internacao extends BaseController {
     }
 
     function repetirultimaprescicaoenteralnormal($internacao_id) {
-      $return = $this->internacao_m->repetirultimaprescicaoenteralnormal($internacao_id);
-         if (count($return) == 0) {
+        $return = $this->internacao_m->repetirultimaprescicaoenteralnormal($internacao_id);
+        if (count($return) == 0) {
             $data['mensagem'] = 'Prescrição repetida com sucesso';
         } else {
             $data['mensagem'] = 'Já existe prescrição para esse paciente nesse dia';
@@ -378,20 +373,38 @@ class internacao extends BaseController {
         $this->session->set_flashdata('message', $data['mensagem']);
         redirect(base_url() . "internacao/internacao/listarprescreverenteral", $data);
     }
-    
+
+    function datarepetirultimaprescicaoenteralnormal() {
+
+        $this->loadView('internacao/datarepetirprescricao');
+    }
+
     function repetirultimaprescicaoenteralnormaltodas() {
-        
+
+
+        $data_repetir = date("Y-m-d", strtotime(str_replace('/', '-', $_POST['txtdata_repetir'])));
+//        var_dump($data);
+        if ($data_repetir < date("Y-m-d")) {
+            $data['mensagem'] = "Não é possível prescrever para o passado";
+            $this->session->set_flashdata('message', $data['mensagem']);
+            redirect(base_url() . "internacao/internacao/datarepetirultimaprescicaoenteralnormal", $data);
+        }
+
         $data['internacao_id'] = $this->internacao_m->listarpacientesprescricaoenteralrepetir();
 //        var_dump($data['internacao_id']); die;
-        
-       $return = $this->internacao_m->repetirultimaprescicaoenteralnormaltodas($data['internacao_id']);
-        if ($return==1) {
-            $data['mensagem'] = 'Prescrições repetidas com sucesso';
-        } else {
-            $data['mensagem'] = 'Erro ao repetir prescrições';
+
+        $return = $this->internacao_m->repetirultimaprescicaoenteralnormaltodas($data['internacao_id']);
+        echo '<html>
+            <meta charset= "utf-8">
+    <script type="text/javascript">
+        alert("Prescrições repetidas com sucesso");
+        window.onunload = fechaEstaAtualizaAntiga;
+        function fechaEstaAtualizaAntiga() {
+            window.opener.location.reload();
         }
-        $this->session->set_flashdata('message', $data['mensagem']);
-        redirect(base_url() . "internacao/internacao/listarprescreverenteral", $data);
+        window.close();
+    </script>
+</html>';
     }
 
     function finalizarprescricaoenteralnormal($internacao_id) {
@@ -413,18 +426,19 @@ class internacao extends BaseController {
         $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
         $this->loadView('internacao/repetirprescricaonormalenteral', $data);
     }
+
     function listafichadeavaliacao($internacao_id) {
-        
+
         $data['lista'] = $this->internacao_m->listafichadeavaliacao($internacao_id);
 
-        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id)?$data['lista'][0]->internacao_fichadeavaliacao_id:'';
+        $data['ficha'] = isset($data['lista'][0]->internacao_fichadeavaliacao_id) ? $data['lista'][0]->internacao_fichadeavaliacao_id : '';
 
         $data['internacao_id'] = $internacao_id;
 //        echo var_dump($data['ficha']);
 //        die;
         $this->loadView('internacao/listarfichadeavaliacao', $data);
     }
-    
+
     function novofichadeavaliacao($internacao_id) {
         $data['internacao_id'] = $internacao_id;
 //        $data['prescricao'] = $this->internacao_m->listaultimaprescricaoenteral($internacao_id);
@@ -434,7 +448,7 @@ class internacao extends BaseController {
         $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
         $this->loadView('internacao/novofichadeavaliacao', $data);
     }
-    
+
     function gravarfichadeavaliacao($internacao_id) {
 //      echo  var_dump($_POST);
 //      die;
@@ -442,20 +456,20 @@ class internacao extends BaseController {
         $data['paciente'] = $this->internacao_m->listainternacaofichadeavaliacao($internacao_id);
         $data['empresa'] = $this->internacao_m->empresa();
         $this->internacao_m->gravarfichadeavaliacao($internacao_id);
-        if ($return==0) {
+        if ($return == 0) {
             $data['mensagem'] = 'Ficha de avaliação gravada com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar Ficha de avaliação';
         }
         $this->session->set_flashdata('message', $data['mensagem']);
-        
+
 //        echo var_dump($data['diagnostico']);
 //        die;
 //        $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_id);
-        
 //        $this->load->View('internacao/listarfichadeavaliacao/', $data);
         redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
     }
+
     function imprimirfichadeavaliacao($internacao_fichadeavaliacao_id) {
         $data['impressao'] = $this->internacao_m->imprimirfichadeavaliacao($internacao_fichadeavaliacao_id);
         $internacao_id = $data['impressao'][0]->internacao_id;
@@ -464,17 +478,14 @@ class internacao extends BaseController {
         $data['empresa'] = $this->internacao_m->empresa();
 //        echo var_dump($data['impressao'][0]);
 //        die;
-        
-        
-        $this->load->View('internacao/imprimirfichadeavaliacao', $data);
 
+
+        $this->load->View('internacao/imprimirfichadeavaliacao', $data);
     }
-    
-    
-    
+
     function diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
-       $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
-       $data['diagnostico'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        $data['internacao_fichadeavaliacao_id'] = $internacao_fichadeavaliacao_id;
+        $data['diagnostico'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
 //        $data['diagnostico'] = $this->internacao_m->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
         //Criar outra função apenas para mostrar a tela e depois entrar em gravar
 //        echo var_dump($data['diagnostico']);
@@ -482,15 +493,16 @@ class internacao extends BaseController {
         $this->loadView('internacao/diagnosticofichadeavaliacao', $data);
 //        redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id");
     }
+
     function gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id) {
 //       echo var_dump($internacao_fichadeavaliacao_id);
 //        die;
         $data['internacao_id'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-        $internacao_id= $data['internacao_id'][0]->internacao_id;
+        $internacao_id = $data['internacao_id'][0]->internacao_id;
 //               echo var_dump($data['internacao_id'][0]->internacao_id);
 //        die;
-       $this->internacao_m->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-       if ($return==0) {
+        $this->internacao_m->gravardiagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
+        if ($return == 0) {
             $data['mensagem'] = 'Diagnostico gravado com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao gravar Diagnostico';
@@ -500,16 +512,16 @@ class internacao extends BaseController {
 
         redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
     }
-    
+
     function excluirfichadeavaliacao($internacao_fichadeavaliacao_id) {
 //       echo var_dump($internacao_fichadeavaliacao_id);
 //        die;
         $data['internacao_id'] = $this->internacao_m->diagnosticofichadeavaliacao($internacao_fichadeavaliacao_id);
-        $internacao_id= $data['internacao_id'][0]->internacao_id;
+        $internacao_id = $data['internacao_id'][0]->internacao_id;
 //               echo var_dump($data['internacao_id'][0]->internacao_id);
 //        die;
-       $this->internacao_m->excluirfichadeavaliacao($internacao_fichadeavaliacao_id);
-       if ($return==0) {
+        $this->internacao_m->excluirfichadeavaliacao($internacao_fichadeavaliacao_id);
+        if ($return == 0) {
             $data['mensagem'] = 'Ficha de Avaliação excluida com sucesso';
         } else {
             $data['mensagem'] = 'Erro ao excluir Ficha de Avaliação';
@@ -519,12 +531,10 @@ class internacao extends BaseController {
 
         redirect(base_url() . "internacao/internacao/listafichadeavaliacao/$internacao_id", $data);
     }
-    
-    
+
     function relatoriotemperaturabolsaparenteral() {
 
         $this->loadView('internacao/relatoriotemperaturabolsaparenteral');
-
     }
 
     function impressaorelatoriotemperaturabolsaparenteral() {
@@ -534,13 +544,11 @@ class internacao extends BaseController {
 //        die;
 
         $this->load->View('internacao/impressaorelatoriotemperaturabolsaparenteral', $data);
-
     }
-    
+
     function relatoriotemperaturabolsaparenteralentrega() {
 
         $this->loadView('internacao/relatoriotemperaturabolsaparenteralentrega');
-
     }
 
     function impressaorelatoriotemperaturabolsaparenteralentrega() {
@@ -550,7 +558,6 @@ class internacao extends BaseController {
 //        die;
 
         $this->load->View('internacao/impressaorelatoriotemperaturabolsaparenteralentrega', $data);
-
     }
 
     function relatorioentrega($internacao_id) {
@@ -579,7 +586,7 @@ class internacao extends BaseController {
         $this->loadView('internacao/prescricaonormalenteral', $data);
     }
 
-    function prescricaonormalenteral($internacao_id, $internacao_precricao_id=null) {
+    function prescricaonormalenteral($internacao_id, $internacao_precricao_id = null) {
         $data['internacao_id'] = $internacao_id;
         $data['medico'] = $this->operador_m->listarmedicos();
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
@@ -590,7 +597,6 @@ class internacao extends BaseController {
         $data['paciente'] = $this->paciente->listardados($paciente_id);
 //        echo var_dump($data['equipo']); die;
         $this->loadView('internacao/prescricaonormalenteral', $data);
-        
     }
 
     function prescricaoemergencialenteral($internacao_id) {
@@ -619,10 +625,10 @@ class internacao extends BaseController {
 //        die;
         $data['prescricaoequipo'] = $this->internacao_m->etiquetapacienteequipo($internacao_precricao_id);
 
-        if($data['prescricao'][0]->sf == 'f'){
-        $this->load->View('internacao/impressaoetiquetapacienteenteral', $data);
-        }else{
-        $this->load->View('internacao/impressaoetiquetapacienteenteralsf', $data);
+        if ($data['prescricao'][0]->sf == 'f') {
+            $this->load->View('internacao/impressaoetiquetapacienteenteral', $data);
+        } else {
+            $this->load->View('internacao/impressaoetiquetapacienteenteralsf', $data);
         }
     }
 
@@ -630,7 +636,7 @@ class internacao extends BaseController {
         $data['unidade'] = $this->internacao_m->listaunidade();
         $this->loadView('internacao/relatorioprescricao', $data);
     }
-    
+
     function alterarprodutorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -638,7 +644,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarprodutorelatorio-form', $data);
     }
-    
+
     function alteraretapasrelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -646,7 +652,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alteraretapasrelatorio-form', $data);
     }
-    
+
     function alterarmedidarelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -654,7 +660,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarmedidarelatorio-form', $data);
     }
-    
+
     function alterardescricaorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -662,7 +668,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterardescricaorelatorio-form', $data);
     }
-    
+
     function alterarpesorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -670,7 +676,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarpesorelatorio-form', $data);
     }
-    
+
     function alterarvolumerelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -678,7 +684,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarvolumerelatorio-form', $data);
     }
-    
+
     function alterarequiporelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['equipo'] = $this->internacao_m->listaprodutosequipo($internacao_id);
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
@@ -686,7 +692,7 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarequiporelatorio-form', $data);
     }
-    
+
     function alterarobservacaorelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
 //        var_dump($data['produto']); die;
@@ -694,25 +700,25 @@ class internacao extends BaseController {
 
         $this->load->View('internacao/alterarobservacaorelatorio-form', $data);
     }
-    
+
     function alterarpacienterelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
-        
+
         $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
 //        var_dump($data['paciente']); die;
 
         $this->load->View('internacao/alterarpacienterelatorio-form', $data);
     }
-    
+
     function alterarleitorelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
-        
+
         $data['paciente'] = $this->internacao_m->listainternao($internacao_id);
 //        var_dump($data['paciente']); die;
 
         $this->load->View('internacao/alterarleitorelatorio-form', $data);
     }
-    
+
     function alterarhospitalrelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
         $data['unidade'] = $this->internacao_m->listaunidade();
@@ -721,14 +727,14 @@ class internacao extends BaseController {
 
         $this->load->View('internacao/alterarhospitalrelatorio-form', $data);
     }
-    
+
     function alterarvazaorelatorio($internacao_id, $internacao_precricao_produto_id) {
         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
 //        var_dump($data['produto']); die;
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarvazaorelatorio-form', $data);
     }
-    
+
     function alterarvolumefrascorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
         $data['produto'] = $this->internacao_m->volumerelatorio($internacao_precricao_produto_id);
@@ -740,15 +746,15 @@ class internacao extends BaseController {
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/alterarvolumefrascorelatorio-form', $data);
     }
-    
+
     function adicionarprodutorelatorio($internacao_id, $internacao_precricao_produto_id) {
 
-         $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
+        $data['produto'] = $this->internacao_m->produtoexamefaturamento($internacao_precricao_produto_id);
 //        var_dump($data['produto']); die;
         $data['enteral'] = $this->internacao_m->listaprodutosenteral($internacao_id);
         $this->load->View('internacao/adicionarprodutorelatorio-form', $data);
     }
-    
+
     function excluiritemprescicaorelatorio($item_id) {
 //        echo 'teste';die;
         $this->internacao_m->excluiritemprescicao($item_id);
@@ -764,9 +770,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
 
-    
     function gravaralterarhospitalrelatorio($internacao_id) {
 //        var_dump($_POST);
 //        die;
@@ -785,7 +789,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarleitorelatorio($internacao_id) {
 //        var_dump($_POST);
 //        die;
@@ -804,7 +808,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarvolumeprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -823,7 +827,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarpesoprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -842,7 +846,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterardescricaoprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -861,7 +865,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarmedidaprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -880,7 +884,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralteraretapasprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -899,7 +903,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarprodutoprescricao($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -918,7 +922,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarequiporelatorio($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -937,7 +941,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarobservacaorelatorio($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -956,8 +960,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
-    
+
     function gravaralterarvazaorelatorio($internacao_precricao_produto_id) {
 //        var_dump($_POST);
 //        die;
@@ -976,7 +979,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravaralterarpacienterelatorio($paciente_id) {
 //        var_dump($_POST);
 //        die;
@@ -995,7 +998,7 @@ class internacao extends BaseController {
     </script>
 </html>';
     }
-    
+
     function gravarvolumerelatorio($internacao_id) {
         $internacao_precricao = $this->internacao_m->gravaretapa($internacao_id);
         echo '<html>
@@ -1037,7 +1040,7 @@ class internacao extends BaseController {
 //            die;
             $this->load->View('internacao/listarprescricaoenteralnormal', $data);
         }
-        
+
         if ($relatorio == 'ALTERACAO') {
             $data['prescricoes'] = $this->internacao_m->listaprescricoesdataproducao();
 //            var_dump($data['prescricoes']);
@@ -1069,8 +1072,8 @@ class internacao extends BaseController {
             foreach ($_POST['volume'] as $itemvolume) {
                 $c++;
                 if ($i == $c) {
-                    if($itemvolume != ""){
-                      $volume = $volume + $itemvolume;  
+                    if ($itemvolume != "") {
+                        $volume = $volume + $itemvolume;
                     }
                     break;
                 }

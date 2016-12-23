@@ -48,7 +48,7 @@
                 </th>
                 
                 <div class="bt_link_new">
-                    <a onclick="javascript: return confirm('Deseja realmente repetir todas as prescrições?\n Obs: Esse processo pode ser demorado');  " href="<?= base_url() ?>internacao/internacao/repetirultimaprescicaoenteralnormaltodas/">Repetir Todas</a></div>
+                    <a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/datarepetirultimaprescicaoenteralnormal/"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');">Repetir Todas</a></div>
                 </tr>
 
                 <tr>
