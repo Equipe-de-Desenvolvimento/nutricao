@@ -151,8 +151,9 @@ IF ($tipo == 'ENTERALNORMAL') {
                 <td ><a style="cursor: pointer;" onclick="javascript:window.open('<?= base_url() . "internacao/internacao/alterarvazaorelatorio/$item->internacao_id/$item->internacao_precricao_produto_id"; ?> ', '_blank', 'toolbar=no,Location=no,menubar=no,width=1000,height=600');"><font size = -3>=><?= $item->vasao; ?></font></a></td>
                 <td ><font size = -2><a style="color: red;" onclick="javascript: return confirm('Deseja realmente excluir a prescrição?'); "
                                         href="<?=base_url()?>internacao/internacao/excluiritemprescicaorelatorio/<?=$item->internacao_precricao_produto_id;?>" target="_blank">X </a> </font>
-                    
-                                        <font size = -5><a style="color: green;" href="<?=base_url()?>nutricionista/nutricionista/geraralterarnormalenteralrelatorio/<?=$item->internacao_precricao_id;?>" target="_blank"> &nbsp;&nbsp; ADC </a></font>
+                    <br>
+                                        <font size = -5><a style="color: green;" href="<?=base_url()?>nutricionista/nutricionista/geraralterarnormalenteralrelatorio/<?=$item->internacao_precricao_id;?>" target="_blank">ADC </a></font>
+                                        <font size = -5><a style="color: blue;" href="<?=base_url()?>internacao/internacao/saida/<?= $item->internacao_id ?>/<?= $item->paciente_id;?>" target="_blank"> Saida </a></font>
                 </td>
             </tr>
             <?

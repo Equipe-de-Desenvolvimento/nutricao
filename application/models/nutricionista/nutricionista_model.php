@@ -62,7 +62,7 @@ class nutricionista_model extends BaseModel {
         $this->db->where("data", $dataprescricao);
         $query = $this->db->get();
         $return = $query->result();
-        
+
 //        echo var_dump($dataprescricao);
 //        die;
 
@@ -72,7 +72,7 @@ class nutricionista_model extends BaseModel {
             $this->db->set('data', $dataprescricao);
             $this->db->set('internacao_id', $internacao_id);
             $this->db->set('empresa_id', $empresa_id);
-            
+
             $this->db->set('data_cadastro', $horario);
             $this->db->set('operador_cadastro', $operador_id);
             $this->db->insert('tb_internacao_precricao');
@@ -598,8 +598,6 @@ class nutricionista_model extends BaseModel {
         return $return->result();
     }
 
-    
-
     function listainternao($internacao_id) {
         $this->db->select(' pc.nome as convenio,
                             i.leito,
@@ -617,8 +615,6 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-
-   
 
     function listaultimaprescricaoenteral($internacao_id) {
         $this->db->select('internacao_precricao_id');
@@ -680,13 +676,27 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+    
+    function listaprescricoesenteralexcluir($internacao_precricao_produto_id) {
+        
+        $this->db->select(' ipp.internacao_precricao_id,
+                            
+                            ');
+        $this->db->from('tb_internacao_precricao_produto ipp');
+        $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
+        $this->db->where('ipp.tipo', 'ENTERALNORMAL');
+//        $this->db->where('ip.data', $data);
+
+        $return = $this->db->get();
+        return $return->result();
+    }
 
     function listaprescricoesenteralalterar($teste) {
-       
+
         $data = $teste[0]->data;
         $internacao_id = $teste[0]->internacao_id;
-       
-        
+//        var_dump($teste); die;
+
         $this->db->select(' ipp.internacao_precricao_produto_id,
                             ipe.internacao_precricao_etapa_id,
                             ipp.etapas,
@@ -740,8 +750,7 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
-    
+
     function listaprodutosenteral($internacao_id) {
         $this->db->select(' pc.procedimento_convenio_id,
                             pt.nome');
@@ -772,7 +781,6 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
 
     function formularioevolucaonutricional($internacao_id) {
 
@@ -789,6 +797,7 @@ class nutricionista_model extends BaseModel {
                             o.nome as nutricionista,
                             pt.nome,
                             pt.kcal,
+                            pt.sf,
                             pt.dencidade_calorica,
                             p.nome as paciente,
                             iu.nome as hospital,
@@ -827,16 +836,61 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
+
     function formularioevolucaonutricionalteste($internacao_precricao_id) {
 
-        $this->db->select(' ip.data,
-                            ip.internacao_precricao_id,
-                            ip.internacao_id,                         
+        $this->db->select(' 
+                            ipp.etapas,
+                            pt.dencidade_calorica,
+                            pt.nome as produto,
+                            pt.sf,
+                            ipe.volume as frasco,
+                            ipp.vasao as bic,
+                            ipp.volume,
+                            ipp.kcal as medida,
+                            ipp.peso,
+                            ipp.descricao,
+                            
                             
                             ');
         $this->db->from('tb_internacao_precricao ip');
-        
-        $this->db->where("ip.internacao_precricao_id", $internacao_precricao_id);
+        $this->db->join('tb_internacao_precricao_produto ipp', 'ip.internacao_precricao_id = ipp.internacao_precricao_id', 'left');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->where("ipp.internacao_precricao_id", $internacao_precricao_id);
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id', 'left');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('ipp.ativo ', 't');
+        $this->db->orderby('ipp.internacao_precricao_produto_id');
+        $this->db->orderby('ipe.internacao_precricao_etapa_id');
+
+        $return = $this->db->get();
+        return $return->result();
+    }
+    
+    function formularioevolucaonutricionalrelatorioteste($internacao_precricao_id) {
+
+        $this->db->select(' 
+                            ipp.etapas,
+                            ip.data,
+                            ipp.internacao_id,
+                            pt.dencidade_calorica,
+                            ipe.volume ,
+                            
+                            
+                            ');
+        $this->db->from('tb_internacao_precricao ip');
+        $this->db->join('tb_internacao_precricao_produto ipp', 'ip.internacao_precricao_id = ipp.internacao_precricao_id', 'left');
+        $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
+        $this->db->where("ipp.internacao_precricao_id", $internacao_precricao_id);
+        $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id', 'left');
+        $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id', 'left');
+        $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
+        $this->db->where('pt.grupo !=', 'EQUIPO');
+        $this->db->where('ipp.ativo ', 't');
+        $this->db->orderby('ipp.internacao_precricao_produto_id');
+        $this->db->orderby('ipe.internacao_precricao_etapa_id');
 
         $return = $this->db->get();
         return $return->result();
@@ -865,7 +919,7 @@ class nutricionista_model extends BaseModel {
                 $c++;
             }
 
-            
+
             $this->db->set('internacao_evolucao_id', $insert_id);
             $this->db->where('data_cadastro', $horario);
             $this->db->update('tb_internacao_precricao_evolucao');
@@ -879,7 +933,7 @@ class nutricionista_model extends BaseModel {
 
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
-        
+
 
         try {
 
@@ -905,7 +959,7 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function listarevolucaoprescricao($internacao_id) {
         $data = date("Y-m-d");
         $this->db->select(' internacao_precricao_evolucao_id,
@@ -923,7 +977,7 @@ class nutricionista_model extends BaseModel {
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function imprimirevolucaoprescricao($internacao_evolucao_id) {
         $data = date("Y-m-d");
         $this->db->select(' ipeo.internacao_precricao_evolucao_id,
@@ -948,13 +1002,13 @@ class nutricionista_model extends BaseModel {
         $this->db->join('tb_convenio c', 'c.convenio_id = p.convenio_id', 'left');
         $this->db->join('tb_internacao_precricao ip', 'ip.internacao_id = i.internacao_id', 'left');
         $this->db->join('tb_operador o', 'o.operador_id = ip.nutricionista', 'left');
-        
+
         $this->db->where('ipeo.ativo', 't');
         $this->db->where('internacao_evolucao_id', $internacao_evolucao_id);
         $return = $this->db->get();
         return $return->result();
     }
-    
+
     function imprimirprodutoevolucaoprescricao($internacao_evolucao_id) {
         $data = date("Y-m-d");
         $this->db->select(' ipeo.internacao_precricao_evolucao_id,
@@ -962,8 +1016,8 @@ class nutricionista_model extends BaseModel {
                                                         
                             ');
         $this->db->from('tb_internacao_precricao_evolucao ipeo');
-        
-        
+
+
         $this->db->where('ipeo.ativo', 't');
         $this->db->where('ipeo.internacao_evolucao_id', $internacao_evolucao_id);
         $return = $this->db->get();
@@ -989,7 +1043,6 @@ class nutricionista_model extends BaseModel {
         $data = date("Y-m-d");
         $this->db->select(' ipp.internacao_precricao_id,
                             ipp.internacao_precricao_produto_id,
-                            ipe.internacao_precricao_etapa_id,
                             ipe.internacao_precricao_etapa_id,
                             ipp.internacao_id,
                             ipp.etapas,
@@ -1079,7 +1132,7 @@ class nutricionista_model extends BaseModel {
         $horario = date("Y-m-d H:i:s");
         $operador_id = $this->session->userdata('operador_id');
 
-         $this->db->select('
+        $this->db->select('
                             ipp.internacao_precricao_produto_id,
                             ipp.internacao_id,
                             ipp.internacao_precricao_etapa_id,
@@ -1104,7 +1157,7 @@ class nutricionista_model extends BaseModel {
         $this->db->where('ipp.internacao_precricao_produto_id', $internacao_precricao_produto_id);
         $querys = $this->db->get();
         $data = $querys->result();
-        
+
 //        echo var_dump($data);
 //        die;
 //Produto
@@ -1191,13 +1244,19 @@ class nutricionista_model extends BaseModel {
 //            echo var_dump($returns);
 //            die;
 //            
-            if ($peso != null) {
+            if ($kcal != '') {
                 $this->db->set('kcal', $kcal);
+                $this->db->set('peso', $peso);
                 $this->db->set('etapas', $_POST['etapas']);
                 $this->db->set('volume', null);
-            }
-            if ($medida != null) {
+            } elseif ($kcal == '') {
+
                 $this->db->set('kcal', $medida);
+                $this->db->set('volume', null);
+            }
+
+            if ($medida != null) {
+                $this->db->set('peso', $medida);
                 $this->db->set('volume', null);
                 $this->db->set('peso', null);
             }
@@ -1205,6 +1264,8 @@ class nutricionista_model extends BaseModel {
             if ($_POST['volume'] != '') {
                 $this->db->set('volume', $_POST['volume']);
                 $this->db->set('etapas', $_POST['etapas']);
+                $this->db->set('peso', null);
+                $this->db->set('kcal', null);
             }
 
             $this->db->set('produto_id', $_POST['produto']);
@@ -1333,18 +1394,23 @@ class nutricionista_model extends BaseModel {
         return $return->result();
     }
 
-    function etiquetapacienteclassificacao($internacao_precricao_etapa_id) {
+    function etiquetapacienteclassificacao($internacao_precricao_id) {
         $data = date("Y-m-d");
-        $this->db->select('tc.nome as classificacao');
+        $this->db->select('DISTINCT(tc.nome),
+                 
+                            ');
         $this->db->from('tb_internacao_precricao_produto ipp');
         $this->db->join('tb_internacao_precricao_etapa ipe', 'ipe.internacao_precricao_etapa_id = ipp.internacao_precricao_etapa_id ');
         $this->db->join('tb_procedimento_convenio pc', 'pc.procedimento_convenio_id = ipp.produto_id ');
         $this->db->join('tb_procedimento_tuss pt', 'pt.procedimento_tuss_id = pc.procedimento_tuss_id ');
         $this->db->join('tb_tuss t', 't.tuss_id = pt.tuss_id ');
         $this->db->join('tb_tuss_classificacao tc', 'tc.tuss_classificacao_id = t.classificacao ');
-        $this->db->where('ipe.internacao_precricao_etapa_id', $internacao_precricao_etapa_id);
+        $this->db->where('ipp.internacao_precricao_id', $internacao_precricao_id);
         $this->db->where('pt.grupo !=', 'EQUIPO');
         $this->db->where('ipp.ativo', 't');
+//        $this->db->groupby('tc.nome');
+//        $this->db->groupby('ipp.internacao_precricao_produto_id');
+//        $this->db->orderby('ipp.internacao_precricao_produto_id');
         $return = $this->db->get();
         return $return->result();
     }

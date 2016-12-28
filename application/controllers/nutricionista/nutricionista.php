@@ -78,7 +78,6 @@ class nutricionista extends BaseController {
 
         $data['internacao_id'] = $internacao_id;
         $data['prescricao'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
-        $data['prescricoes'] = $this->nutricionista->formularioevolucaonutricional($internacao_id);
         $data['prescricaoequipo'] = $this->nutricionista->formularioevolucaonutricionalequipo($internacao_id);
 
 //      echo  var_dump($data['listar']);
@@ -135,7 +134,7 @@ class nutricionista extends BaseController {
 
 
         $data['antigo'] = $this->nutricionista->alterarprodutoexamefaturamento($internacao_precricao_produto_id);
-        $this->nutricionista->gravarprodutoantigoprescricao($data['antigo']);
+//        $this->nutricionista->gravarprodutoantigoprescricao($data['antigo']);
 
 //       echo var_dump($data['antigo']);
 //        die;
@@ -390,9 +389,11 @@ class nutricionista extends BaseController {
     function excluiritemprescicao($item_id, $internacao_id) {
         $internacao_precricao_produto_id = $item_id;
         $this->nutricionista->gravarprodutoantigoprescricao($internacao_precricao_produto_id);
+       $return=  $this->nutricionista->listaprescricoesenteralexcluir($internacao_precricao_produto_id);
+       $internacao_precricao_id = $return[0]->internacao_precricao_id;
         $this->nutricionista->excluiritemprescicao($item_id);
 
-        $this->prescricaonormalenteral($internacao_id);
+        $this->geraralterarnormalenteralrelatorio($internacao_precricao_id);
     }
 
     function repetirultimaprescicaoenteralnormal($internacao_id) {
@@ -529,10 +530,11 @@ class nutricionista extends BaseController {
     }
     
     function geraralterarnormalenteralrelatorio($internacao_precricao_id) {
-
-        $data['teste'] = $this->nutricionista->formularioevolucaonutricionalteste($internacao_precricao_id);
+        
+        $data['teste'] = $this->nutricionista->formularioevolucaonutricionalrelatorioteste($internacao_precricao_id);
 
         $internacao_id = $data['teste'][0]->internacao_id;
+//        var_dump($internacao_id); die;
         $data['internacao_id'] = $internacao_id;
         $teste = $data['teste'];
         $data['medico'] = $this->operador_m->listarmedicos();
@@ -664,9 +666,9 @@ class nutricionista extends BaseController {
     function gravarvolume($internacao_id) {
         $internacao_precricao = $this->nutricionista->gravaretapa($internacao_id);
         $internacao_precricao_id = $internacao_precricao[0]->internacao_precricao_id;
-//        echo "chegou aqui";
+//        echo $internacao_precricao_id;
 //        die;
-        $this->geraralterarnormalenteral($internacao_precricao_id);
+        $this->geraralterarnormalenteralrelatorio($internacao_precricao_id);
     }
 
     function gravarprescricaoenteralemergencial($internacao_id) {

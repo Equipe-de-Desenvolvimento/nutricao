@@ -75,8 +75,8 @@
         <fieldset>
             <legend>Etnia</legend>
             <div>
-                <label><input type="radio" value="1" name="txtEtnia" id="txtEtnia" class="txtget2" /> Mulher/Homem Branco(a)</label>
-                <label><input type="radio" value="0" name="txtEtnia" id="txtEtnia" class="txtget2" /> Mulher/Homem Negro(a)</label>
+                <label><input type="radio" value="1" name="txtEtnia" id="txtEtnia" class="txtget2" /> Branco(a)</label>
+                <label><input type="radio" value="0" name="txtEtnia" id="txtEtnia" class="txtget2" /> Negro(a)</label>
             </div>
         </fieldset>
        

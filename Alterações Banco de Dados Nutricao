@@ -36,8 +36,6 @@ TB Internação
 
 ALTER TABLE ponto.tb_internacao ADD COLUMN diagnostico_nutricional character varying(100);
 
-
-
 TB convenio
 
 ALTER TABLE ponto.tb_convenio ADD COLUMN valor_diaria character varying(20);
@@ -337,4 +335,15 @@ ALTER TABLE ponto.tb_internacao_fichadeavaliacao ADD COLUMN operador_cadastro in
 ALTER TABLE ponto.tb_internacao_fichadeavaliacao ADD COLUMN compleicao character varying(300);
 
 
+
+-- Dia 26/12/16
+
+
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN altura_perna TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN get TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN peso_atual TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN peso_ideal TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN peso_habitual TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN altura_estimada TYPE character varying(50);
+ALTER TABLE ponto.tb_internacao_fichadeavaliacao ALTER COLUMN dncd TYPE character varying(50);
 

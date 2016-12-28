@@ -31,11 +31,11 @@
             </div>
             <div>
                 <label>Kcal</label>
-                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->kcal; ?>"  readonly/>
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->peso; ?>"  readonly/>
             </div>
             <div>
                 <label>Medida</label>
-                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->peso; ?>"  readonly/>
+                <input type="text" name="nascimento" id="txtNascimento" class="texto02" alt="date" value="<?= $produto['0']->kcal; ?>"  readonly/>
             </div>
              
            
@@ -90,9 +90,9 @@
                 <tfoot>
                     <tr>
                         <td colspan="3">
-                            <div class="bt_link_new mini_bt">
+<!--                            <div class="bt_link_new mini_bt">
                                 <a href="#" id="plusInfusao">Adicionar Ítem</a>
-                            </div>
+                            </div>-->
                         </td>
                     </tr>
                 </tfoot>
@@ -100,20 +100,20 @@
                 <tbody>
                     <tr class="linha1">
                         <td>
-                            <select  name="produto[1]" id="produto" class="size4" >
+                            <select  name="produto" id="produto" class="size4" >
                                 <option value="-1">Selecione</option>
                                 <? foreach ($enteral as $item) : ?>
                                     <option value="<?= $item->procedimento_convenio_id; ?>"><?= $item->nome; ?></option>
                                 <? endforeach; ?>
                             </select>
                         </td>
-                        <td><input type="text" name="medida[1]" class="size1" /></td>
-                        <td><input type="text" name="descricao[1]" class="size1" /></td>
-                        <td><input type="text" name="peso[1]" class="size1" /></td>
-                        <td><input type="text" name="volume[1]" class="size1" /></td>
-                        <td><input type="text" name="vazao[1]" class="size1" /></td>
+                        <td><input type="text" name="medida" class="size1" /></td>
+                        <td><input type="text" name="descricao" class="size1" /></td>
+                        <td><input type="text" name="peso" class="size1" /></td>
+                        <td><input type="text" name="volume" class="size1" /></td>
+                        <td><input type="text" name="vazao" class="size1" /></td>
                         <td>
-                            <a href="#" class="delete">Excluir</a>
+                            <!--<a href="#" class="delete">Excluir</a>-->
                         </td>
                     </tr>
                 </tbody>

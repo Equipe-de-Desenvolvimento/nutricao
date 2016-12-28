@@ -25,7 +25,7 @@ class Exame extends BaseController {
         $this->load->model('ambulatorio/agenda_model', 'agenda');
         $this->load->model('ponto/Competencia_model', 'competencia');
         $this->load->model('cadastro/convenio_model', 'convenio');
-        $this->load->model('ambulatorio/GExtenso', 'GExtenso');
+        $this->load->model('ambulatorio/gextenso', 'gextenso');
         $this->load->library('mensagem');
         $this->load->library('utilitario');
         $this->load->library('pagination');
@@ -338,17 +338,18 @@ class Exame extends BaseController {
     }
 
     function impressaorelatorioresumoconvenio() {
-//        echo $_POST['convenio'];
-//        die;
+        
         $data['listarpacientes'] = $this->exame->imprimirrelacaodepacientesnome();
         $data['listar'] = $this->exame->imprimirrelacaodepacientes();
         $data['banco'] = $this->exame->bancoconvenio();
         $data['empresa'] = $this->exame->empresa();
-
+        
         $teste = count($data['listar']);
+        echo '<pre>';
 //        echo var_dump ($data['listarpacientes']);
 //        die;
         if ($teste != 0) {
+        
             $totalgeral = 0;
             $diasgerais = 0;
             foreach ($data['listarpacientes'] as $valor) {
@@ -365,6 +366,8 @@ class Exame extends BaseController {
                 $diasgerais = $diasgerais + $i;
                 $totalgeral = $totalgeral + $total;
             }
+//            echo  $diasgerais;
+//            die;
 
             $data['totalgeral'] = $totalgeral;
 
@@ -376,9 +379,9 @@ class Exame extends BaseController {
             $data['totalgeral'] = 0.00;
         }
 
-
-//        echo var_dump($data['extenso']);
-//        die;
+        echo 'bla';
+        echo var_dump($data['extenso']);
+        die;
 
 
 

@@ -1516,6 +1516,7 @@ class internacao_model extends BaseModel {
                             pt.nome,
                             iu.nome as hospital,
                             p.nascimento,
+                            p.paciente_id,
                             i.leito,
                             c.nome as convenio,
                             i.diagnostico,
@@ -2320,11 +2321,11 @@ class internacao_model extends BaseModel {
                 $panturrilha = $_POST['txtPanturrilha'];
                 $peso_habitual = $_POST['txtPesoHabitual'];
 
-
-
                 $altura_estimada = 64.19 - (0.04 * $idade) + (2.02 * $altura_perna);
-                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 22.1, 0, 5);
+                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 22.1, 0, 7);
+                
                 $get = $txtget2 * $peso_ideal;
+//                echo $get; die;
                 if ($_POST['txtPeso'] != '') {
                     $peso_atual = (int) $_POST['txtPeso'];
                     $imc = (float) substr($peso_atual / (($altura_estimada / 100) * ($altura_estimada / 100)), 0, 5);
@@ -2363,7 +2364,7 @@ class internacao_model extends BaseModel {
 
 
                 $altura_estimada = 84.88 - (0.24 * $idade) + (1.83 * $altura_perna);
-                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 20.6, 0, 5);
+                $peso_ideal = (float) substr((($altura_estimada / 100) * ($altura_estimada / 100)) * 20.6, 0, 7);
                 $get = $txtget2 * $peso_ideal;
                 if ($_POST['txtPeso'] != '') {
                     $peso_atual = (int) $_POST['txtPeso'];

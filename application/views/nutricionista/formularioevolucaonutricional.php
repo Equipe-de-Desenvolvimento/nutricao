@@ -32,29 +32,86 @@
                     $estilo_linha = "tabela_content01";
                     $contador = 0;
                     $verificador = 0;
-                    $dieta = "";
+                    $dieta = '';
                     $via = $prescricao[0]->via;
                     $c = 0;
-                    $b;
-                    
+                    $b = 1;
 
-                    foreach ($prescricao as $item) {
-                        $classificacao= "";
+                    foreach ($prescricao as $key => $item) {
+                        $classificacao = "";
                         $i = $item->etapas;
-
+                        $d = $item->etapas;
+//                        echo $item->volume;
+                        $vctgeral = 0;
+                        $dieta = '';
+                        $z = 0;
+                        $y = 0;
                         if ($item->internacao_precricao_id != $internacao_precricao_id) {
+//                            $b = 0;
+                            $teste = $this->nutricionista->etiquetapacienteclassificacao($item->internacao_precricao_id);
+                            $volumetotal = $this->nutricionista->formularioevolucaonutricionalteste($item->internacao_precricao_id);
+                            
+                            foreach ($volumetotal as $value) {
+                                if($value->sf == 't' && $z == 0){
+                                    $z= 1;
+                                }
+                                if($value->volume != null) {
+                                    if($z==1 && $y == 0){
+                                        if($value->bic != null){
+                                            $dieta = "BIC " . $value->bic. "ml/h ";
+                                            $y=1;
+                                        }
+                                    }
+                                    else{
+                                        
+                                    $dieta = $dieta . "+ " .  $value->etapas . " " .  "Etapa(s) de" ." ".$value->frasco . "ml". " ";
+                                    }
+                                }
+                                
+                                
+                            }
+
+                            foreach ($volumetotal as $value) {
+                                $vctgeral = (float) $vctgeral + (($value->frasco * $value->etapas) * ($value->dencidade_calorica));
+                            }
+                            
+                            $dieta = $dieta . "e VCT de " .$vctgeral . "Kcal/d ";
+                            
+                            foreach ($volumetotal as $value) {
+                                if($value->volume == null) {
+//                                    echo 'morra';
+                                    $dieta = $dieta . "+" .$value->medida . " " . $value->descricao . " de " .$value->produto ;
+                                }
+                                
+                            }
+                            
+//                            var_dump($volumetotal);die;
+//                            var_dump($dieta);die;
+                            $classificacaogeral = '';
+                            // Classificação 
+                            foreach ($teste as $value2) {
+                                $classificacaogeral = $classificacaogeral . " +" . $value2->nome;
+                            }
+//                             var_dump($volumetotal); die;
+//                            
+//                            $vct = (float) $item->dencidade_calorica * ($item->volume * $i);
                             $data = substr($item->data, 8, 2) . '/' . substr($item->data, 5, 2) . '/' . substr($item->data, 0, 4);
                             $internacao_precricao_id = $item->internacao_precricao_id;
-                            $classificacao= $item->classificacao;
-                            $produto_id= $item->internacao_precricao_produto_id;
-                            
-                          
+                            $internacao_precricao_etapa_id = $item->internacao_precricao_etapa_id;
+
+
+//                            echo '<pre>';
+//                            $dieta = $dieta +  $teste[0]->classificacao;
+//                            var_dump($teste);
+                            $classificacao = $item->classificacao;
+                            $produto_id = $item->internacao_precricao_produto_id;
 
                             foreach ($prescricaoequipo as $value) {
                                 if ($value->internacao_precricao_id == $item->internacao_precricao_id) {
                                     $equipo = $value->nome;
                                     $equipo_id = $value->internacao_precricao_produto_id;
-                                    
+//                                    $d++;
+
 
                                     if ($item->vasao != null) {
                                         $taxadeinfusao = $item->vasao . "ml/h";
@@ -74,28 +131,26 @@
                             ($estilo_linha == "tabela_content01") ? $estilo_linha = "tabela_content02" : $estilo_linha = "tabela_content01";
                         }
 
-                        if ($item->dencidade_calorica != 0.00) {
-                            $vct = (float) $item->dencidade_calorica * $item->volume . "Kcal";
-                        } else {
-                            $vct = "";
-                        }
                         ?>
 
 
                     <tr>
                         <td  class="<?php echo $estilo_linha; ?> "> 
-                            <? if ($data != '&nbsp;') { ?>
-                            <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" cols="60" rows="6" value=" "><?=$data;?> Paciente em  TNE em BIC <?=$taxadeinfusao?> e VCT <?=$vct?> Dieta: <?= $item->etapas; ?> Etapa(s) </textarea>
-                            
+                                <? if ($data != '&nbsp;') { ?>
+                                <textarea  type="text" name="formula[<?= $c ?>]" id="formula" class="textarea" cols="60" rows="6" value=" "><?= $data; ?> Paciente em  TNE com formula<?= $classificacaogeral ?> em <?= $dieta?> Dieta:
+                                                
+                                </textarea>
+
                                 <?
                             }
+                            $b++;
                             ?>
 
                         </td>
-                        
+
                         <td class="<?php echo $estilo_linha; ?>" >
 
-                            <a  style="cursor: pointer; color: #f00;" onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/geraralterarnormalenteral/<?= $item->internacao_precricao_id ?>');">  <?= $item->nome; ?> </a> Formula (<?= $item->classificacao; ?>) +
+                            <a  style="cursor: pointer; color: #f00;" onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $item->internacao_precricao_produto_id ?>');">  <?= $item->nome; ?> </a> Formula (<?= $item->classificacao; ?>) 
 
 
                         </td>
@@ -104,7 +159,7 @@
                         $c++;
                         ?>
 
-                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;color: #f00;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/geraralterarnormalenteral/<?= $item->internacao_precricao_id ?>');"> <?= $equipo; ?></a>
+                        <td  class="<?php echo $estilo_linha; ?>" style="cursor: pointer;color: #f00;"><a onclick="javascript:window.open('<?= base_url() ?>nutricionista/nutricionista/alterarprodutoprescricao/<?= $equipo_id ?>');"> <?= $equipo; ?></a>
 
 
                         </td>
@@ -112,12 +167,11 @@
                             <td class="<?php echo $estilo_linha; ?>"></td>
                         <? } else { ?>
                             <td class="<?php echo $estilo_linha; ?>"></td>
-                        <? } ?>
+                    <? } ?>
                     </tr>
                     <?
                     $i++;
                     $etapas = $item->internacao_precricao_etapa_id;
-                    
                 }
                 ?>
 
@@ -125,7 +179,6 @@
             }
 
 //    $internacao_id = $prescricao[0]->internacao_id;
-            
             ?>
         </table>
 
@@ -163,7 +216,7 @@
         <button type="submit" name="btnEnviar">Enviar</button>
 
     </form>
-     
+
 </div> 
 
 
